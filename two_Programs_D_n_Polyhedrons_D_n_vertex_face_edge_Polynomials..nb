@@ -1,0 +1,2655 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[    109901,       2647]
+NotebookOptionsPosition[    105919,       2580]
+NotebookOutlinePosition[    106316,       2596]
+CellTagsIndexPosition[    106273,       2593]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{"(*", " ", "Mathematica", "*)"}]], "Input",
+ CellChangeTimes->{{3.9136282747816668`*^9, 
+  3.913628284111422*^9}},ExpressionUUID->"9f8913a1-21eb-497e-8a5a-\
+8fc8bf0134bd"],
+
+Cell[BoxData[
+ RowBox[{"(*", " ", 
+  RowBox[{"Dihedral", " ", "Polynomials"}], "*)"}]], "Input",
+ CellChangeTimes->{{3.913581169624485*^9, 3.913581182942966*^9}},
+ CellLabel->
+  "In[155]:=",ExpressionUUID->"6fe91118-37af-416c-a1a5-66c8eb1a8a5a"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+   "Traditional", " ", "Dihredral", " ", "Absolute", " ", "elliptical", " ", 
+    "invariant", " ", "J"}], "*)"}], " ", 
+  RowBox[{
+   RowBox[{"JD", "[", "n_", "]"}], "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"x", "^", "n"}], "-", "1"}], ")"}], "^", "2"}], "/", 
+    RowBox[{"(", 
+     RowBox[{"4", "*", 
+      RowBox[{"x", "^", "n"}]}], ")"}]}]}]}]], "Input",
+ CellChangeTimes->{{3.9135819238903017`*^9, 3.913582018479474*^9}, 
+   3.913582111728361*^9, 3.913582153535138*^9, {3.9135821986468573`*^9, 
+   3.913582236429544*^9}},ExpressionUUID->"e5bdf3f1-f92d-41af-a8dc-\
+09f5821c4f69"],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["1", "4"], " ", 
+  SuperscriptBox["x", 
+   RowBox[{"-", "n"}]], " ", 
+  SuperscriptBox[
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"-", "1"}], "+", 
+     SuperscriptBox["x", "n"]}], ")"}], "2"]}]], "Output",
+ CellChangeTimes->{{3.913582094952737*^9, 3.9135821191893*^9}, 
+   3.9135821632788143`*^9},
+ CellLabel->
+  "Out[156]=",ExpressionUUID->"e1145672-75ca-4d96-8aa4-ed84ad703868"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Table", " ", "[", 
+  RowBox[{
+   RowBox[{"ExpandAll", "[", 
+    RowBox[{"Numerator", "[", 
+     RowBox[{"JD", "[", "n", "]"}], "]"}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"n", ",", "3", ",", "6"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.913582035984253*^9, 3.913582137534946*^9}},
+ CellLabel->
+  "In[157]:=",ExpressionUUID->"cb1d69ca-c8e2-4224-abd8-cd9c3f5b99ba"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"1", "-", 
+    RowBox[{"2", " ", 
+     SuperscriptBox["x", "3"]}], "+", 
+    SuperscriptBox["x", "6"]}], ",", 
+   RowBox[{"1", "-", 
+    RowBox[{"2", " ", 
+     SuperscriptBox["x", "4"]}], "+", 
+    SuperscriptBox["x", "8"]}], ",", 
+   RowBox[{"1", "-", 
+    RowBox[{"2", " ", 
+     SuperscriptBox["x", "5"]}], "+", 
+    SuperscriptBox["x", "10"]}], ",", 
+   RowBox[{"1", "-", 
+    RowBox[{"2", " ", 
+     SuperscriptBox["x", "6"]}], "+", 
+    SuperscriptBox["x", "12"]}]}], "}"}]], "Output",
+ CellChangeTimes->{{3.913582119258189*^9, 3.913582163347927*^9}},
+ CellLabel->
+  "Out[157]=",ExpressionUUID->"0b2d5b04-64e6-49e7-b558-def53093c7d2"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{"sequence", " ", "of", " ", "Vertex", " ", "polynomials"}], 
+  "*)"}]], "Input",
+ CellChangeTimes->{{3.913581035817093*^9, 3.9135810642400513`*^9}},
+ CellLabel->
+  "In[141]:=",ExpressionUUID->"bc95ac7d-9c17-4eaf-a76c-c0f67e05af9a"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"p", "=", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"x", "^", "6"}], "+", 
+     RowBox[{"14", "*", 
+      RowBox[{"x", "^", "3"}]}], "+", "1"}], ",", 
+    RowBox[{
+     RowBox[{"x", "^", "8"}], "+", 
+     RowBox[{"14", "*", 
+      RowBox[{"x", "^", "4"}]}], "+", "1"}], ",", 
+    RowBox[{
+     RowBox[{"x", "^", "10"}], "+", 
+     RowBox[{"14", "*", 
+      RowBox[{"x", "^", "5"}]}], "+", "1"}], ",", 
+    RowBox[{
+     RowBox[{"x", "^", "12"}], "+", 
+     RowBox[{"14", "*", 
+      RowBox[{"x", "^", "6"}]}], "+", "1"}]}], "}"}]}]], "Input",
+ CellChangeTimes->{
+  3.9135810295063677`*^9, {3.913581083729849*^9, 3.9135811626797123`*^9}, {
+   3.913581506772222*^9, 3.913581507604323*^9}},
+ CellLabel->
+  "In[142]:=",ExpressionUUID->"360cf165-be74-4a06-9e95-c227680a79ac"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"1", "+", 
+    RowBox[{"14", " ", 
+     SuperscriptBox["x", "3"]}], "+", 
+    SuperscriptBox["x", "6"]}], ",", 
+   RowBox[{"1", "+", 
+    RowBox[{"14", " ", 
+     SuperscriptBox["x", "4"]}], "+", 
+    SuperscriptBox["x", "8"]}], ",", 
+   RowBox[{"1", "+", 
+    RowBox[{"14", " ", 
+     SuperscriptBox["x", "5"]}], "+", 
+    SuperscriptBox["x", "10"]}], ",", 
+   RowBox[{"1", "+", 
+    RowBox[{"14", " ", 
+     SuperscriptBox["x", "6"]}], "+", 
+    SuperscriptBox["x", "12"]}]}], "}"}]], "Output",
+ CellChangeTimes->{3.91358161929775*^9, 3.913581655159042*^9},
+ CellLabel->
+  "Out[142]=",ExpressionUUID->"abb85c8f-3513-4c6e-a77b-daf05ef0f614"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{"sequence", " ", "of", " ", "Face", " ", "polynomials"}], 
+  "*)"}]], "Input",
+ CellChangeTimes->{{3.913581199895361*^9, 3.913581201774818*^9}},
+ CellLabel->
+  "In[143]:=",ExpressionUUID->"ca32b9f1-60f0-4df2-91d9-d3c8aea18459"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"q", "=", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"-", "11"}], " ", "x"}], "-", 
+     SuperscriptBox["x", "2"], "+", 
+     RowBox[{"11", " ", 
+      SuperscriptBox["x", "4"]}], "+", 
+     SuperscriptBox["x", "5"]}], ",", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"-", "10"}], " ", "x"}], "-", 
+     SuperscriptBox["x", "2"], "+", 
+     RowBox[{"10", " ", 
+      SuperscriptBox["x", "5"]}], "+", 
+     SuperscriptBox["x", "6"]}], ",", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"-", "14"}], " ", "x"}], "-", 
+     SuperscriptBox["x", "4"], "+", 
+     RowBox[{"14", " ", 
+      SuperscriptBox["x", "7"]}], "+", 
+     SuperscriptBox["x", "8"]}], ",", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"-", "14"}], " ", "x"}], "-", 
+     SuperscriptBox["x", "4"], "+", 
+     RowBox[{"14", " ", 
+      SuperscriptBox["x", "7"]}], "+", 
+     SuperscriptBox["x", "8"]}]}], "}"}]}]], "Input",
+ CellChangeTimes->{{3.913581205599518*^9, 3.913581319542487*^9}, {
+  3.913581511500231*^9, 3.913581512668449*^9}},
+ CellLabel->
+  "In[144]:=",ExpressionUUID->"5c453ca7-5fc5-4cd7-b942-254ba69ee52e"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"-", "11"}], " ", "x"}], "-", 
+    SuperscriptBox["x", "2"], "+", 
+    RowBox[{"11", " ", 
+     SuperscriptBox["x", "4"]}], "+", 
+    SuperscriptBox["x", "5"]}], ",", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"-", "10"}], " ", "x"}], "-", 
+    SuperscriptBox["x", "2"], "+", 
+    RowBox[{"10", " ", 
+     SuperscriptBox["x", "5"]}], "+", 
+    SuperscriptBox["x", "6"]}], ",", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"-", "14"}], " ", "x"}], "-", 
+    SuperscriptBox["x", "4"], "+", 
+    RowBox[{"14", " ", 
+     SuperscriptBox["x", "7"]}], "+", 
+    SuperscriptBox["x", "8"]}], ",", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"-", "14"}], " ", "x"}], "-", 
+    SuperscriptBox["x", "4"], "+", 
+    RowBox[{"14", " ", 
+     SuperscriptBox["x", "7"]}], "+", 
+    SuperscriptBox["x", "8"]}]}], "}"}]], "Output",
+ CellChangeTimes->{3.913581619311141*^9, 3.9135816551993923`*^9},
+ CellLabel->
+  "Out[144]=",ExpressionUUID->"be3361a2-7ebd-410f-ae31-2e7766c0cbef"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{
+   RowBox[{"sequence", " ", "of", " ", "edge", " ", "polynomials"}], ";", " ", 
+   RowBox[{"Projection", " ", "polynomials"}]}], "*)"}]], "Input",
+ CellChangeTimes->{{3.913581332918373*^9, 3.9135813540055323`*^9}, 
+   3.913582335620924*^9},ExpressionUUID->"bfcdc409-5da9-4416-ab21-\
+459936bf546d"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"r", "=", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"-", "0.0224141041016106`"}], "-", 
+     RowBox[{"0.11421627779049653`", " ", "x"}], "-", 
+     RowBox[{"0.06781519516623236`", " ", 
+      SuperscriptBox["x", "2"]}], "+", 
+     RowBox[{"0.05221568795787507`", " ", 
+      SuperscriptBox["x", "3"]}], "-", 
+     RowBox[{"0.1513677452833324`", " ", 
+      SuperscriptBox["x", "4"]}], "+", 
+     RowBox[{"1.1227249313186802`", " ", 
+      SuperscriptBox["x", "5"]}], "-", 
+     RowBox[{"0.03767051893751017`", " ", 
+      SuperscriptBox["x", "6"]}], "+", 
+     RowBox[{"1.8695054945054936`", " ", 
+      SuperscriptBox["x", "7"]}], "+", 
+     SuperscriptBox["x", "9"]}], ",", 
+    RowBox[{"0.035156249999999986`", "\[VeryThinSpace]", "-", 
+     RowBox[{"0.17968749999999994`", " ", 
+      SuperscriptBox["x", "2"]}], "-", 
+     RowBox[{"0.08984375`", " ", 
+      SuperscriptBox["x", "4"]}], "+", 
+     RowBox[{"0.4999999999999998`", " ", 
+      SuperscriptBox["x", "6"]}], "+", 
+     RowBox[{"1.3749999999999991`", " ", 
+      SuperscriptBox["x", "8"]}], "+", 
+     RowBox[{"2.`", " ", 
+      SuperscriptBox["x", "10"]}], "+", 
+     SuperscriptBox["x", "12"]}], ",", 
+    RowBox[{
+     RowBox[{"-", "0.13815345365546763`"}], "-", 
+     RowBox[{"0.05985365156888889`", " ", "x"}], "+", 
+     RowBox[{"0.0247696024491178`", " ", 
+      SuperscriptBox["x", "2"]}], "-", 
+     RowBox[{"0.26784824608526236`", " ", 
+      SuperscriptBox["x", "3"]}], "-", 
+     RowBox[{"0.008515968867700785`", " ", 
+      SuperscriptBox["x", "4"]}], "-", 
+     RowBox[{"0.4745759094003148`", " ", 
+      SuperscriptBox["x", "5"]}], "-", 
+     RowBox[{"0.29662832265049666`", " ", 
+      SuperscriptBox["x", "6"]}], "-", 
+     RowBox[{"0.12720452982207986`", " ", 
+      SuperscriptBox["x", "7"]}], "-", 
+     RowBox[{"0.1522282933840251`", " ", 
+      SuperscriptBox["x", "8"]}], "+", 
+     RowBox[{"0.4128206210156051`", " ", 
+      SuperscriptBox["x", "9"]}], "+", 
+     RowBox[{"0.3795503203442063`", " ", 
+      SuperscriptBox["x", "10"]}], "+", 
+     RowBox[{"1.3965844614217353`", " ", 
+      SuperscriptBox["x", "11"]}], "+", 
+     RowBox[{"0.20916132038060598`", " ", 
+      SuperscriptBox["x", "12"]}], "+", 
+     RowBox[{"1.8124476846245026`", " ", 
+      SuperscriptBox["x", "13"]}], "+", 
+     SuperscriptBox["x", "15"]}], ",", 
+    RowBox[{
+     RowBox[{"-", "0.6148883767976473`"}], "-", 
+     RowBox[{"0.12361589247990834`", " ", 
+      SuperscriptBox["x", "2"]}], "-", 
+     RowBox[{"0.1510965328293108`", " ", 
+      SuperscriptBox["x", "4"]}], "-", 
+     RowBox[{"0.9269321775979926`", " ", 
+      SuperscriptBox["x", "6"]}], "-", 
+     RowBox[{"0.926757303754814`", " ", 
+      SuperscriptBox["x", "8"]}], "-", 
+     RowBox[{"0.9998251261567868`", " ", 
+      SuperscriptBox["x", "10"]}], "+", 
+     RowBox[{"0.5418205543957071`", " ", 
+      SuperscriptBox["x", "12"]}], "+", 
+     RowBox[{"1.0503731962347964`", " ", 
+      SuperscriptBox["x", "14"]}], "+", 
+     RowBox[{"1.1509216589861744`", " ", 
+      SuperscriptBox["x", "16"]}], "+", 
+     SuperscriptBox["x", "18"]}]}], "}"}]}]], "Input",
+ CellChangeTimes->{{3.913581358542213*^9, 3.913581378909903*^9}, {
+  3.9135814229261293`*^9, 3.913581517764886*^9}},
+ CellLabel->
+  "In[145]:=",ExpressionUUID->"3fbeed00-e7e1-4786-9932-52c1d119f6b0"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"-", "0.0224141041016106`"}], "-", 
+    RowBox[{"0.11421627779049653`", " ", "x"}], "-", 
+    RowBox[{"0.06781519516623236`", " ", 
+     SuperscriptBox["x", "2"]}], "+", 
+    RowBox[{"0.05221568795787507`", " ", 
+     SuperscriptBox["x", "3"]}], "-", 
+    RowBox[{"0.1513677452833324`", " ", 
+     SuperscriptBox["x", "4"]}], "+", 
+    RowBox[{"1.1227249313186802`", " ", 
+     SuperscriptBox["x", "5"]}], "-", 
+    RowBox[{"0.03767051893751017`", " ", 
+     SuperscriptBox["x", "6"]}], "+", 
+    RowBox[{"1.8695054945054936`", " ", 
+     SuperscriptBox["x", "7"]}], "+", 
+    SuperscriptBox["x", "9"]}], ",", 
+   RowBox[{"0.035156249999999986`", "\[VeryThinSpace]", "-", 
+    RowBox[{"0.17968749999999994`", " ", 
+     SuperscriptBox["x", "2"]}], "-", 
+    RowBox[{"0.08984375`", " ", 
+     SuperscriptBox["x", "4"]}], "+", 
+    RowBox[{"0.4999999999999998`", " ", 
+     SuperscriptBox["x", "6"]}], "+", 
+    RowBox[{"1.3749999999999991`", " ", 
+     SuperscriptBox["x", "8"]}], "+", 
+    RowBox[{"2.`", " ", 
+     SuperscriptBox["x", "10"]}], "+", 
+    SuperscriptBox["x", "12"]}], ",", 
+   RowBox[{
+    RowBox[{"-", "0.13815345365546763`"}], "-", 
+    RowBox[{"0.05985365156888889`", " ", "x"}], "+", 
+    RowBox[{"0.0247696024491178`", " ", 
+     SuperscriptBox["x", "2"]}], "-", 
+    RowBox[{"0.26784824608526236`", " ", 
+     SuperscriptBox["x", "3"]}], "-", 
+    RowBox[{"0.008515968867700785`", " ", 
+     SuperscriptBox["x", "4"]}], "-", 
+    RowBox[{"0.4745759094003148`", " ", 
+     SuperscriptBox["x", "5"]}], "-", 
+    RowBox[{"0.29662832265049666`", " ", 
+     SuperscriptBox["x", "6"]}], "-", 
+    RowBox[{"0.12720452982207986`", " ", 
+     SuperscriptBox["x", "7"]}], "-", 
+    RowBox[{"0.1522282933840251`", " ", 
+     SuperscriptBox["x", "8"]}], "+", 
+    RowBox[{"0.4128206210156051`", " ", 
+     SuperscriptBox["x", "9"]}], "+", 
+    RowBox[{"0.3795503203442063`", " ", 
+     SuperscriptBox["x", "10"]}], "+", 
+    RowBox[{"1.3965844614217353`", " ", 
+     SuperscriptBox["x", "11"]}], "+", 
+    RowBox[{"0.20916132038060598`", " ", 
+     SuperscriptBox["x", "12"]}], "+", 
+    RowBox[{"1.8124476846245026`", " ", 
+     SuperscriptBox["x", "13"]}], "+", 
+    SuperscriptBox["x", "15"]}], ",", 
+   RowBox[{
+    RowBox[{"-", "0.6148883767976473`"}], "-", 
+    RowBox[{"0.12361589247990834`", " ", 
+     SuperscriptBox["x", "2"]}], "-", 
+    RowBox[{"0.1510965328293108`", " ", 
+     SuperscriptBox["x", "4"]}], "-", 
+    RowBox[{"0.9269321775979926`", " ", 
+     SuperscriptBox["x", "6"]}], "-", 
+    RowBox[{"0.926757303754814`", " ", 
+     SuperscriptBox["x", "8"]}], "-", 
+    RowBox[{"0.9998251261567868`", " ", 
+     SuperscriptBox["x", "10"]}], "+", 
+    RowBox[{"0.5418205543957071`", " ", 
+     SuperscriptBox["x", "12"]}], "+", 
+    RowBox[{"1.0503731962347964`", " ", 
+     SuperscriptBox["x", "14"]}], "+", 
+    RowBox[{"1.1509216589861744`", " ", 
+     SuperscriptBox["x", "16"]}], "+", 
+    SuperscriptBox["x", "18"]}]}], "}"}]], "Output",
+ CellChangeTimes->{3.9135816195142317`*^9, 3.91358165524194*^9},
+ CellLabel->
+  "Out[145]=",ExpressionUUID->"32acd1c6-e0ed-4cec-9029-8affbf228e41"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"pl", "=", 
+  RowBox[{"Table", "[", 
+   RowBox[{
+    RowBox[{"CoefficientList", "[", 
+     RowBox[{
+      RowBox[{"p", "[", 
+       RowBox[{"[", "i", "]"}], "]"}], ",", "x"}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"i", ",", 
+      RowBox[{"Length", "[", "p", "]"}]}], "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.91358152571726*^9, 3.9135815807235107`*^9}},
+ CellLabel->
+  "In[146]:=",ExpressionUUID->"08a50a00-233d-4655-9162-bc457100abab"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+    "1", ",", "0", ",", "0", ",", "14", ",", "0", ",", "0", ",", "1"}], "}"}],
+    ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "1", ",", "0", ",", "0", ",", "0", ",", "14", ",", "0", ",", "0", ",", 
+     "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "1", ",", "0", ",", "0", ",", "0", ",", "0", ",", "14", ",", "0", ",", 
+     "0", ",", "0", ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "1", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "14", ",", 
+     "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.913581619660487*^9, 3.913581655250978*^9},
+ CellLabel->
+  "Out[146]=",ExpressionUUID->"e9b62a27-5679-4afc-9e54-3c113d77b308"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ql", "=", 
+  RowBox[{"Table", "[", 
+   RowBox[{
+    RowBox[{"CoefficientList", "[", 
+     RowBox[{
+      RowBox[{"q", "[", 
+       RowBox[{"[", "i", "]"}], "]"}], ",", "x"}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"i", ",", 
+      RowBox[{"Length", "[", "q", "]"}]}], "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.9135815951240807`*^9, 3.913581600811563*^9}},
+ CellLabel->
+  "In[147]:=",ExpressionUUID->"290d3156-e3af-4716-ba2b-ca989f66798c"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"0", ",", 
+     RowBox[{"-", "11"}], ",", 
+     RowBox[{"-", "1"}], ",", "0", ",", "11", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", 
+     RowBox[{"-", "10"}], ",", 
+     RowBox[{"-", "1"}], ",", "0", ",", "0", ",", "10", ",", "1"}], "}"}], 
+   ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", 
+     RowBox[{"-", "14"}], ",", "0", ",", "0", ",", 
+     RowBox[{"-", "1"}], ",", "0", ",", "0", ",", "14", ",", "1"}], "}"}], 
+   ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", 
+     RowBox[{"-", "14"}], ",", "0", ",", "0", ",", 
+     RowBox[{"-", "1"}], ",", "0", ",", "0", ",", "14", ",", "1"}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.913581619709049*^9, 3.913581655287797*^9},
+ CellLabel->
+  "Out[147]=",ExpressionUUID->"40bd70f9-e95c-406d-b245-731e9d30a3fb"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"rl", "=", 
+  RowBox[{"Table", "[", 
+   RowBox[{
+    RowBox[{"CoefficientList", "[", 
+     RowBox[{
+      RowBox[{"r", "[", 
+       RowBox[{"[", "i", "]"}], "]"}], ",", "x"}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"i", ",", 
+      RowBox[{"Length", "[", "r", "]"}]}], "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.913581608899938*^9, 3.9135816152998323`*^9}},
+ CellLabel->
+  "In[148]:=",ExpressionUUID->"27488512-cbd8-4c9f-b12c-9702774f7cf9"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", "0.0224141041016106`"}], ",", 
+     RowBox[{"-", "0.11421627779049653`"}], ",", 
+     RowBox[{"-", "0.06781519516623236`"}], ",", "0.05221568795787507`", ",", 
+     
+     RowBox[{"-", "0.1513677452833324`"}], ",", "1.1227249313186802`", ",", 
+     RowBox[{"-", "0.03767051893751017`"}], ",", "1.8695054945054936`", ",", 
+     "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0.035156249999999986`", ",", "0", ",", 
+     RowBox[{"-", "0.17968749999999994`"}], ",", "0", ",", 
+     RowBox[{"-", "0.08984375`"}], ",", "0", ",", "0.4999999999999998`", ",", 
+     "0", ",", "1.3749999999999991`", ",", "0", ",", "2.`", ",", "0", ",", 
+     "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", "0.13815345365546763`"}], ",", 
+     RowBox[{"-", "0.05985365156888889`"}], ",", "0.0247696024491178`", ",", 
+     RowBox[{"-", "0.26784824608526236`"}], ",", 
+     RowBox[{"-", "0.008515968867700785`"}], ",", 
+     RowBox[{"-", "0.4745759094003148`"}], ",", 
+     RowBox[{"-", "0.29662832265049666`"}], ",", 
+     RowBox[{"-", "0.12720452982207986`"}], ",", 
+     RowBox[{"-", "0.1522282933840251`"}], ",", "0.4128206210156051`", ",", 
+     "0.3795503203442063`", ",", "1.3965844614217353`", ",", 
+     "0.20916132038060598`", ",", "1.8124476846245026`", ",", "0", ",", "1"}],
+     "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", "0.6148883767976473`"}], ",", "0", ",", 
+     RowBox[{"-", "0.12361589247990834`"}], ",", "0", ",", 
+     RowBox[{"-", "0.1510965328293108`"}], ",", "0", ",", 
+     RowBox[{"-", "0.9269321775979926`"}], ",", "0", ",", 
+     RowBox[{"-", "0.926757303754814`"}], ",", "0", ",", 
+     RowBox[{"-", "0.9998251261567868`"}], ",", "0", ",", 
+     "0.5418205543957071`", ",", "0", ",", "1.0503731962347964`", ",", "0", 
+     ",", "1.1509216589861744`", ",", "0", ",", "1"}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.9135816197190733`*^9, 3.913581655296356*^9},
+ CellLabel->
+  "Out[148]=",ExpressionUUID->"c95e4bf3-ecd9-45ba-90dd-b71f44a5e240"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"TableForm", "[", "rl", "]"}]], "Input",
+ CellChangeTimes->{{3.9135816387236853`*^9, 3.913581651435219*^9}},
+ CellLabel->
+  "In[149]:=",ExpressionUUID->"29137c47-70b1-4ba3-aedb-f680d28e82c2"],
+
+Cell[BoxData[
+ InterpretationBox[GridBox[{
+    {
+     RowBox[{"-", "0.0224141041016106`"}], 
+     RowBox[{"-", "0.11421627779049653`"}], 
+     RowBox[{"-", "0.06781519516623236`"}], "0.05221568795787507`", 
+     RowBox[{"-", "0.1513677452833324`"}], "1.1227249313186802`", 
+     RowBox[{"-", "0.03767051893751017`"}], "1.8695054945054936`", "0", 
+     "1", "\<\"\"\>", "\<\"\"\>", "\<\"\"\>", "\<\"\"\>", "\<\"\"\>", "\<\"\"\
+\>", "\<\"\"\>", "\<\"\"\>", "\<\"\"\>"},
+    {"0.035156249999999986`", "0", 
+     RowBox[{"-", "0.17968749999999994`"}], "0", 
+     RowBox[{"-", "0.08984375`"}], "0", "0.4999999999999998`", "0", 
+     "1.3749999999999991`", "0", "2.`", "0", 
+     "1", "\<\"\"\>", "\<\"\"\>", "\<\"\"\>", "\<\"\"\>", "\<\"\"\>", "\<\"\"\
+\>"},
+    {
+     RowBox[{"-", "0.13815345365546763`"}], 
+     RowBox[{"-", "0.05985365156888889`"}], "0.0247696024491178`", 
+     RowBox[{"-", "0.26784824608526236`"}], 
+     RowBox[{"-", "0.008515968867700785`"}], 
+     RowBox[{"-", "0.4745759094003148`"}], 
+     RowBox[{"-", "0.29662832265049666`"}], 
+     RowBox[{"-", "0.12720452982207986`"}], 
+     RowBox[{"-", "0.1522282933840251`"}], "0.4128206210156051`", 
+     "0.3795503203442063`", "1.3965844614217353`", "0.20916132038060598`", 
+     "1.8124476846245026`", "0", "1", "\<\"\"\>", "\<\"\"\>", "\<\"\"\>"},
+    {
+     RowBox[{"-", "0.6148883767976473`"}], "0", 
+     RowBox[{"-", "0.12361589247990834`"}], "0", 
+     RowBox[{"-", "0.1510965328293108`"}], "0", 
+     RowBox[{"-", "0.9269321775979926`"}], "0", 
+     RowBox[{"-", "0.926757303754814`"}], "0", 
+     RowBox[{"-", "0.9998251261567868`"}], "0", "0.5418205543957071`", "0", 
+     "1.0503731962347964`", "0", "1.1509216589861744`", "0", "1"}
+   },
+   GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Baseline}}},
+   GridBoxSpacings->{"Columns" -> {
+       Offset[0.27999999999999997`], {
+        Offset[2.0999999999999996`]}, 
+       Offset[0.27999999999999997`]}, "Rows" -> {
+       Offset[0.2], {
+        Offset[0.4]}, 
+       Offset[0.2]}}],
+  TableForm[{{-0.0224141041016106, -0.11421627779049653`, \
+-0.06781519516623236, 0.05221568795787507, -0.1513677452833324, 
+     1.1227249313186802`, -0.03767051893751017, 1.8695054945054936`, 0, 1}, {
+    0.035156249999999986`, 0, -0.17968749999999994`, 0, -0.08984375, 0, 
+     0.4999999999999998, 0, 1.3749999999999991`, 0, 2., 0, 
+     1}, {-0.13815345365546763`, -0.05985365156888889, 
+     0.0247696024491178, -0.26784824608526236`, -0.008515968867700785, \
+-0.4745759094003148, -0.29662832265049666`, -0.12720452982207986`, \
+-0.1522282933840251, 0.4128206210156051, 0.3795503203442063, 
+     1.3965844614217353`, 0.20916132038060598`, 1.8124476846245026`, 0, 
+     1}, {-0.6148883767976473, 0, -0.12361589247990834`, 
+     0, -0.1510965328293108, 0, -0.9269321775979926, 0, -0.926757303754814, 
+     0, -0.9998251261567868, 0, 0.5418205543957071, 0, 1.0503731962347964`, 0,
+      1.1509216589861744`, 0, 1}}]]], "Output",
+ CellChangeTimes->{3.913581655354206*^9},
+ CellLabel->
+  "Out[149]//TableForm=",ExpressionUUID->"1f79f807-816b-4449-9ad0-\
+53b892d11902"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"(*", "end", "*)"}]], "Input",
+ CellChangeTimes->{{3.913628291952169*^9, 
+  3.913628299463312*^9}},ExpressionUUID->"6df3fdc5-08de-4b4d-a1ca-\
+06fa2623c113"],
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{"(*", "Mathematica", "*)"}]}]], "Input",
+ CellChangeTimes->{{3.9136283389121647`*^9, 
+  3.913628349559108*^9}},ExpressionUUID->"1a50e9e9-4a74-4133-8ba7-\
+03fbc1d58856"],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{
+   RowBox[{"D_", "3", " ", "face", " ", 
+    RowBox[{"duals", ":", " ", 
+     RowBox[{"edge", " ", "group"}]}]}], "=", "9"}], "*)"}]], "Input",
+ CellChangeTimes->{{3.913459787628397*^9, 
+  3.913459828371496*^9}},ExpressionUUID->"ebad1544-4221-42b2-b61e-\
+1b818560d005"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"\"\<Dipyramid\>\"", ",", "3"}], "}"}], ",", 
+      Graphics3DBox[
+       GraphicsComplex3DBox[
+        NCache[{{0, 0, -Rational[2, 3]^Rational[1, 2]}, {
+          0, 0, Rational[2, 3]^Rational[1, 2]}, {
+          Rational[-1, 2] 3^Rational[-1, 2], Rational[-1, 2], 0}, {
+          Rational[-1, 2] 3^Rational[-1, 2], Rational[1, 2], 0}, {
+          3^Rational[-1, 2], 0, 0}}, {{0, 0, -0.816496580927726}, {
+          0, 0, 0.816496580927726}, {-0.2886751345948129, -0.5, 
+           0}, {-0.2886751345948129, 0.5, 0}, {0.5773502691896258, 0, 0}}], 
+        Polygon3DBox[{{4, 3, 2}, {3, 5, 2}, {5, 4, 2}, {1, 3, 4}, {1, 5, 3}, {
+         1, 4, 5}}]],
+       ImageCache->GraphicsData["CompressedBitmap", "\<\
+eJylWUtvG1UUvp3x+JHEaeIkdpxH675UioCqClKlrkwWRakaUbGISCWgaZqk
+RUKFtkggKmGoYINAYsGKQjYIwbIrWCBlwy/gD/inDPece86dc5xjp8BIM/bc
+x/ed99w7s7716O7O+1uP7m1vdV5/sPXB3XvbDztX7z/wTekx59xNODuu5P/n
+/q+4QI8/LuK11Nnb2+vt7Ozku7u7+/48H3pfxmsVeg782fcn/IfGPrXBzHNh
+9It4zSQW/Ha3t7ddin0pI8Cvo2kvBBEGScqhuU8c+4R2Nkw6N4KrGvp4JpwH
+3HcmTD9jc46HmXG0P2A2SkszOyOI69hXltPhgH4Q/3S4PVFw9wX3FDZXBicr
+6U+FtkVbBrh3jWBoBZOENlYFxwU9XNsWZs5AIRfeunPnzgEFgTsZUJojBGoZ
+UKWijeOJzOJmbYEWwgwwIwggUdhCyKZQ0ihEYTUNkRU69VmQ5QAxE7pAlyj7
+kgFRLtqiLksSogQQ0vaWIGWti2Ajj5ZjIPqD5YU2yzKVAi2qtajQgCB6USAi
+WgKK1AoTAjbeLUgMtFrsSorhEXd+EEypNwIsNbhbEWxMa4cObgswHCSCI7qm
+gBgvSLW0UZ5RkYZgzQg2EXpVNLeGg2UGGNvHhercg7vaIIEKdE2gssuKpRAR
+WRcI6rWpvPvKm/nK2deQqGp4YKJoixHUVJTR9HAMBBy2k55AkS80TuV7a09c
+gtcUqPuOjrJBXy/sFk06N5yeNABNYzvF0AHQn1+8hMQlovfaA31HuMOiZzyD
+Pueh0VOuLI0F0EjtqSrEerP7sD851kDWksEa4rrMVZTLHwcJCTCtTY13IZxD
+0VxbW0MPr1++XdPEPZxoEAfvVQaJVfVMDougaghnlBPeHhf8Vy5cQ/7EmFuy
+FWd+y1azwyWh8rDvhOPreC2DJDHs/cHzEi3AwYAAFYNFC6Bko2iUIeCmUYAa
+kO8L4kE2zNWxf0fH0jlKbe94N4N0GaZ5u902Vik6gCQ8erpiuHOO3Ll343F/
+Y2MD9HOTR4DZta8nfdPk1LzxON/ceBsiFWiPEnMAOTWMPk9W2Fv/LN+9/Z6K
+Q4JXeTyj4FWFSQr4aOQ2BRXD+zsZYBMGjGIoqy5/dMnai2zoAlhWzh6Pp0BR
+xV8xZFI9NrpbMuBTXRnxqB0FH1Y2wuLLBnLJqH5Vw4GEHJbBJXZ7TgbPwC5V
+EL8CJqgCW4JeSPP1K+8iG91dvp0AWfgLlGDWkCUY2rOKiLMMy8XFl17N8m++
+/LGaf3T/SSV/56171fzq6hspdIRYgX94l8A1zVvNhSQfDp9xpmLg+MH5zz/8
+4U7kfz77m/D8P7zLqM2jdtkB1pNxxoSHm1tA4aU14UvU5vU6YHirrEl4VCcU
+ZxC/v9BeBuMsj4B3IYifC96Vlf9ZA28AiyGlq1ewx+O50MoSoRgqgwygBwar
+18PnwWGahNp8/2AeDKcxd1tgB/Q4AC4S7If3Hx6ikh6njFZVqaGoVM2Qaxzv
+WQQMhGVJhSd5fuI/MXSkMsMYXHC+Vfc0gyKnpzvmn3cuYrcpJSQDO75umPxo
++KgAOL5NMcvw5OzJ4cjHCUWGAGenFHyekD/95HNEJt8SsopGjayyhBfw/gJy
+oczzFC2AzEmMczFLZxSYtTxAMaF4AUxLgJHXng+MMk4FXLMA67HVrblSYbkp
+7DoRW3NF/uXXr1/HEVOGibT1lGH5sQWwvoIj4GyRa7B0+R+wHScK+Yyuqqiq
+tT7XsCrAKOPBcjGKGkU17Tw/rEo43iM7EfbTFJyUSbw/tHY00wpZdcmFPsfT
+JF6r+bNf/8q/+/opeA7myLd9oLBVYI5mAh1izR6n2sNMkMJwrqys3FpdXeVy
+RVZCK1vmIVZr9cp7PyeisozXWmT96otv8akBzHAP7ZyUtMRVe1GrsmgRVBTy
+cCeyLBlQHFKX6Z9+/1tJh4wTksiXRWb11JKonA1tVYDMz545j2xwSuV/+en3
+svFwrhRwkZ0eDSqvRrCH4Wpblm9ububX1taBuTb8Wc1Rh6wYR1hxGoJLlKAx
+GAbM/PJSbsc6rkj4WlFGusw4ZjCOmYzmXujQppPfebD3nCgMFWMVN6H5pRWU
+MZWdxw8tjLwUoK1lAbmh5UVgFMWJgKsboohXMzG+lSj4xpuNz0aIL8bqwgpc
+bTIj2o4b1NYCVFHjxwW5N54qFI0Vp2RE2XTBFu0r3rr1B9hEBerpLl1mUiO8
+RN2PdEdSxe85HJG04ZQVRS4KZ4eTqIo8dUj9PjmPl/QdoQ8vCqFtrmCIvs0K
+s8TCTAwNYzht2OJCkdzfMoaK7wuxyhHyjB6OqvLqjmRHN7cN2HQ47Kxtd67k
+jx58HGcI5BgRyXDkpja2zAo1fIEcIGFdWDyAgyg+Wga5tWBftISEK+HM2/qO
+GVBLxVD5qouAFrR6OKtmoCxrgTChCYJkle/UuOwoiECVyYLLpY6XUkuG2hUD
+KoRzVVZNCcf1hN4FLNvGsuJ/2gaWNRHa6VvFSSM2SgZqvUAdVmkBlT44dQwj
+pAZqrUDt0Tg2wL4oqgGOvl3GDzIHIuxVjcm0lyRqiED6bHxaj2PJECsd4WnE
+uBAwwsfkGq/V+FFguZK+hdOH5xJTcfclkv7YP9WEiBo=\
+\>"]], ",", "5", ",", "6", ",", "9", ",", 
+      RowBox[{"GraphicsComplex", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", 
+            RowBox[{"-", 
+             SqrtBox[
+              FractionBox["2", "3"]]}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", 
+            SqrtBox[
+             FractionBox["2", "3"]]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", 
+             FractionBox["1", 
+              RowBox[{"2", " ", 
+               SqrtBox["3"]}]]}], ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}], ",", "0"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", 
+             FractionBox["1", 
+              RowBox[{"2", " ", 
+               SqrtBox["3"]}]]}], ",", 
+            FractionBox["1", "2"], ",", "0"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            FractionBox["1", 
+             SqrtBox["3"]], ",", "0", ",", "0"}], "}"}]}], "}"}], ",", 
+        InterpretationBox[
+         RowBox[{
+          TagBox["Polygon",
+           "SummaryHead"], "[", 
+          
+          DynamicModuleBox[{Typeset`open$$ = False, Typeset`embedState$$ = 
+           "Ready", Typeset`spolygon$$ = 
+           Polygon[{{4, 3, 2}, {3, 5, 2}, {5, 4, 2}, {1, 3, 4}, {1, 5, 3}, {1,
+             4, 5}}]}, 
+           TemplateBox[{
+             PaneSelectorBox[{False -> GridBox[{{
+                   PaneBox[
+                    ButtonBox[
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "SummaryBoxOpener"]], 
+                    ButtonFunction :> (Typeset`open$$ = True), Appearance -> 
+                    None, BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+                    "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+                    Dynamic[{
+                    Automatic, 
+                    3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                    Magnification])}]], 
+                   Graphics3DBox[{
+                    Directive[
+                    GrayLevel[1], 
+                    EdgeForm[
+                    Hue[0.6, 0.3, 0.4]]], 
+                    
+                    Polygon3DBox[{{4, 3, 2}, {3, 5, 2}, {5, 4, 2}, {1, 3, 
+                    4}, {1, 5, 3}, {1, 4, 5}}]}, ImageSize -> 
+                    Dynamic[{5.25, 3.5} (CurrentValue["FontCapHeight"]/
+                    AbsoluteCurrentValue[Magnification])], PlotRange -> Full, 
+                    Boxed -> False, Lighting -> {{"Ambient", 
+                    RGBColor[0.732, 0.8232, 0.96]}}, 
+                    Method -> {"ShrinkWrap" -> True}], 
+                   GridBox[{{
+                    RowBox[{
+                    TagBox["\"Number of points: \"", "SummaryItemAnnotation"],
+                     "\[InvisibleSpace]", 
+                    TagBox["6", "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox[
+                    "\"Embedding dimension: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox["3", "SummaryItem"]}]}}, 
+                    GridBoxAlignment -> {
+                    "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, 
+                    AutoDelete -> False, 
+                    GridBoxItemSize -> {
+                    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                    GridBoxSpacings -> {
+                    "Columns" -> {{2}}, "Rows" -> {{Automatic}}}, 
+                    BaseStyle -> {
+                    ShowStringCharacters -> False, NumberMarks -> False, 
+                    PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+                 GridBoxAlignment -> {
+                  "Columns" -> {{Left}}, "Rows" -> {{Top}}}, AutoDelete -> 
+                 False, GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                 BaselinePosition -> {1, 1}], True -> GridBox[{{
+                   PaneBox[
+                    ButtonBox[
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "SummaryBoxCloser"]], 
+                    ButtonFunction :> (Typeset`open$$ = False), Appearance -> 
+                    None, BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+                    "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+                    Dynamic[{
+                    Automatic, 
+                    3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                    Magnification])}]], 
+                   Graphics3DBox[{
+                    Directive[
+                    GrayLevel[1], 
+                    EdgeForm[
+                    Hue[0.6, 0.3, 0.4]]], 
+                    
+                    Polygon3DBox[{{4, 3, 2}, {3, 5, 2}, {5, 4, 2}, {1, 3, 
+                    4}, {1, 5, 3}, {1, 4, 5}}]}, ImageSize -> 
+                    Dynamic[{5.25, 3.5} (CurrentValue["FontCapHeight"]/
+                    AbsoluteCurrentValue[Magnification])], PlotRange -> Full, 
+                    Boxed -> False, Lighting -> {{"Ambient", 
+                    RGBColor[0.732, 0.8232, 0.96]}}, 
+                    Method -> {"ShrinkWrap" -> True}], 
+                   GridBox[{{
+                    RowBox[{
+                    TagBox["\"Number of points: \"", "SummaryItemAnnotation"],
+                     "\[InvisibleSpace]", 
+                    TagBox["6", "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox[
+                    "\"Embedding dimension: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox["3", "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox["\"Type: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    DynamicBox[
+                    ToBoxes[
+                    Quiet[
+                    Apply[Region`PolygonDump`polygonType, 
+                    Region`PolygonDump`computeType[Typeset`spolygon$$]]], 
+                    StandardForm], SynchronousUpdating -> False, 
+                    TrackedSymbols :> {}, CachedValue :> 
+                    AnimatorBox[
+                    0, {0, Infinity}, AppearanceElements -> "ProgressSlider", 
+                    ImageSize -> 20]], "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox["\"Bounds: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    DynamicBox[
+                    ToBoxes[
+                    Region`PolygonDump`iRegionBounds[Typeset`spolygon$$], 
+                    StandardForm], SynchronousUpdating -> False, 
+                    TrackedSymbols :> {}, CachedValue :> 
+                    AnimatorBox[
+                    0, {0, Infinity}, AppearanceElements -> "ProgressSlider", 
+                    ImageSize -> 20]], "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox["\"Area: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    DynamicBox[
+                    ToBoxes[
+                    Region`PolygonDump`iArea[Typeset`spolygon$$], 
+                    StandardForm], SynchronousUpdating -> False, 
+                    TrackedSymbols :> {}, CachedValue :> 
+                    AnimatorBox[
+                    0, {0, Infinity}, AppearanceElements -> "ProgressSlider", 
+                    ImageSize -> 20]], "SummaryItem"]}]}}, 
+                    GridBoxAlignment -> {
+                    "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, 
+                    AutoDelete -> False, 
+                    GridBoxItemSize -> {
+                    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                    GridBoxSpacings -> {
+                    "Columns" -> {{2}}, "Rows" -> {{Automatic}}}, 
+                    BaseStyle -> {
+                    ShowStringCharacters -> False, NumberMarks -> False, 
+                    PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+                 GridBoxAlignment -> {
+                  "Columns" -> {{Left}}, "Rows" -> {{Top}}}, AutoDelete -> 
+                 False, GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                 BaselinePosition -> {1, 1}]}, 
+              Dynamic[Typeset`open$$], ImageSize -> Automatic]},
+            "SummaryPanel"],
+           DynamicModuleValues:>{}], "]"}],
+         Polygon[{{4, 3, 2}, {3, 5, 2}, {5, 4, 2}, {1, 3, 4}, {1, 5, 3}, {1, 
+          4, 5}}],
+         Editable->False,
+         SelectWithContents->True,
+         Selectable->False]}], "]"}]}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"\"\<Prism\>\"", ",", "3"}], "}"}], ",", 
+      Graphics3DBox[
+       GraphicsComplex3DBox[
+        NCache[{{
+          Rational[-1, 2] 3^Rational[-1, 2], Rational[-1, 2], 
+           Rational[-1, 2]}, {
+          Rational[-1, 2] 3^Rational[-1, 2], Rational[-1, 2], Rational[
+           1, 2]}, {
+          Rational[-1, 2] 3^Rational[-1, 2], Rational[1, 2], 
+           Rational[-1, 2]}, {
+          Rational[-1, 2] 3^Rational[-1, 2], Rational[1, 2], Rational[
+           1, 2]}, {3^Rational[-1, 2], 0, Rational[-1, 2]}, {
+          3^Rational[-1, 2], 0, Rational[
+           1, 2]}}, {{-0.2886751345948129, -0.5, -0.5}, {-0.2886751345948129, \
+-0.5, 0.5}, {-0.2886751345948129, 0.5, -0.5}, {-0.2886751345948129, 0.5, 
+          0.5}, {0.5773502691896258, 0, -0.5}, {0.5773502691896258, 0, 0.5}}],
+         Polygon3DBox[{{1, 3, 5}, {6, 4, 2}, {5, 3, 4, 6}, {3, 1, 2, 4}, {1, 
+          5, 6, 2}}]]], ",", "6", ",", "5", ",", "9", ",", 
+      RowBox[{"GraphicsComplex", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", 
+             FractionBox["1", 
+              RowBox[{"2", " ", 
+               SqrtBox["3"]}]]}], ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}], ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", 
+             FractionBox["1", 
+              RowBox[{"2", " ", 
+               SqrtBox["3"]}]]}], ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}], ",", 
+            FractionBox["1", "2"]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", 
+             FractionBox["1", 
+              RowBox[{"2", " ", 
+               SqrtBox["3"]}]]}], ",", 
+            FractionBox["1", "2"], ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", 
+             FractionBox["1", 
+              RowBox[{"2", " ", 
+               SqrtBox["3"]}]]}], ",", 
+            FractionBox["1", "2"], ",", 
+            FractionBox["1", "2"]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            FractionBox["1", 
+             SqrtBox["3"]], ",", "0", ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            FractionBox["1", 
+             SqrtBox["3"]], ",", "0", ",", 
+            FractionBox["1", "2"]}], "}"}]}], "}"}], ",", 
+        RowBox[{"Polygon", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"1", ",", "3", ",", "5"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"6", ",", "4", ",", "2"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"5", ",", "3", ",", "4", ",", "6"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"3", ",", "1", ",", "2", ",", "4"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"1", ",", "5", ",", "6", ",", "2"}], "}"}]}], "}"}], 
+         "]"}]}], "]"}]}], "}"}]}], "}"}], ";"}]], "Input",
+ CellChangeTimes->{{3.913459768947176*^9, 
+  3.913459783060367*^9}},ExpressionUUID->"6f8acc5d-d672-4069-943b-\
+4a0fd636cb04"],
+
+Cell[BoxData[
+ RowBox[{"(*", " ", 
+  RowBox[{
+   RowBox[{"D_", "4", " ", "face", " ", 
+    RowBox[{"dual", ":", 
+     RowBox[{"edge", " ", "group"}]}]}], "=", "12"}], "*)"}]], "Input",
+ CellChangeTimes->{{3.913459909028183*^9, 
+  3.913459941234624*^9}},ExpressionUUID->"df7f6613-fd59-40d7-958a-\
+913a18751171"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"\"\<Cube\>\"", ",", 
+      Graphics3DBox[
+       GraphicsComplex3DBox[
+        NCache[{{Rational[-1, 2], Rational[-1, 2], Rational[-1, 2]}, {
+          Rational[-1, 2], Rational[-1, 2], Rational[1, 2]}, {
+          Rational[-1, 2], Rational[1, 2], Rational[-1, 2]}, {
+          Rational[-1, 2], Rational[1, 2], Rational[1, 2]}, {
+          Rational[1, 2], Rational[-1, 2], Rational[-1, 2]}, {
+          Rational[1, 2], Rational[-1, 2], Rational[1, 2]}, {
+          Rational[1, 2], Rational[1, 2], Rational[-1, 2]}, {
+          Rational[1, 2], Rational[1, 2], Rational[
+           1, 2]}}, {{-0.5, -0.5, -0.5}, {-0.5, -0.5, 0.5}, {-0.5, 
+         0.5, -0.5}, {-0.5, 0.5, 0.5}, {0.5, -0.5, -0.5}, {0.5, -0.5, 0.5}, {
+         0.5, 0.5, -0.5}, {0.5, 0.5, 0.5}}], 
+        Polygon3DBox[{{8, 4, 2, 6}, {8, 6, 5, 7}, {8, 7, 3, 4}, {4, 3, 1, 
+         2}, {1, 3, 7, 5}, {2, 1, 5, 6}}]]], ",", "8", ",", "6", ",", "12", 
+      ",", 
+      RowBox[{"GraphicsComplex", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", 
+             FractionBox["1", "2"]}], ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}], ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", 
+             FractionBox["1", "2"]}], ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}], ",", 
+            FractionBox["1", "2"]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", 
+             FractionBox["1", "2"]}], ",", 
+            FractionBox["1", "2"], ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", 
+             FractionBox["1", "2"]}], ",", 
+            FractionBox["1", "2"], ",", 
+            FractionBox["1", "2"]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            FractionBox["1", "2"], ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}], ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            FractionBox["1", "2"], ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}], ",", 
+            FractionBox["1", "2"]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            FractionBox["1", "2"], ",", 
+            FractionBox["1", "2"], ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            FractionBox["1", "2"], ",", 
+            FractionBox["1", "2"], ",", 
+            FractionBox["1", "2"]}], "}"}]}], "}"}], ",", 
+        InterpretationBox[
+         RowBox[{
+          TagBox["Polygon",
+           "SummaryHead"], "[", 
+          
+          DynamicModuleBox[{Typeset`open$$ = False, Typeset`embedState$$ = 
+           "Ready", Typeset`spolygon$$ = 
+           Polygon[{{8, 4, 2, 6}, {8, 6, 5, 7}, {8, 7, 3, 4}, {4, 3, 1, 2}, {
+            1, 3, 7, 5}, {2, 1, 5, 6}}]}, 
+           TemplateBox[{
+             PaneSelectorBox[{False -> GridBox[{{
+                   PaneBox[
+                    ButtonBox[
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "SummaryBoxOpener"]], 
+                    ButtonFunction :> (Typeset`open$$ = True), Appearance -> 
+                    None, BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+                    "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+                    Dynamic[{
+                    Automatic, 
+                    3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                    Magnification])}]], 
+                   GraphicsBox[
+                    
+                    GraphicsComplexBox[{{0.59, 0.61}, {0.59, 0.56}, {0.96, 
+                    0.56}}, {{
+                    Directive[{
+                    Hue[0.6, 0.3, 0.95], 
+                    EdgeForm[{
+                    Hue[0.6, 0.3, 0.75]}]}], {
+                    PolygonBox[{{1, 2, 3}}]}}, 
+                    InsetBox[
+                    Graphics3DBox[
+                    
+                    GraphicsComplex3DBox[{{0., 0., -1.}, {0., 0., 1.}, {-0.9, 
+                    0., -0.4}, {0.9, 0., 0.4}, {0.7, -0.5, -0.4}, {0.7, 
+                    0.5, -0.4}, {-0.7, -0.5, 0.4}, {-0.7, 0.5, 
+                    0.4}, {-0.3, -0.9, -0.4}, {-0.3, 0.9, -0.4}, {0.3, -0.9, 
+                    0.4}, {0.3, 0.9, 0.4}}, {
+                    Directive[{
+                    Hue[0.6, 0.3, 0.85], 
+                    EdgeForm[{
+                    Hue[0.6, 0.3, 0.75]}]}], {
+                    
+                    Polygon3DBox[{{12, 10, 8}, {7, 9, 11}, {10, 12, 6}, {7, 8,
+                     3}, {4, 11, 5}, {8, 7, 2}, {10, 6, 1}, {8, 10, 3}, {10, 
+                    1, 3}, {1, 9, 3}, {6, 12, 4}, {9, 7, 3}, {11, 9, 5}, {9, 
+                    1, 5}, {1, 6, 5}, {6, 4, 5}, {7, 11, 2}, {11, 4, 2}, {4, 
+                    12, 2}, {12, 8, 2}}]}}], {
+                    Boxed -> False, Lighting -> {{"Ambient", 
+                    GrayLevel[0.45]}, {"Directional", 
+                    GrayLevel[0.3], 
+                    ImageScaled[{2, 0, 2}]}, {"Directional", 
+                    GrayLevel[0.33], 
+                    ImageScaled[{2, 2, 2}]}, {"Directional", 
+                    GrayLevel[0.3], 
+                    ImageScaled[{0, 2, 2}]}}, 
+                    Method -> {"ShrinkWrap" -> True}}], {0.8, 0.59}, 
+                    Automatic, 0.25]}], 
+                    PlotRange -> {{0.54, 1.}, {0.54, 0.64}}, AspectRatio -> 1,
+                     Background -> GrayLevel[0.93], ImagePadding -> 0, 
+                    FrameStyle -> Directive[
+                    Opacity[0.5], 
+                    Thickness[Tiny], 
+                    RGBColor[0.368417, 0.506779, 0.709798]], Frame -> True, 
+                    FrameTicks -> None, ImageSize -> 
+                    Dynamic[{
+                    Automatic, (3.5 CurrentValue["FontCapHeight"])/
+                    AbsoluteCurrentValue[Magnification]}]], 
+                   GridBox[{{
+                    RowBox[{
+                    TagBox["\"Number of points: \"", "SummaryItemAnnotation"],
+                     "\[InvisibleSpace]", 
+                    TagBox["6", "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox[
+                    "\"Embedding dimension: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox["4", "SummaryItem"]}]}}, 
+                    GridBoxAlignment -> {
+                    "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, 
+                    AutoDelete -> False, 
+                    GridBoxItemSize -> {
+                    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                    GridBoxSpacings -> {
+                    "Columns" -> {{2}}, "Rows" -> {{Automatic}}}, 
+                    BaseStyle -> {
+                    ShowStringCharacters -> False, NumberMarks -> False, 
+                    PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+                 GridBoxAlignment -> {
+                  "Columns" -> {{Left}}, "Rows" -> {{Top}}}, AutoDelete -> 
+                 False, GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                 BaselinePosition -> {1, 1}], True -> GridBox[{{
+                   PaneBox[
+                    ButtonBox[
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "SummaryBoxCloser"]], 
+                    ButtonFunction :> (Typeset`open$$ = False), Appearance -> 
+                    None, BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+                    "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+                    Dynamic[{
+                    Automatic, 
+                    3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                    Magnification])}]], 
+                   GraphicsBox[
+                    
+                    GraphicsComplexBox[{{0.59, 0.61}, {0.59, 0.56}, {0.96, 
+                    0.56}}, {{
+                    Directive[{
+                    Hue[0.6, 0.3, 0.95], 
+                    EdgeForm[{
+                    Hue[0.6, 0.3, 0.75]}]}], {
+                    PolygonBox[{{1, 2, 3}}]}}, 
+                    InsetBox[
+                    Graphics3DBox[
+                    
+                    GraphicsComplex3DBox[{{0., 0., -1.}, {0., 0., 1.}, {-0.9, 
+                    0., -0.4}, {0.9, 0., 0.4}, {0.7, -0.5, -0.4}, {0.7, 
+                    0.5, -0.4}, {-0.7, -0.5, 0.4}, {-0.7, 0.5, 
+                    0.4}, {-0.3, -0.9, -0.4}, {-0.3, 0.9, -0.4}, {0.3, -0.9, 
+                    0.4}, {0.3, 0.9, 0.4}}, {
+                    Directive[{
+                    Hue[0.6, 0.3, 0.85], 
+                    EdgeForm[{
+                    Hue[0.6, 0.3, 0.75]}]}], {
+                    
+                    Polygon3DBox[{{12, 10, 8}, {7, 9, 11}, {10, 12, 6}, {7, 8,
+                     3}, {4, 11, 5}, {8, 7, 2}, {10, 6, 1}, {8, 10, 3}, {10, 
+                    1, 3}, {1, 9, 3}, {6, 12, 4}, {9, 7, 3}, {11, 9, 5}, {9, 
+                    1, 5}, {1, 6, 5}, {6, 4, 5}, {7, 11, 2}, {11, 4, 2}, {4, 
+                    12, 2}, {12, 8, 2}}]}}], {
+                    Boxed -> False, Lighting -> {{"Ambient", 
+                    GrayLevel[0.45]}, {"Directional", 
+                    GrayLevel[0.3], 
+                    ImageScaled[{2, 0, 2}]}, {"Directional", 
+                    GrayLevel[0.33], 
+                    ImageScaled[{2, 2, 2}]}, {"Directional", 
+                    GrayLevel[0.3], 
+                    ImageScaled[{0, 2, 2}]}}, 
+                    Method -> {"ShrinkWrap" -> True}}], {0.8, 0.59}, 
+                    Automatic, 0.25]}], 
+                    PlotRange -> {{0.54, 1.}, {0.54, 0.64}}, AspectRatio -> 1,
+                     Background -> GrayLevel[0.93], ImagePadding -> 0, 
+                    FrameStyle -> Directive[
+                    Opacity[0.5], 
+                    Thickness[Tiny], 
+                    RGBColor[0.368417, 0.506779, 0.709798]], Frame -> True, 
+                    FrameTicks -> None, ImageSize -> 
+                    Dynamic[{
+                    Automatic, (3.5 CurrentValue["FontCapHeight"])/
+                    AbsoluteCurrentValue[Magnification]}]], 
+                   GridBox[{{
+                    RowBox[{
+                    TagBox["\"Number of points: \"", "SummaryItemAnnotation"],
+                     "\[InvisibleSpace]", 
+                    TagBox["6", "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox[
+                    "\"Embedding dimension: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox["4", "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox["\"Type: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    DynamicBox[
+                    ToBoxes[
+                    Quiet[
+                    Apply[Region`PolygonDump`polygonType, 
+                    Region`PolygonDump`computeType[Typeset`spolygon$$]]], 
+                    StandardForm], SynchronousUpdating -> False, 
+                    TrackedSymbols :> {}, CachedValue :> 
+                    AnimatorBox[
+                    0, {0, Infinity}, AppearanceElements -> "ProgressSlider", 
+                    ImageSize -> 20]], "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox["\"Area: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    DynamicBox[
+                    ToBoxes[
+                    Region`PolygonDump`iArea[Typeset`spolygon$$], 
+                    StandardForm], SynchronousUpdating -> False, 
+                    TrackedSymbols :> {}, CachedValue :> 
+                    AnimatorBox[
+                    0, {0, Infinity}, AppearanceElements -> "ProgressSlider", 
+                    ImageSize -> 20]], "SummaryItem"]}]}}, 
+                    GridBoxAlignment -> {
+                    "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, 
+                    AutoDelete -> False, 
+                    GridBoxItemSize -> {
+                    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                    GridBoxSpacings -> {
+                    "Columns" -> {{2}}, "Rows" -> {{Automatic}}}, 
+                    BaseStyle -> {
+                    ShowStringCharacters -> False, NumberMarks -> False, 
+                    PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+                 GridBoxAlignment -> {
+                  "Columns" -> {{Left}}, "Rows" -> {{Top}}}, AutoDelete -> 
+                 False, GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                 BaselinePosition -> {1, 1}]}, 
+              Dynamic[Typeset`open$$], ImageSize -> Automatic]},
+            "SummaryPanel"],
+           DynamicModuleValues:>{}], "]"}],
+         Polygon[{{8, 4, 2, 6}, {8, 6, 5, 7}, {8, 7, 3, 4}, {4, 3, 1, 2}, {1, 
+          3, 7, 5}, {2, 1, 5, 6}}],
+         Editable->False,
+         SelectWithContents->True,
+         Selectable->False]}], "]"}]}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"\"\<Octahedron\>\"", ",", 
+      Graphics3DBox[
+       GraphicsComplex3DBox[
+        NCache[{{-2^Rational[-1, 2], 0, 0}, {0, 2^Rational[-1, 2], 0}, {
+          0, 0, -2^Rational[-1, 2]}, {0, 0, 2^Rational[-1, 2]}, {
+          0, -2^Rational[-1, 2], 0}, {
+          2^Rational[-1, 2], 0, 0}}, {{-0.7071067811865475, 0, 0}, {
+          0, 0.7071067811865475, 0}, {0, 0, -0.7071067811865475}, {
+          0, 0, 0.7071067811865475}, {0, -0.7071067811865475, 0}, {
+          0.7071067811865475, 0, 0}}], 
+        Polygon3DBox[{{4, 5, 6}, {4, 6, 2}, {4, 2, 1}, {4, 1, 5}, {5, 1, 3}, {
+         5, 3, 6}, {3, 1, 2}, {6, 3, 2}}]]], ",", "6", ",", "8", ",", "12", 
+      ",", 
+      RowBox[{"GraphicsComplex", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", 
+             FractionBox["1", 
+              SqrtBox["2"]]}], ",", "0", ",", "0"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", 
+            FractionBox["1", 
+             SqrtBox["2"]], ",", "0"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", 
+            RowBox[{"-", 
+             FractionBox["1", 
+              SqrtBox["2"]]}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", 
+            FractionBox["1", 
+             SqrtBox["2"]]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", 
+            RowBox[{"-", 
+             FractionBox["1", 
+              SqrtBox["2"]]}], ",", "0"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            FractionBox["1", 
+             SqrtBox["2"]], ",", "0", ",", "0"}], "}"}]}], "}"}], ",", 
+        InterpretationBox[
+         RowBox[{
+          TagBox["Polygon",
+           "SummaryHead"], "[", 
+          
+          DynamicModuleBox[{Typeset`open$$ = False, Typeset`embedState$$ = 
+           "Ready", Typeset`spolygon$$ = 
+           Polygon[{{4, 5, 6}, {4, 6, 2}, {4, 2, 1}, {4, 1, 5}, {5, 1, 3}, {5,
+             3, 6}, {3, 1, 2}, {6, 3, 2}}]}, 
+           TemplateBox[{
+             PaneSelectorBox[{False -> GridBox[{{
+                   PaneBox[
+                    ButtonBox[
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "SummaryBoxOpener"]], 
+                    ButtonFunction :> (Typeset`open$$ = True), Appearance -> 
+                    None, BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+                    "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+                    Dynamic[{
+                    Automatic, 
+                    3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                    Magnification])}]], 
+                   Graphics3DBox[{
+                    Directive[
+                    GrayLevel[1], 
+                    EdgeForm[
+                    Hue[0.6, 0.3, 0.4]]], 
+                    
+                    Polygon3DBox[{{4, 5, 6}, {4, 6, 2}, {4, 2, 1}, {4, 1, 
+                    5}, {5, 1, 3}, {5, 3, 6}, {3, 1, 2}, {6, 3, 2}}]}, 
+                    ImageSize -> 
+                    Dynamic[{5.25, 3.5} (CurrentValue["FontCapHeight"]/
+                    AbsoluteCurrentValue[Magnification])], PlotRange -> Full, 
+                    Boxed -> False, Lighting -> {{"Ambient", 
+                    RGBColor[0.732, 0.8232, 0.96]}}, 
+                    Method -> {"ShrinkWrap" -> True}], 
+                   GridBox[{{
+                    RowBox[{
+                    TagBox["\"Number of points: \"", "SummaryItemAnnotation"],
+                     "\[InvisibleSpace]", 
+                    TagBox["8", "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox[
+                    "\"Embedding dimension: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox["3", "SummaryItem"]}]}}, 
+                    GridBoxAlignment -> {
+                    "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, 
+                    AutoDelete -> False, 
+                    GridBoxItemSize -> {
+                    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                    GridBoxSpacings -> {
+                    "Columns" -> {{2}}, "Rows" -> {{Automatic}}}, 
+                    BaseStyle -> {
+                    ShowStringCharacters -> False, NumberMarks -> False, 
+                    PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+                 GridBoxAlignment -> {
+                  "Columns" -> {{Left}}, "Rows" -> {{Top}}}, AutoDelete -> 
+                 False, GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                 BaselinePosition -> {1, 1}], True -> GridBox[{{
+                   PaneBox[
+                    ButtonBox[
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "SummaryBoxCloser"]], 
+                    ButtonFunction :> (Typeset`open$$ = False), Appearance -> 
+                    None, BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+                    "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+                    Dynamic[{
+                    Automatic, 
+                    3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                    Magnification])}]], 
+                   Graphics3DBox[{
+                    Directive[
+                    GrayLevel[1], 
+                    EdgeForm[
+                    Hue[0.6, 0.3, 0.4]]], 
+                    
+                    Polygon3DBox[{{4, 5, 6}, {4, 6, 2}, {4, 2, 1}, {4, 1, 
+                    5}, {5, 1, 3}, {5, 3, 6}, {3, 1, 2}, {6, 3, 2}}]}, 
+                    ImageSize -> 
+                    Dynamic[{5.25, 3.5} (CurrentValue["FontCapHeight"]/
+                    AbsoluteCurrentValue[Magnification])], PlotRange -> Full, 
+                    Boxed -> False, Lighting -> {{"Ambient", 
+                    RGBColor[0.732, 0.8232, 0.96]}}, 
+                    Method -> {"ShrinkWrap" -> True}], 
+                   GridBox[{{
+                    RowBox[{
+                    TagBox["\"Number of points: \"", "SummaryItemAnnotation"],
+                     "\[InvisibleSpace]", 
+                    TagBox["8", "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox[
+                    "\"Embedding dimension: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox["3", "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox["\"Type: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    DynamicBox[
+                    ToBoxes[
+                    Quiet[
+                    Apply[Region`PolygonDump`polygonType, 
+                    Region`PolygonDump`computeType[Typeset`spolygon$$]]], 
+                    StandardForm], SynchronousUpdating -> False, 
+                    TrackedSymbols :> {}, CachedValue :> 
+                    AnimatorBox[
+                    0, {0, Infinity}, AppearanceElements -> "ProgressSlider", 
+                    ImageSize -> 20]], "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox["\"Bounds: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    DynamicBox[
+                    ToBoxes[
+                    Region`PolygonDump`iRegionBounds[Typeset`spolygon$$], 
+                    StandardForm], SynchronousUpdating -> False, 
+                    TrackedSymbols :> {}, CachedValue :> 
+                    AnimatorBox[
+                    0, {0, Infinity}, AppearanceElements -> "ProgressSlider", 
+                    ImageSize -> 20]], "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox["\"Area: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    DynamicBox[
+                    ToBoxes[
+                    Region`PolygonDump`iArea[Typeset`spolygon$$], 
+                    StandardForm], SynchronousUpdating -> False, 
+                    TrackedSymbols :> {}, CachedValue :> 
+                    AnimatorBox[
+                    0, {0, Infinity}, AppearanceElements -> "ProgressSlider", 
+                    ImageSize -> 20]], "SummaryItem"]}]}}, 
+                    GridBoxAlignment -> {
+                    "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, 
+                    AutoDelete -> False, 
+                    GridBoxItemSize -> {
+                    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                    GridBoxSpacings -> {
+                    "Columns" -> {{2}}, "Rows" -> {{Automatic}}}, 
+                    BaseStyle -> {
+                    ShowStringCharacters -> False, NumberMarks -> False, 
+                    PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+                 GridBoxAlignment -> {
+                  "Columns" -> {{Left}}, "Rows" -> {{Top}}}, AutoDelete -> 
+                 False, GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                 BaselinePosition -> {1, 1}]}, 
+              Dynamic[Typeset`open$$], ImageSize -> Automatic]},
+            "SummaryPanel"],
+           DynamicModuleValues:>{}], "]"}],
+         Polygon[{{4, 5, 6}, {4, 6, 2}, {4, 2, 1}, {4, 1, 5}, {5, 1, 3}, {5, 
+          3, 6}, {3, 1, 2}, {6, 3, 2}}],
+         Editable->False,
+         SelectWithContents->True,
+         Selectable->False]}], "]"}]}], "}"}]}], "}"}], ";"}]], "Input",
+ CellChangeTimes->{{3.913459868719398*^9, 3.913459900753269*^9}, 
+   3.9134600444185658`*^9},ExpressionUUID->"541686ce-3830-4bdd-b47e-\
+42e544bcd57d"],
+
+Cell[BoxData[
+ RowBox[{"(*", " ", 
+  RowBox[{"D_", "5", " ", "face", " ", 
+   RowBox[{"dual", ":", 
+    RowBox[{"edge", " ", "group", " ", "15"}]}]}], "*)"}]], "Input",
+ CellChangeTimes->{{3.9134602066415033`*^9, 
+  3.913460216000853*^9}},ExpressionUUID->"130838f4-2d67-4aa0-8b43-\
+5a027f27c4e4"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"_", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\"\<Prism\>\"", ",", "5"}], "}"}], ",", 
+       Graphics3DBox[
+        GraphicsComplex3DBox[
+         NCache[{{
+           Rational[1, 2] (Rational[5, 8] + Rational[-1, 8] 5^Rational[1, 2])^
+             Rational[-1, 2], 0, Rational[-1, 2]}, {
+           Rational[1, 2] (Rational[5, 8] + Rational[-1, 8] 5^Rational[1, 2])^
+             Rational[-1, 2], 0, Rational[
+            1, 2]}, {(
+             Rational[1, 8] (-1 - 5^Rational[1, 2])) (Rational[5, 8] + 
+              Rational[-1, 8] 5^Rational[1, 2])^Rational[-1, 2], 
+            Rational[-1, 2], 
+            Rational[-1, 2]}, {(
+             Rational[1, 8] (-1 - 5^Rational[1, 2])) (Rational[5, 8] + 
+              Rational[-1, 8] 5^Rational[1, 2])^Rational[-1, 2], 
+            Rational[-1, 2], Rational[
+            1, 2]}, {(
+             Rational[1, 8] (-1 - 5^Rational[1, 2])) (Rational[5, 8] + 
+              Rational[-1, 8] 5^Rational[1, 2])^Rational[-1, 2], Rational[
+            1, 2], Rational[-1, 2]}, {(
+             Rational[1, 8] (-1 - 5^Rational[1, 2])) (Rational[5, 8] + 
+              Rational[-1, 8] 5^Rational[1, 2])^Rational[-1, 2], Rational[
+            1, 2], Rational[
+            1, 2]}, {(
+             Rational[
+              1, 8] (Rational[5, 8] + Rational[-1, 8] 5^Rational[1, 2])^
+              Rational[-1, 2]) (-1 + 5^Rational[1, 2]), 
+            Rational[-1, 
+              2] ((Rational[5, 8] + Rational[-1, 8] 5^Rational[1, 2])^(-1) (
+               Rational[5, 8] + Rational[1, 8] 5^Rational[1, 2]))^
+             Rational[1, 2], 
+            Rational[-1, 2]}, {(
+             Rational[
+              1, 8] (Rational[5, 8] + Rational[-1, 8] 5^Rational[1, 2])^
+              Rational[-1, 2]) (-1 + 5^Rational[1, 2]), 
+            Rational[-1, 
+              2] ((Rational[5, 8] + Rational[-1, 8] 5^Rational[1, 2])^(-1) (
+               Rational[5, 8] + Rational[1, 8] 5^Rational[1, 2]))^
+             Rational[1, 2], Rational[
+            1, 2]}, {(
+             Rational[
+              1, 8] (Rational[5, 8] + Rational[-1, 8] 5^Rational[1, 2])^
+              Rational[-1, 2]) (-1 + 5^Rational[1, 2]), 
+            Rational[
+             1, 2] ((Rational[5, 8] + Rational[-1, 8] 5^Rational[1, 2])^(-1) (
+               Rational[5, 8] + Rational[1, 8] 5^Rational[1, 2]))^
+             Rational[1, 2], 
+            Rational[-1, 2]}, {(
+             Rational[
+              1, 8] (Rational[5, 8] + Rational[-1, 8] 5^Rational[1, 2])^
+              Rational[-1, 2]) (-1 + 5^Rational[1, 2]), 
+            Rational[
+             1, 2] ((Rational[5, 8] + Rational[-1, 8] 5^Rational[1, 2])^(-1) (
+               Rational[5, 8] + Rational[1, 8] 5^Rational[1, 2]))^
+             Rational[1, 2], Rational[1, 2]}}, {{
+           0.8506508083520399, 0, -0.5}, {
+           0.8506508083520399, 0, 
+            0.5}, {-0.6881909602355868, -0.5, -0.5}, {-0.6881909602355868, \
+-0.5, 0.5}, {-0.6881909602355868, 0.5, -0.5}, {-0.6881909602355868, 0.5, 
+           0.5}, {0.2628655560595668, -0.8090169943749475, -0.5}, {
+           0.2628655560595668, -0.8090169943749475, 0.5}, {0.2628655560595668,
+            0.8090169943749475, -0.5}, {0.2628655560595668, 
+           0.8090169943749475, 0.5}}], 
+         Polygon3DBox[{{7, 3, 5, 9, 1}, {2, 10, 6, 4, 8}, {1, 9, 10, 2}, {9, 
+           5, 6, 10}, {5, 3, 4, 6}, {3, 7, 8, 4}, {7, 1, 2, 8}}]]], ",", "10",
+        ",", "7", ",", "15", ",", 
+       RowBox[{"GraphicsComplex", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             FractionBox["1", 
+              RowBox[{"2", " ", 
+               SqrtBox[
+                RowBox[{
+                 FractionBox["5", "8"], "-", 
+                 FractionBox[
+                  SqrtBox["5"], "8"]}]]}]], ",", "0", ",", 
+             RowBox[{"-", 
+              FractionBox["1", "2"]}]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             FractionBox["1", 
+              RowBox[{"2", " ", 
+               SqrtBox[
+                RowBox[{
+                 FractionBox["5", "8"], "-", 
+                 FractionBox[
+                  SqrtBox["5"], "8"]}]]}]], ",", "0", ",", 
+             FractionBox["1", "2"]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             FractionBox[
+              RowBox[{
+               RowBox[{"-", "1"}], "-", 
+               SqrtBox["5"]}], 
+              RowBox[{"8", " ", 
+               SqrtBox[
+                RowBox[{
+                 FractionBox["5", "8"], "-", 
+                 FractionBox[
+                  SqrtBox["5"], "8"]}]]}]], ",", 
+             RowBox[{"-", 
+              FractionBox["1", "2"]}], ",", 
+             RowBox[{"-", 
+              FractionBox["1", "2"]}]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             FractionBox[
+              RowBox[{
+               RowBox[{"-", "1"}], "-", 
+               SqrtBox["5"]}], 
+              RowBox[{"8", " ", 
+               SqrtBox[
+                RowBox[{
+                 FractionBox["5", "8"], "-", 
+                 FractionBox[
+                  SqrtBox["5"], "8"]}]]}]], ",", 
+             RowBox[{"-", 
+              FractionBox["1", "2"]}], ",", 
+             FractionBox["1", "2"]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             FractionBox[
+              RowBox[{
+               RowBox[{"-", "1"}], "-", 
+               SqrtBox["5"]}], 
+              RowBox[{"8", " ", 
+               SqrtBox[
+                RowBox[{
+                 FractionBox["5", "8"], "-", 
+                 FractionBox[
+                  SqrtBox["5"], "8"]}]]}]], ",", 
+             FractionBox["1", "2"], ",", 
+             RowBox[{"-", 
+              FractionBox["1", "2"]}]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             FractionBox[
+              RowBox[{
+               RowBox[{"-", "1"}], "-", 
+               SqrtBox["5"]}], 
+              RowBox[{"8", " ", 
+               SqrtBox[
+                RowBox[{
+                 FractionBox["5", "8"], "-", 
+                 FractionBox[
+                  SqrtBox["5"], "8"]}]]}]], ",", 
+             FractionBox["1", "2"], ",", 
+             FractionBox["1", "2"]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             FractionBox[
+              RowBox[{
+               RowBox[{"-", "1"}], "+", 
+               SqrtBox["5"]}], 
+              RowBox[{"8", " ", 
+               SqrtBox[
+                RowBox[{
+                 FractionBox["5", "8"], "-", 
+                 FractionBox[
+                  SqrtBox["5"], "8"]}]]}]], ",", 
+             RowBox[{
+              RowBox[{"-", 
+               FractionBox["1", "2"]}], " ", 
+              SqrtBox[
+               FractionBox[
+                RowBox[{
+                 FractionBox["5", "8"], "+", 
+                 FractionBox[
+                  SqrtBox["5"], "8"]}], 
+                RowBox[{
+                 FractionBox["5", "8"], "-", 
+                 FractionBox[
+                  SqrtBox["5"], "8"]}]]]}], ",", 
+             RowBox[{"-", 
+              FractionBox["1", "2"]}]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             FractionBox[
+              RowBox[{
+               RowBox[{"-", "1"}], "+", 
+               SqrtBox["5"]}], 
+              RowBox[{"8", " ", 
+               SqrtBox[
+                RowBox[{
+                 FractionBox["5", "8"], "-", 
+                 FractionBox[
+                  SqrtBox["5"], "8"]}]]}]], ",", 
+             RowBox[{
+              RowBox[{"-", 
+               FractionBox["1", "2"]}], " ", 
+              SqrtBox[
+               FractionBox[
+                RowBox[{
+                 FractionBox["5", "8"], "+", 
+                 FractionBox[
+                  SqrtBox["5"], "8"]}], 
+                RowBox[{
+                 FractionBox["5", "8"], "-", 
+                 FractionBox[
+                  SqrtBox["5"], "8"]}]]]}], ",", 
+             FractionBox["1", "2"]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             FractionBox[
+              RowBox[{
+               RowBox[{"-", "1"}], "+", 
+               SqrtBox["5"]}], 
+              RowBox[{"8", " ", 
+               SqrtBox[
+                RowBox[{
+                 FractionBox["5", "8"], "-", 
+                 FractionBox[
+                  SqrtBox["5"], "8"]}]]}]], ",", 
+             RowBox[{
+              FractionBox["1", "2"], " ", 
+              SqrtBox[
+               FractionBox[
+                RowBox[{
+                 FractionBox["5", "8"], "+", 
+                 FractionBox[
+                  SqrtBox["5"], "8"]}], 
+                RowBox[{
+                 FractionBox["5", "8"], "-", 
+                 FractionBox[
+                  SqrtBox["5"], "8"]}]]]}], ",", 
+             RowBox[{"-", 
+              FractionBox["1", "2"]}]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             FractionBox[
+              RowBox[{
+               RowBox[{"-", "1"}], "+", 
+               SqrtBox["5"]}], 
+              RowBox[{"8", " ", 
+               SqrtBox[
+                RowBox[{
+                 FractionBox["5", "8"], "-", 
+                 FractionBox[
+                  SqrtBox["5"], "8"]}]]}]], ",", 
+             RowBox[{
+              FractionBox["1", "2"], " ", 
+              SqrtBox[
+               FractionBox[
+                RowBox[{
+                 FractionBox["5", "8"], "+", 
+                 FractionBox[
+                  SqrtBox["5"], "8"]}], 
+                RowBox[{
+                 FractionBox["5", "8"], "-", 
+                 FractionBox[
+                  SqrtBox["5"], "8"]}]]]}], ",", 
+             FractionBox["1", "2"]}], "}"}]}], "}"}], ",", 
+         RowBox[{"Polygon", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"7", ",", "3", ",", "5", ",", "9", ",", "1"}], "}"}], 
+            ",", 
+            RowBox[{"{", 
+             RowBox[{"2", ",", "10", ",", "6", ",", "4", ",", "8"}], "}"}], 
+            ",", 
+            RowBox[{"{", 
+             RowBox[{"1", ",", "9", ",", "10", ",", "2"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"9", ",", "5", ",", "6", ",", "10"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"5", ",", "3", ",", "4", ",", "6"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"3", ",", "7", ",", "8", ",", "4"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"7", ",", "1", ",", "2", ",", "8"}], "}"}]}], "}"}], 
+          "]"}]}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\"\<Dipyramid\>\"", ",", "5"}], "}"}], ",", 
+       Graphics3DBox[
+        GraphicsComplex3DBox[
+         NCache[{{
+           0, 0, -(Rational[1, 10] (5 - 5^Rational[1, 2]))^Rational[1, 2]}, {
+           0, 0, (Rational[1, 10] (5 - 5^Rational[1, 2]))^
+            Rational[1, 2]}, {(Rational[1, 2] + 
+             Rational[1, 2] 5^Rational[-1, 2])^Rational[1, 2], 0, 0}, {
+           Rational[1, 2] (Rational[1, 10] (5 - 5^Rational[1, 2]))^
+             Rational[1, 2], Rational[1, 4] (-1 - 5^Rational[1, 2]), 0}, {
+           Rational[1, 2] (Rational[1, 10] (5 - 5^Rational[1, 2]))^
+             Rational[1, 2], Rational[1, 4] (1 + 5^Rational[1, 2]), 
+            0}, {-(Rational[1, 4] + Rational[1, 2] 5^Rational[-1, 2])^
+             Rational[1, 2], Rational[-1, 2], 
+            0}, {-(Rational[1, 4] + Rational[1, 2] 5^Rational[-1, 2])^
+             Rational[1, 2], Rational[1, 2], 0}}, {{
+           0, 0, -0.5257311121191336}, {0, 0, 0.5257311121191336}, {
+           0.8506508083520399, 0, 0}, {
+           0.2628655560595668, -0.8090169943749475, 0}, {
+           0.2628655560595668, 0.8090169943749475, 
+            0}, {-0.6881909602355868, -0.5, 0}, {-0.6881909602355868, 0.5, 
+            0}}], Polygon3DBox[{{5, 7, 2}, {7, 6, 2}, {6, 4, 2}, {4, 3, 2}, {
+          3, 5, 2}, {1, 7, 5}, {1, 6, 7}, {1, 4, 6}, {1, 3, 4}, {1, 5, 3}}]]],
+        ",", "7", ",", "10", ",", "15", ",", 
+       RowBox[{"GraphicsComplex", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0", ",", 
+             RowBox[{"-", 
+              SqrtBox[
+               RowBox[{
+                FractionBox["1", "10"], " ", 
+                RowBox[{"(", 
+                 RowBox[{"5", "-", 
+                  SqrtBox["5"]}], ")"}]}]]}]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0", ",", 
+             SqrtBox[
+              RowBox[{
+               FractionBox["1", "10"], " ", 
+               RowBox[{"(", 
+                RowBox[{"5", "-", 
+                 SqrtBox["5"]}], ")"}]}]]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             SqrtBox[
+              RowBox[{
+               FractionBox["1", "2"], "+", 
+               FractionBox["1", 
+                RowBox[{"2", " ", 
+                 SqrtBox["5"]}]]}]], ",", "0", ",", "0"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{
+              FractionBox["1", "2"], " ", 
+              SqrtBox[
+               RowBox[{
+                FractionBox["1", "10"], " ", 
+                RowBox[{"(", 
+                 RowBox[{"5", "-", 
+                  SqrtBox["5"]}], ")"}]}]]}], ",", 
+             RowBox[{
+              FractionBox["1", "4"], " ", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"-", "1"}], "-", 
+                SqrtBox["5"]}], ")"}]}], ",", "0"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{
+              FractionBox["1", "2"], " ", 
+              SqrtBox[
+               RowBox[{
+                FractionBox["1", "10"], " ", 
+                RowBox[{"(", 
+                 RowBox[{"5", "-", 
+                  SqrtBox["5"]}], ")"}]}]]}], ",", 
+             RowBox[{
+              FractionBox["1", "4"], " ", 
+              RowBox[{"(", 
+               RowBox[{"1", "+", 
+                SqrtBox["5"]}], ")"}]}], ",", "0"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"-", 
+              SqrtBox[
+               RowBox[{
+                FractionBox["1", "4"], "+", 
+                FractionBox["1", 
+                 RowBox[{"2", " ", 
+                  SqrtBox["5"]}]]}]]}], ",", 
+             RowBox[{"-", 
+              FractionBox["1", "2"]}], ",", "0"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"-", 
+              SqrtBox[
+               RowBox[{
+                FractionBox["1", "4"], "+", 
+                FractionBox["1", 
+                 RowBox[{"2", " ", 
+                  SqrtBox["5"]}]]}]]}], ",", 
+             FractionBox["1", "2"], ",", "0"}], "}"}]}], "}"}], ",", 
+         InterpretationBox[
+          RowBox[{
+           TagBox["Polygon",
+            "SummaryHead"], "[", 
+           
+           DynamicModuleBox[{Typeset`open$$ = False, Typeset`embedState$$ = 
+            "Ready", Typeset`spolygon$$ = 
+            Polygon[{{5, 7, 2}, {7, 6, 2}, {6, 4, 2}, {4, 3, 2}, {3, 5, 2}, {
+             1, 7, 5}, {1, 6, 7}, {1, 4, 6}, {1, 3, 4}, {1, 5, 3}}]}, 
+            TemplateBox[{
+              PaneSelectorBox[{False -> GridBox[{{
+                    PaneBox[
+                    ButtonBox[
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "SummaryBoxOpener"]], 
+                    ButtonFunction :> (Typeset`open$$ = True), Appearance -> 
+                    None, BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+                    "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+                    Dynamic[{
+                    Automatic, 
+                    3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                    Magnification])}]], 
+                    Graphics3DBox[{
+                    Directive[
+                    GrayLevel[1], 
+                    EdgeForm[
+                    Hue[0.6, 0.3, 0.4]]], 
+                    
+                    Polygon3DBox[{{5, 7, 2}, {7, 6, 2}, {6, 4, 2}, {4, 3, 
+                    2}, {3, 5, 2}, {1, 7, 5}, {1, 6, 7}, {1, 4, 6}, {1, 3, 
+                    4}, {1, 5, 3}}]}, ImageSize -> 
+                    Dynamic[{5.25, 3.5} (CurrentValue["FontCapHeight"]/
+                    AbsoluteCurrentValue[Magnification])], PlotRange -> Full, 
+                    Boxed -> False, Lighting -> {{"Ambient", 
+                    RGBColor[0.732, 0.8232, 0.96]}}, 
+                    Method -> {"ShrinkWrap" -> True}], 
+                    GridBox[{{
+                    RowBox[{
+                    TagBox["\"Number of points: \"", "SummaryItemAnnotation"],
+                     "\[InvisibleSpace]", 
+                    TagBox["10", "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox[
+                    "\"Embedding dimension: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox["3", "SummaryItem"]}]}}, 
+                    GridBoxAlignment -> {
+                    "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, 
+                    AutoDelete -> False, 
+                    GridBoxItemSize -> {
+                    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                    GridBoxSpacings -> {
+                    "Columns" -> {{2}}, "Rows" -> {{Automatic}}}, 
+                    BaseStyle -> {
+                    ShowStringCharacters -> False, NumberMarks -> False, 
+                    PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+                  GridBoxAlignment -> {
+                   "Columns" -> {{Left}}, "Rows" -> {{Top}}}, AutoDelete -> 
+                  False, GridBoxItemSize -> {
+                   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                  BaselinePosition -> {1, 1}], True -> GridBox[{{
+                    PaneBox[
+                    ButtonBox[
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "SummaryBoxCloser"]], 
+                    ButtonFunction :> (Typeset`open$$ = False), Appearance -> 
+                    None, BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+                    "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+                    Dynamic[{
+                    Automatic, 
+                    3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                    Magnification])}]], 
+                    Graphics3DBox[{
+                    Directive[
+                    GrayLevel[1], 
+                    EdgeForm[
+                    Hue[0.6, 0.3, 0.4]]], 
+                    
+                    Polygon3DBox[{{5, 7, 2}, {7, 6, 2}, {6, 4, 2}, {4, 3, 
+                    2}, {3, 5, 2}, {1, 7, 5}, {1, 6, 7}, {1, 4, 6}, {1, 3, 
+                    4}, {1, 5, 3}}]}, ImageSize -> 
+                    Dynamic[{5.25, 3.5} (CurrentValue["FontCapHeight"]/
+                    AbsoluteCurrentValue[Magnification])], PlotRange -> Full, 
+                    Boxed -> False, Lighting -> {{"Ambient", 
+                    RGBColor[0.732, 0.8232, 0.96]}}, 
+                    Method -> {"ShrinkWrap" -> True}], 
+                    GridBox[{{
+                    RowBox[{
+                    TagBox["\"Number of points: \"", "SummaryItemAnnotation"],
+                     "\[InvisibleSpace]", 
+                    TagBox["10", "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox[
+                    "\"Embedding dimension: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox["3", "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox["\"Type: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    DynamicBox[
+                    ToBoxes[
+                    Quiet[
+                    Apply[Region`PolygonDump`polygonType, 
+                    Region`PolygonDump`computeType[Typeset`spolygon$$]]], 
+                    StandardForm], SynchronousUpdating -> False, 
+                    TrackedSymbols :> {}, CachedValue :> 
+                    AnimatorBox[
+                    0, {0, Infinity}, AppearanceElements -> "ProgressSlider", 
+                    ImageSize -> 20]], "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox["\"Bounds: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    DynamicBox[
+                    ToBoxes[
+                    Region`PolygonDump`iRegionBounds[Typeset`spolygon$$], 
+                    StandardForm], SynchronousUpdating -> False, 
+                    TrackedSymbols :> {}, CachedValue :> 
+                    AnimatorBox[
+                    0, {0, Infinity}, AppearanceElements -> "ProgressSlider", 
+                    ImageSize -> 20]], "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox["\"Area: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    DynamicBox[
+                    ToBoxes[
+                    Region`PolygonDump`iArea[Typeset`spolygon$$], 
+                    StandardForm], SynchronousUpdating -> False, 
+                    TrackedSymbols :> {}, CachedValue :> 
+                    AnimatorBox[
+                    0, {0, Infinity}, AppearanceElements -> "ProgressSlider", 
+                    ImageSize -> 20]], "SummaryItem"]}]}}, 
+                    GridBoxAlignment -> {
+                    "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, 
+                    AutoDelete -> False, 
+                    GridBoxItemSize -> {
+                    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                    GridBoxSpacings -> {
+                    "Columns" -> {{2}}, "Rows" -> {{Automatic}}}, 
+                    BaseStyle -> {
+                    ShowStringCharacters -> False, NumberMarks -> False, 
+                    PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+                  GridBoxAlignment -> {
+                   "Columns" -> {{Left}}, "Rows" -> {{Top}}}, AutoDelete -> 
+                  False, GridBoxItemSize -> {
+                   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                  BaselinePosition -> {1, 1}]}, 
+               Dynamic[Typeset`open$$], ImageSize -> Automatic]},
+             "SummaryPanel"],
+            DynamicModuleValues:>{}], "]"}],
+          
+          Polygon[{{5, 7, 2}, {7, 6, 2}, {6, 4, 2}, {4, 3, 2}, {3, 5, 2}, {1, 
+           7, 5}, {1, 6, 7}, {1, 4, 6}, {1, 3, 4}, {1, 5, 3}}],
+          Editable->False,
+          SelectWithContents->True,
+          Selectable->False]}], "]"}]}], "}"}]}], "}"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.9134602783453207`*^9, 3.913460278379537*^9}, {
+  3.913460313387094*^9, 3.913460316124753*^9}, {3.913460551429016*^9, 
+  3.913460553545945*^9}},ExpressionUUID->"741619b4-5b09-4658-a7dd-\
+7f318c956e0b"],
+
+Cell[BoxData[
+ RowBox[{"(*", " ", 
+  RowBox[{"D_", "6", " ", "face", " ", 
+   RowBox[{"dual", ":", 
+    RowBox[{"edge", " ", "group", " ", "18"}]}]}], "*)"}]], "Input",
+ CellChangeTimes->{{3.9134599548993063`*^9, 
+  3.913459998962284*^9}},ExpressionUUID->"1fe4822c-fd88-4e2f-b220-\
+d419efed391f"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"\"\<Prism\>\"", ",", "6"}], "}"}], ",", 
+     Graphics3DBox[
+      GraphicsComplex3DBox[
+       NCache[{{-1, 0, Rational[-1, 2]}, {-1, 0, Rational[1, 2]}, {
+         Rational[-1, 2], Rational[-1, 2] 3^Rational[1, 2], 
+          Rational[-1, 2]}, {
+         Rational[-1, 2], Rational[-1, 2] 3^Rational[1, 2], Rational[1, 2]}, {
+         Rational[-1, 2], Rational[1, 2] 3^Rational[1, 2], Rational[-1, 2]}, {
+         Rational[-1, 2], Rational[1, 2] 3^Rational[1, 2], Rational[1, 2]}, {
+         Rational[1, 2], Rational[-1, 2] 3^Rational[1, 2], Rational[-1, 2]}, {
+         Rational[1, 2], Rational[-1, 2] 3^Rational[1, 2], Rational[1, 2]}, {
+         Rational[1, 2], Rational[1, 2] 3^Rational[1, 2], Rational[-1, 2]}, {
+         Rational[1, 2], Rational[1, 2] 3^Rational[1, 2], Rational[1, 2]}, {
+         1, 0, Rational[-1, 2]}, {
+         1, 0, Rational[1, 2]}}, {{-1, 0, -0.5}, {-1, 0, 
+          0.5}, {-0.5, -0.8660254037844386, -0.5}, {-0.5, -0.8660254037844386,
+          0.5}, {-0.5, 0.8660254037844386, -0.5}, {-0.5, 0.8660254037844386, 
+         0.5}, {0.5, -0.8660254037844386, -0.5}, {0.5, -0.8660254037844386, 
+         0.5}, {0.5, 0.8660254037844386, -0.5}, {0.5, 0.8660254037844386, 
+         0.5}, {1, 0, -0.5}, {1, 0, 0.5}}], 
+       Polygon3DBox[{{7, 3, 1, 5, 9, 11}, {12, 10, 6, 2, 4, 8}, {11, 9, 10, 
+         12}, {9, 5, 6, 10}, {5, 1, 2, 6}, {1, 3, 4, 2}, {3, 7, 8, 4}, {7, 11,
+          12, 8}}]]], ",", "12", ",", "8", ",", "18", ",", 
+     RowBox[{"GraphicsComplex", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", "1"}], ",", "0", ",", 
+           RowBox[{"-", 
+            FractionBox["1", "2"]}]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", "1"}], ",", "0", ",", 
+           FractionBox["1", "2"]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", 
+            FractionBox["1", "2"]}], ",", 
+           RowBox[{"-", 
+            FractionBox[
+             SqrtBox["3"], "2"]}], ",", 
+           RowBox[{"-", 
+            FractionBox["1", "2"]}]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", 
+            FractionBox["1", "2"]}], ",", 
+           RowBox[{"-", 
+            FractionBox[
+             SqrtBox["3"], "2"]}], ",", 
+           FractionBox["1", "2"]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", 
+            FractionBox["1", "2"]}], ",", 
+           FractionBox[
+            SqrtBox["3"], "2"], ",", 
+           RowBox[{"-", 
+            FractionBox["1", "2"]}]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", 
+            FractionBox["1", "2"]}], ",", 
+           FractionBox[
+            SqrtBox["3"], "2"], ",", 
+           FractionBox["1", "2"]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           FractionBox["1", "2"], ",", 
+           RowBox[{"-", 
+            FractionBox[
+             SqrtBox["3"], "2"]}], ",", 
+           RowBox[{"-", 
+            FractionBox["1", "2"]}]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           FractionBox["1", "2"], ",", 
+           RowBox[{"-", 
+            FractionBox[
+             SqrtBox["3"], "2"]}], ",", 
+           FractionBox["1", "2"]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           FractionBox["1", "2"], ",", 
+           FractionBox[
+            SqrtBox["3"], "2"], ",", 
+           RowBox[{"-", 
+            FractionBox["1", "2"]}]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           FractionBox["1", "2"], ",", 
+           FractionBox[
+            SqrtBox["3"], "2"], ",", 
+           FractionBox["1", "2"]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"1", ",", "0", ",", 
+           RowBox[{"-", 
+            FractionBox["1", "2"]}]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"1", ",", "0", ",", 
+           FractionBox["1", "2"]}], "}"}]}], "}"}], ",", 
+       RowBox[{"Polygon", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"7", ",", "3", ",", "1", ",", "5", ",", "9", ",", "11"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"12", ",", "10", ",", "6", ",", "2", ",", "4", ",", "8"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"11", ",", "9", ",", "10", ",", "12"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"9", ",", "5", ",", "6", ",", "10"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"5", ",", "1", ",", "2", ",", "6"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "3", ",", "4", ",", "2"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"3", ",", "7", ",", "8", ",", "4"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"7", ",", "11", ",", "12", ",", "8"}], "}"}]}], "}"}], 
+        "]"}]}], "]"}]}], "}"}], ",", 
+   RowBox[{
+    RowBox[{"PolyhedronData", "[", 
+     RowBox[{"{", 
+      RowBox[{"\"\<Dipyramid\>\"", ",", "6"}], "}"}], "]"}], "\n", 
+    TemplateBox[{
+     "PolyhedronData", "notdef", 
+      "\"PolyhedronData has no value associated with the specified \
+argument(s).\"", 2, 132, 6, 17823535508050568767, "Local"},
+     "MessageTemplate"], "\n", 
+    TemplateBox[{
+     "PolyhedronData", "notdef", 
+      "\"PolyhedronData has no value associated with the specified \
+argument(s).\"", 2, 132, 7, 17823535508050568767, "Local"},
+     "MessageTemplate"], "\n", 
+    RowBox[{"PolyhedronData", "[", 
+     RowBox[{"{", 
+      RowBox[{"\"\<Dipyramid\>\"", ",", "6"}], "}"}], "]"}]}]}], 
+  "}"}]], "Input",
+ CellChangeTimes->{{3.913460054578691*^9, 3.913460065225874*^9}, 
+   3.913460181519472*^9},ExpressionUUID->"b2f34cb7-b35d-411f-8e0c-\
+0c1b29d8d6e0"],
+
+Cell[BoxData[
+ RowBox[{"(*", " ", 
+  RowBox[{"D_", "7", " ", "face", " ", 
+   RowBox[{"dual", ":", 
+    RowBox[{"edge", " ", "group", " ", "21"}]}]}], "*)"}]], "Input",
+ CellChangeTimes->{{3.913460449043077*^9, 
+  3.9134604536103897`*^9}},ExpressionUUID->"7649d6ab-6d57-4c76-a408-\
+726f8e7a5579"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"\"\<Prism\>\"", ",", "7"}], "}"}], ",", 
+      Graphics3DBox[
+       GraphicsComplex3DBox[
+        NCache[{{
+          Rational[-1, 2] Cot[Rational[1, 7] Pi], Rational[-1, 2], 
+           Rational[-1, 2]}, {
+          Rational[-1, 2] Cot[Rational[1, 7] Pi], Rational[-1, 2], Rational[
+           1, 2]}, {
+          Rational[-1, 2] Cot[Rational[1, 7] Pi], Rational[1, 2], 
+           Rational[-1, 2]}, {
+          Rational[-1, 2] Cot[Rational[1, 7] Pi], Rational[1, 2], Rational[
+           1, 2]}, {
+          Rational[1, 2] Csc[Rational[1, 7] Pi], 0, Rational[-1, 2]}, {
+          Rational[1, 2] Csc[Rational[1, 7] Pi], 0, Rational[
+           1, 2]}, {(Rational[-1, 2] Csc[Rational[1, 7] Pi]) 
+           Sin[Rational[1, 14] Pi], (Rational[-1, 2] Cos[Rational[1, 14] Pi]) 
+           Csc[Rational[1, 7] Pi], 
+           Rational[-1, 2]}, {(Rational[-1, 2] Csc[Rational[1, 7] Pi]) 
+           Sin[Rational[1, 14] Pi], (Rational[-1, 2] Cos[Rational[1, 14] Pi]) 
+           Csc[Rational[1, 7] Pi], Rational[
+           1, 2]}, {(Rational[-1, 2] Csc[Rational[1, 7] Pi]) 
+           Sin[Rational[1, 14] Pi], (Rational[1, 2] Cos[Rational[1, 14] Pi]) 
+           Csc[Rational[1, 7] Pi], 
+           Rational[-1, 2]}, {(Rational[-1, 2] Csc[Rational[1, 7] Pi]) 
+           Sin[Rational[1, 14] Pi], (Rational[1, 2] Cos[Rational[1, 14] Pi]) 
+           Csc[Rational[1, 7] Pi], Rational[
+           1, 2]}, {(Rational[1, 2] Csc[Rational[1, 7] Pi]) 
+           Sin[Rational[3, 14] Pi], (Rational[-1, 2] Cos[Rational[3, 14] Pi]) 
+           Csc[Rational[1, 7] Pi], 
+           Rational[-1, 2]}, {(Rational[1, 2] Csc[Rational[1, 7] Pi]) 
+           Sin[Rational[3, 14] Pi], (Rational[-1, 2] Cos[Rational[3, 14] Pi]) 
+           Csc[Rational[1, 7] Pi], Rational[
+           1, 2]}, {(Rational[1, 2] Csc[Rational[1, 7] Pi]) 
+           Sin[Rational[3, 14] Pi], (Rational[1, 2] Cos[Rational[3, 14] Pi]) 
+           Csc[Rational[1, 7] Pi], 
+           Rational[-1, 2]}, {(Rational[1, 2] Csc[Rational[1, 7] Pi]) 
+           Sin[Rational[3, 14] Pi], (Rational[1, 2] Cos[Rational[3, 14] Pi]) 
+           Csc[Rational[1, 7] Pi], Rational[
+           1, 2]}}, {{-1.0382606982861684`, -0.5, -0.5}, \
+{-1.0382606982861684`, -0.5, 0.5}, {-1.0382606982861684`, 
+          0.5, -0.5}, {-1.0382606982861684`, 0.5, 0.5}, {
+          1.1523824354812433`, 0, -0.5}, {
+          1.1523824354812433`, 0, 
+           0.5}, {-0.2564292158181385, -1.1234898018587336`, -0.5}, \
+{-0.2564292158181385, -1.1234898018587336`, 0.5}, {-0.2564292158181385, 
+          1.1234898018587336`, -0.5}, {-0.2564292158181385, 
+          1.1234898018587336`, 0.5}, {
+          0.7184986963636851, -0.9009688679024191, -0.5}, {
+          0.7184986963636851, -0.9009688679024191, 0.5}, {0.7184986963636851, 
+          0.9009688679024191, -0.5}, {0.7184986963636851, 0.9009688679024191, 
+          0.5}}], Polygon3DBox[{{11, 7, 1, 3, 9, 13, 5}, {6, 14, 10, 4, 2, 8, 
+          12}, {5, 13, 14, 6}, {13, 9, 10, 14}, {9, 3, 4, 10}, {3, 1, 2, 4}, {
+          1, 7, 8, 2}, {7, 11, 12, 8}, {11, 5, 6, 12}}]]], ",", "14", ",", 
+      "9", ",", "21", ",", 
+      RowBox[{"GraphicsComplex", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"-", 
+              FractionBox["1", "2"]}], " ", 
+             RowBox[{"Cot", "[", 
+              FractionBox["\[Pi]", "7"], "]"}]}], ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}], ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"-", 
+              FractionBox["1", "2"]}], " ", 
+             RowBox[{"Cot", "[", 
+              FractionBox["\[Pi]", "7"], "]"}]}], ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}], ",", 
+            FractionBox["1", "2"]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"-", 
+              FractionBox["1", "2"]}], " ", 
+             RowBox[{"Cot", "[", 
+              FractionBox["\[Pi]", "7"], "]"}]}], ",", 
+            FractionBox["1", "2"], ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"-", 
+              FractionBox["1", "2"]}], " ", 
+             RowBox[{"Cot", "[", 
+              FractionBox["\[Pi]", "7"], "]"}]}], ",", 
+            FractionBox["1", "2"], ",", 
+            FractionBox["1", "2"]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             FractionBox["1", "2"], " ", 
+             RowBox[{"Csc", "[", 
+              FractionBox["\[Pi]", "7"], "]"}]}], ",", "0", ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             FractionBox["1", "2"], " ", 
+             RowBox[{"Csc", "[", 
+              FractionBox["\[Pi]", "7"], "]"}]}], ",", "0", ",", 
+            FractionBox["1", "2"]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"-", 
+              FractionBox["1", "2"]}], " ", 
+             RowBox[{"Csc", "[", 
+              FractionBox["\[Pi]", "7"], "]"}], " ", 
+             RowBox[{"Sin", "[", 
+              FractionBox["\[Pi]", "14"], "]"}]}], ",", 
+            RowBox[{
+             RowBox[{"-", 
+              FractionBox["1", "2"]}], " ", 
+             RowBox[{"Cos", "[", 
+              FractionBox["\[Pi]", "14"], "]"}], " ", 
+             RowBox[{"Csc", "[", 
+              FractionBox["\[Pi]", "7"], "]"}]}], ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"-", 
+              FractionBox["1", "2"]}], " ", 
+             RowBox[{"Csc", "[", 
+              FractionBox["\[Pi]", "7"], "]"}], " ", 
+             RowBox[{"Sin", "[", 
+              FractionBox["\[Pi]", "14"], "]"}]}], ",", 
+            RowBox[{
+             RowBox[{"-", 
+              FractionBox["1", "2"]}], " ", 
+             RowBox[{"Cos", "[", 
+              FractionBox["\[Pi]", "14"], "]"}], " ", 
+             RowBox[{"Csc", "[", 
+              FractionBox["\[Pi]", "7"], "]"}]}], ",", 
+            FractionBox["1", "2"]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"-", 
+              FractionBox["1", "2"]}], " ", 
+             RowBox[{"Csc", "[", 
+              FractionBox["\[Pi]", "7"], "]"}], " ", 
+             RowBox[{"Sin", "[", 
+              FractionBox["\[Pi]", "14"], "]"}]}], ",", 
+            RowBox[{
+             FractionBox["1", "2"], " ", 
+             RowBox[{"Cos", "[", 
+              FractionBox["\[Pi]", "14"], "]"}], " ", 
+             RowBox[{"Csc", "[", 
+              FractionBox["\[Pi]", "7"], "]"}]}], ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"-", 
+              FractionBox["1", "2"]}], " ", 
+             RowBox[{"Csc", "[", 
+              FractionBox["\[Pi]", "7"], "]"}], " ", 
+             RowBox[{"Sin", "[", 
+              FractionBox["\[Pi]", "14"], "]"}]}], ",", 
+            RowBox[{
+             FractionBox["1", "2"], " ", 
+             RowBox[{"Cos", "[", 
+              FractionBox["\[Pi]", "14"], "]"}], " ", 
+             RowBox[{"Csc", "[", 
+              FractionBox["\[Pi]", "7"], "]"}]}], ",", 
+            FractionBox["1", "2"]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             FractionBox["1", "2"], " ", 
+             RowBox[{"Csc", "[", 
+              FractionBox["\[Pi]", "7"], "]"}], " ", 
+             RowBox[{"Sin", "[", 
+              FractionBox[
+               RowBox[{"3", " ", "\[Pi]"}], "14"], "]"}]}], ",", 
+            RowBox[{
+             RowBox[{"-", 
+              FractionBox["1", "2"]}], " ", 
+             RowBox[{"Cos", "[", 
+              FractionBox[
+               RowBox[{"3", " ", "\[Pi]"}], "14"], "]"}], " ", 
+             RowBox[{"Csc", "[", 
+              FractionBox["\[Pi]", "7"], "]"}]}], ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             FractionBox["1", "2"], " ", 
+             RowBox[{"Csc", "[", 
+              FractionBox["\[Pi]", "7"], "]"}], " ", 
+             RowBox[{"Sin", "[", 
+              FractionBox[
+               RowBox[{"3", " ", "\[Pi]"}], "14"], "]"}]}], ",", 
+            RowBox[{
+             RowBox[{"-", 
+              FractionBox["1", "2"]}], " ", 
+             RowBox[{"Cos", "[", 
+              FractionBox[
+               RowBox[{"3", " ", "\[Pi]"}], "14"], "]"}], " ", 
+             RowBox[{"Csc", "[", 
+              FractionBox["\[Pi]", "7"], "]"}]}], ",", 
+            FractionBox["1", "2"]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             FractionBox["1", "2"], " ", 
+             RowBox[{"Csc", "[", 
+              FractionBox["\[Pi]", "7"], "]"}], " ", 
+             RowBox[{"Sin", "[", 
+              FractionBox[
+               RowBox[{"3", " ", "\[Pi]"}], "14"], "]"}]}], ",", 
+            RowBox[{
+             FractionBox["1", "2"], " ", 
+             RowBox[{"Cos", "[", 
+              FractionBox[
+               RowBox[{"3", " ", "\[Pi]"}], "14"], "]"}], " ", 
+             RowBox[{"Csc", "[", 
+              FractionBox["\[Pi]", "7"], "]"}]}], ",", 
+            RowBox[{"-", 
+             FractionBox["1", "2"]}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             FractionBox["1", "2"], " ", 
+             RowBox[{"Csc", "[", 
+              FractionBox["\[Pi]", "7"], "]"}], " ", 
+             RowBox[{"Sin", "[", 
+              FractionBox[
+               RowBox[{"3", " ", "\[Pi]"}], "14"], "]"}]}], ",", 
+            RowBox[{
+             FractionBox["1", "2"], " ", 
+             RowBox[{"Cos", "[", 
+              FractionBox[
+               RowBox[{"3", " ", "\[Pi]"}], "14"], "]"}], " ", 
+             RowBox[{"Csc", "[", 
+              FractionBox["\[Pi]", "7"], "]"}]}], ",", 
+            FractionBox["1", "2"]}], "}"}]}], "}"}], ",", 
+        RowBox[{"Polygon", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+            "11", ",", "7", ",", "1", ",", "3", ",", "9", ",", "13", ",", 
+             "5"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+            "6", ",", "14", ",", "10", ",", "4", ",", "2", ",", "8", ",", 
+             "12"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"5", ",", "13", ",", "14", ",", "6"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"13", ",", "9", ",", "10", ",", "14"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"9", ",", "3", ",", "4", ",", "10"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"3", ",", "1", ",", "2", ",", "4"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"1", ",", "7", ",", "8", ",", "2"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"7", ",", "11", ",", "12", ",", "8"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"11", ",", "5", ",", "6", ",", "12"}], "}"}]}], "}"}], 
+         "]"}]}], "]"}]}], "}"}], ",", 
+    RowBox[{
+     RowBox[{"PolyhedronData", "[", 
+      RowBox[{"{", 
+       RowBox[{"\"\<Dipyramid\>\"", ",", "7"}], "}"}], "]"}], "\n", 
+     TemplateBox[{
+      "PolyhedronData", "notdef", 
+       "\"PolyhedronData has no value associated with the specified \
+argument(s).\"", 2, 150, 10, 17823535508050568767, "Local"},
+      "MessageTemplate"], "\n", 
+     TemplateBox[{
+      "PolyhedronData", "notdef", 
+       "\"PolyhedronData has no value associated with the specified \
+argument(s).\"", 2, 150, 11, 17823535508050568767, "Local"},
+      "MessageTemplate"], "\n", 
+     RowBox[{"PolyhedronData", "[", 
+      RowBox[{"{", 
+       RowBox[{"\"\<Dipyramid\>\"", ",", "7"}], "}"}], "]"}]}]}], "}"}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.913460486659317*^9, 3.913460491204062*^9}, 
+   3.9134605288611794`*^9, 
+   3.913460568161839*^9},ExpressionUUID->"8ccf086d-9b21-4dbb-89e0-\
+d594fa53f251"],
+
+Cell[BoxData[
+ RowBox[{"(*", "end", "*)"}]], "Input",
+ CellChangeTimes->{{3.9136283731043863`*^9, 
+  3.9136283796629457`*^9}},ExpressionUUID->"6c7b06f3-7259-4635-ba55-\
+67bc58c2bf42"]
+},
+WindowSize->{1688, 944},
+WindowMargins->{{77, Automatic}, {Automatic, 0}},
+FrontEndVersion->"12.2 for Mac OS X x86 (64-bit) (December 12, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"c6d8b70f-b495-42d4-a5e6-a27d7596ec83"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 194, 4, 30, "Input",ExpressionUUID->"9f8913a1-21eb-497e-8a5a-8fc8bf0134bd"],
+Cell[755, 26, 245, 5, 30, "Input",ExpressionUUID->"6fe91118-37af-416c-a1a5-66c8eb1a8a5a"],
+Cell[CellGroupData[{
+Cell[1025, 35, 676, 19, 30, "Input",ExpressionUUID->"e5bdf3f1-f92d-41af-a8dc-09f5821c4f69"],
+Cell[1704, 56, 420, 13, 50, "Output",ExpressionUUID->"e1145672-75ca-4d96-8aa4-ed84ad703868"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2161, 74, 401, 10, 30, "Input",ExpressionUUID->"cb1d69ca-c8e2-4224-abd8-cd9c3f5b99ba"],
+Cell[2565, 86, 692, 21, 37, "Output",ExpressionUUID->"0b2d5b04-64e6-49e7-b558-def53093c7d2"]
+}, Open  ]],
+Cell[3272, 110, 271, 6, 30, "Input",ExpressionUUID->"bc95ac7d-9c17-4eaf-a76c-c0f67e05af9a"],
+Cell[CellGroupData[{
+Cell[3568, 120, 806, 24, 30, "Input",ExpressionUUID->"360cf165-be74-4a06-9e95-c227680a79ac"],
+Cell[4377, 146, 693, 21, 37, "Output",ExpressionUUID->"abb85c8f-3513-4c6e-a77b-daf05ef0f614"]
+}, Open  ]],
+Cell[5085, 170, 267, 6, 30, "Input",ExpressionUUID->"ca32b9f1-60f0-4df2-91d9-d3c8aea18459"],
+Cell[CellGroupData[{
+Cell[5377, 180, 1126, 35, 33, "Input",ExpressionUUID->"5c453ca7-5fc5-4cd7-b942-254ba69ee52e"],
+Cell[6506, 217, 1026, 33, 37, "Output",ExpressionUUID->"be3361a2-7ebd-410f-ae31-2e7766c0cbef"]
+}, Open  ]],
+Cell[7547, 253, 338, 7, 30, "Input",ExpressionUUID->"bfcdc409-5da9-4416-ab21-459936bf546d"],
+Cell[CellGroupData[{
+Cell[7910, 264, 3332, 82, 140, "Input",ExpressionUUID->"3fbeed00-e7e1-4786-9932-52c1d119f6b0"],
+Cell[11245, 348, 3182, 80, 81, "Output",ExpressionUUID->"32acd1c6-e0ed-4cec-9029-8affbf228e41"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[14464, 433, 474, 13, 30, "Input",ExpressionUUID->"08a50a00-233d-4655-9162-bc457100abab"],
+Cell[14941, 448, 805, 22, 34, "Output",ExpressionUUID->"e9b62a27-5679-4afc-9e54-3c113d77b308"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[15783, 475, 475, 13, 30, "Input",ExpressionUUID->"290d3156-e3af-4716-ba2b-ca989f66798c"],
+Cell[16261, 490, 853, 24, 34, "Output",ExpressionUUID->"40bd70f9-e95c-406d-b245-731e9d30a3fb"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[17151, 519, 475, 13, 30, "Input",ExpressionUUID->"27488512-cbd8-4c9f-b12c-9702774f7cf9"],
+Cell[17629, 534, 2092, 44, 77, "Output",ExpressionUUID->"c95e4bf3-ecd9-45ba-90dd-b71f44a5e240"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[19758, 583, 214, 4, 30, "Input",ExpressionUUID->"29137c47-70b1-4ba3-aedb-f680d28e82c2"],
+Cell[19975, 589, 3086, 61, 94, "Output",ExpressionUUID->"1f79f807-816b-4449-9ad0-53b892d11902"]
+}, Open  ]],
+Cell[23076, 653, 179, 4, 30, "Input",ExpressionUUID->"6df3fdc5-08de-4b4d-a1ca-06fa2623c113"],
+Cell[23258, 659, 225, 5, 52, "Input",ExpressionUUID->"1a50e9e9-4a74-4133-8ba7-03fbc1d58856"],
+Cell[23486, 666, 310, 8, 30, "Input",ExpressionUUID->"ebad1544-4221-42b2-b61e-1b818560d005"],
+Cell[23799, 676, 15744, 342, 255, "Input",ExpressionUUID->"6f8acc5d-d672-4069-943b-4a0fd636cb04"],
+Cell[39546, 1020, 310, 8, 30, "Input",ExpressionUUID->"df7f6613-fd59-40d7-958a-913a18751171"],
+Cell[39859, 1030, 23380, 497, 218, "Input",ExpressionUUID->"541686ce-3830-4bdd-b47e-42e544bcd57d"],
+Cell[63242, 1529, 296, 7, 30, "Input",ExpressionUUID->"130838f4-2d67-4aa0-8b43-5a027f27c4e4"],
+Cell[63541, 1538, 23179, 554, 564, "Input",ExpressionUUID->"741619b4-5b09-4658-a7dd-7f318c956e0b"],
+Cell[86723, 2094, 296, 7, 30, "Input",ExpressionUUID->"1fe4822c-fd88-4e2f-b220-d419efed391f"],
+Cell[87022, 2103, 5882, 151, 353, "Input",ExpressionUUID->"b2f34cb7-b35d-411f-8e0c-0c1b29d8d6e0"],
+Cell[92907, 2256, 296, 7, 30, "Input",ExpressionUUID->"7649d6ab-6d57-4c76-a408-726f8e7a5579"],
+Cell[93206, 2265, 12523, 307, 329, "Input",ExpressionUUID->"8ccf086d-9b21-4dbb-89e0-d594fa53f251"],
+Cell[105732, 2574, 183, 4, 30, "Input",ExpressionUUID->"6c7b06f3-7259-4635-ba55-67bc58c2bf42"]
+}
+]
+*)
+
