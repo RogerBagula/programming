@@ -1,0 +1,167 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      5898,        159]
+NotebookOptionsPosition[      4862,        136]
+NotebookOutlinePosition[      5264,        152]
+CellTagsIndexPosition[      5221,        149]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{"(*", "Mathematica", "*)"}]], "Input",
+ CellChangeTimes->{{3.819444256139629*^9, 3.819444267362153*^9}},
+ CellLabel->
+  "In[469]:=",ExpressionUUID->"a6d829e8-4240-479e-871d-5fc0eaa9ea01"],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{"Tetrahedron", " ", "ellipic", " ", "absolute", " ", "invariant"}], 
+  " ", "*)"}]], "Input",
+ CellLabel->
+  "In[470]:=",ExpressionUUID->"66a17210-b702-440d-92f2-d92fa04d9083"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"j", "[", "z_", "]"}], "=", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"z", "^", "4"}], "-", 
+        RowBox[{"2", "*", "I", "*", 
+         RowBox[{"Sqrt", "[", "3", "]"}], "*", 
+         RowBox[{"z", "^", "2"}]}], "+", "1"}], ")"}], "/", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"z", "^", "4"}], "+", 
+        RowBox[{"2", "*", "I", "*", 
+         RowBox[{"Sqrt", "[", "3", "]"}], "*", 
+         RowBox[{"z", "^", "2"}]}], "+", "1"}], ")"}]}], ")"}], "^", "3"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.6466548329656067`*^9, 3.646654837253318*^9}, 
+   3.64665599194345*^9, 3.6467321054839077`*^9, 3.646732174889728*^9, 
+   3.646736208126294*^9, 3.806049220110879*^9, {3.8195291674371357`*^9, 
+   3.819529213685883*^9}, 3.9177797333439217`*^9, {3.9178623697730007`*^9, 
+   3.917862373800241*^9}},
+ CellLabel->
+  "In[471]:=",ExpressionUUID->"3c992362-9ed5-4261-b316-969be5362daf"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"g1", "=", 
+   RowBox[{"ComplexPlot", "[", 
+    RowBox[{
+     RowBox[{"j", "[", "z", "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"z", ",", 
+       RowBox[{
+        RowBox[{"-", "5."}], "-", 
+        RowBox[{"5.", "*", "I"}]}], ",", 
+       RowBox[{"5.", "+", 
+        RowBox[{"5.0", "*", "I"}]}]}], "}"}], ",", 
+     RowBox[{"ColorFunction", "->", "\"\<CyclicReImLogAbs\>\""}], ",", 
+     RowBox[{"ImageSize", "\[Rule]", "2000"}], ",", 
+     RowBox[{"PlotPoints", "\[Rule]", "100"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{3.917862977554449*^9},
+ CellLabel->
+  "In[472]:=",ExpressionUUID->"b9e178d4-dcbd-4ef9-a23a-acc595df68ec"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"g2", "=", 
+   RowBox[{"ComplexPlot3D", "[", 
+    RowBox[{
+     RowBox[{"j", "[", "z", "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"z", ",", 
+       RowBox[{
+        RowBox[{"-", "5."}], "-", 
+        RowBox[{"5.", "*", "I"}]}], ",", 
+       RowBox[{"5.", "+", 
+        RowBox[{"5.0", "*", "I"}]}]}], "}"}], ",", 
+     RowBox[{"ColorFunction", "->", "\"\<CyclicReImLogAbs\>\""}], ",", 
+     RowBox[{"ImageSize", "\[Rule]", "2000"}], ",", 
+     RowBox[{"PlotPoints", "\[Rule]", "100"}], ",", 
+     RowBox[{"ViewPoint", "\[Rule]", "Above"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{
+  3.8194501799961853`*^9, {3.9177796541463957`*^9, 3.917779695551179*^9}, {
+   3.917779745576182*^9, 3.9177797657263937`*^9}, {3.917780038948862*^9, 
+   3.917780054029922*^9}, {3.917780270246117*^9, 3.917780298772307*^9}, {
+   3.917862730023361*^9, 3.917862744764182*^9}, {3.917862843556691*^9, 
+   3.917862845331779*^9}, {3.917862981626267*^9, 3.917863012986971*^9}},
+ CellLabel->
+  "In[473]:=",ExpressionUUID->"721c36b8-bb04-4fb8-a72b-7a0868415aea"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Export", "[", 
+  RowBox[{"\"\<Tetrahedron_AbsoluteInvariant_ComplexPlot2D_3D.jpg\>\"", ",", 
+   RowBox[{"{", 
+    RowBox[{"g1", ",", "g2"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.9177797786006193`*^9, 3.917779868477646*^9}, 
+   3.9177800574723673`*^9, 3.9177803026206713`*^9, {3.917862382504045*^9, 
+   3.917862405935804*^9}, {3.91786285490032*^9, 3.917862856675181*^9}, {
+   3.917862986915165*^9, 3.917862992961726*^9}, {3.917863027561644*^9, 
+   3.917863033328958*^9}},
+ CellLabel->
+  "In[474]:=",ExpressionUUID->"2332eea5-1497-4f25-aa05-7e843e470c09"],
+
+Cell[BoxData["\<\"Tetrahedron_AbsoluteInvariant_ComplexPlot2D_3D.jpg\"\>"], \
+"Output",
+ CellChangeTimes->{3.9178625036939297`*^9, 3.917862759228791*^9, 
+  3.917862878450692*^9, 3.917863094050559*^9},
+ CellLabel->
+  "Out[474]=",ExpressionUUID->"11cf551c-07b6-4e37-8a18-d9b872203568"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"(*", "end", "*)"}]], "Input",
+ CellChangeTimes->{{3.8194442743474627`*^9, 3.8194442787859917`*^9}},
+ CellLabel->
+  "In[475]:=",ExpressionUUID->"cff7ffe8-d025-4a4e-b0f4-62177b9dcda6"]
+},
+WindowSize->{1037, 1011},
+WindowMargins->{{121, Automatic}, {-148, Automatic}},
+FrontEndVersion->"12.2 for Mac OS X x86 (64-bit) (December 12, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"fe8310bd-8014-4d5d-8245-69b637b3a330"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 210, 4, 30, "Input",ExpressionUUID->"a6d829e8-4240-479e-871d-5fc0eaa9ea01"],
+Cell[771, 26, 216, 5, 30, "Input",ExpressionUUID->"66a17210-b702-440d-92f2-d92fa04d9083"],
+Cell[990, 33, 995, 26, 30, "Input",ExpressionUUID->"3c992362-9ed5-4261-b316-969be5362daf"],
+Cell[1988, 61, 672, 18, 30, "Input",ExpressionUUID->"b9e178d4-dcbd-4ef9-a23a-acc595df68ec"],
+Cell[2663, 81, 1075, 24, 52, "Input",ExpressionUUID->"721c36b8-bb04-4fb8-a72b-7a0868415aea"],
+Cell[CellGroupData[{
+Cell[3763, 109, 588, 11, 30, "Input",ExpressionUUID->"2332eea5-1497-4f25-aa05-7e843e470c09"],
+Cell[4354, 122, 283, 5, 34, "Output",ExpressionUUID->"11cf551c-07b6-4e37-8a18-d9b872203568"]
+}, Open  ]],
+Cell[4652, 130, 206, 4, 30, "Input",ExpressionUUID->"cff7ffe8-d025-4a4e-b0f4-62177b9dcda6"]
+}
+]
+*)
+
