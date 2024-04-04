@@ -1,0 +1,1852 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     78327,       1844]
+NotebookOptionsPosition[     70546,       1706]
+NotebookOutlinePosition[     71134,       1728]
+CellTagsIndexPosition[     71091,       1725]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{"(*", "Mathematica", "*)"}]], "Input",
+ CellChangeTimes->{{3.921203700274474*^9, 3.921203720285295*^9}},
+ CellLabel->"In[39]:=",ExpressionUUID->"c3a491d8-b390-4869-b007-a9da94d61d24"],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{"2", "nd", " ", "minimal", " ", 
+   RowBox[{"Pisot", ":", 
+    RowBox[{
+     RowBox[{"x", "^", "4"}], "-", 
+     RowBox[{"x", "^", "3"}], "-", 
+     RowBox[{"1", " ", "as", " ", 
+      RowBox[{"{", 
+       RowBox[{"2", ",", "8"}], "}"}]}]}], ":", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"x", "^", "8"}], "+", 
+      RowBox[{"x", "^", "2"}]}], "\[Equal]", "1"}]}]}], "*)"}]], "Input",
+ CellChangeTimes->{{3.9212037243669167`*^9, 3.921203785085287*^9}, 
+   3.921236206722691*^9, {3.921236278042137*^9, 3.921236278060419*^9}, {
+   3.921236391155942*^9, 3.921236397511403*^9}},
+ CellLabel->"In[40]:=",ExpressionUUID->"22c44d1b-6c0f-4a9b-b015-dd0d239e1c5c"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"z", "=", 
+  RowBox[{"x", "/.", 
+   RowBox[{
+    RowBox[{"NSolve", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"x", "^", "4"}], "-", 
+        RowBox[{"x", "^", "3"}], "-", "1"}], "==", "0"}], ",", "x"}], "]"}], 
+    "[", 
+    RowBox[{"[", "2", "]"}], "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.9212016027384977`*^9, 3.921201621937808*^9}, {
+  3.921201824760844*^9, 3.921201829751733*^9}},
+ CellLabel->"In[41]:=",ExpressionUUID->"b29ea901-c649-4ba0-9634-7c30bae6e938"],
+
+Cell[BoxData[
+ RowBox[{"0.21944747214927518`", "\[VeryThinSpace]", "-", 
+  RowBox[{"0.9144736629677265`", " ", "\[ImaginaryI]"}]}]], "Output",
+ CellChangeTimes->{3.9212016292256536`*^9, 3.921201688891309*^9, 
+  3.9212018332814713`*^9, 3.921201933906089*^9, 3.921204310395626*^9, 
+  3.9212264199480247`*^9, 3.921229573333552*^9, 3.921240196466712*^9, 
+  3.92124026541498*^9},
+ CellLabel->"Out[41]=",ExpressionUUID->"7fb1b608-986f-4dff-9078-9c3aa534e970"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{" ", 
+   RowBox[{"Akiyama", " ", "like", " ", 
+    RowBox[{"{", 
+     RowBox[{"1", ",", "5"}], "}"}], " ", "as", " ", "powers", " ", "of", " ",
+     "second", " ", "root", " ", 
+    RowBox[{"{", 
+     RowBox[{"2", ",", "8"}], "}"}]}], ")"}], "*)"}]], "Input",
+ CellChangeTimes->{{3.921203803413609*^9, 3.921203855060062*^9}, {
+  3.921224791534425*^9, 3.9212247921170483`*^9}, {3.921236401831675*^9, 
+  3.921236406647369*^9}},
+ CellLabel->"In[42]:=",ExpressionUUID->"e0a4a3a4-800f-4910-97a4-a23892cfd077"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"c", "=", 
+  RowBox[{"Re", "[", 
+   RowBox[{"z", "^", "2"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.921236160002822*^9, 3.921236160624012*^9}},
+ CellLabel->"In[43]:=",ExpressionUUID->"762e2ca9-0f2d-4861-9c1c-3734a2c4c5d4"],
+
+Cell[BoxData[
+ RowBox[{"-", "0.788104887228904`"}]], "Output",
+ CellChangeTimes->{3.9212016889328423`*^9, 3.921201833342655*^9, 
+  3.921201933952669*^9, 3.921204310461442*^9, 3.921226420006983*^9, 
+  3.9212295734227133`*^9, 3.921240196520698*^9, 3.9212402654696827`*^9},
+ CellLabel->"Out[43]=",ExpressionUUID->"5aa7c69d-8ef0-4cb9-8ffb-bfe0946225b2"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"s", "=", 
+  RowBox[{"Im", "[", 
+   RowBox[{"z", "^", "2"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.92123616558716*^9, 3.921236166377857*^9}, {
+  3.9212402498142033`*^9, 3.92124025529425*^9}},
+ CellLabel->"In[44]:=",ExpressionUUID->"4f8beb61-438b-403f-b3e0-08819dbcd97d"],
+
+Cell[BoxData[
+ RowBox[{"-", "0.4013578673707116`"}]], "Output",
+ CellChangeTimes->{3.921201688941366*^9, 3.921201833352304*^9, 
+  3.921201933962502*^9, 3.921204310502371*^9, 3.9212264200161*^9, 
+  3.921229573431717*^9, 3.921240196569488*^9, 3.9212402654794207`*^9},
+ CellLabel->"Out[44]=",ExpressionUUID->"b6d9ac36-1978-4bad-9139-57f1a045313a"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"z", "^", "5"}]], "Input",
+ CellChangeTimes->{3.921201808313043*^9, 3.921229497018152*^9},
+ CellLabel->"In[45]:=",ExpressionUUID->"45ad1b0d-8394-424a-86ef-9ae8a1f53d1b"],
+
+Cell[BoxData[
+ RowBox[{"0.6794686477229931`", "\[VeryThinSpace]", "-", 
+  RowBox[{"0.28184946936247024`", " ", "\[ImaginaryI]"}]}]], "Output",
+ CellChangeTimes->{
+  3.921201688976407*^9, {3.921201816318577*^9, 3.921201833402534*^9}, 
+   3.921201933993763*^9, 3.921204310545525*^9, 3.921226420053711*^9, 
+   3.921229573473298*^9, 3.921240196577582*^9, 3.921240265532991*^9},
+ CellLabel->"Out[45]=",ExpressionUUID->"c72101f0-b427-4d90-923c-b7b309fdf739"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"c1", "=", 
+  RowBox[{"N", "[", 
+   RowBox[{"Re", "[", 
+    RowBox[{"z", "^", "8"}], "]"}], "]"}]}]], "Input",
+ CellChangeTimes->{
+  3.921201667265748*^9, {3.9212295025626717`*^9, 3.921229506602667*^9}, 
+   3.921236172062344*^9},
+ CellLabel->"In[46]:=",ExpressionUUID->"5fbcee57-fc8b-4539-9822-cee4e5004dae"],
+
+Cell[BoxData[
+ RowBox[{"-", "0.18859388835847538`"}]], "Output",
+ CellChangeTimes->{3.9212016889856367`*^9, 3.921201833412202*^9, 
+  3.921201934003457*^9, 3.92120431055326*^9, 3.921226420061839*^9, 
+  3.921229573484126*^9, 3.921240196619837*^9, 3.921240265541058*^9},
+ CellLabel->"Out[46]=",ExpressionUUID->"fad39d20-0bcc-41e6-9077-19f415899115"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"s1", "=", 
+  RowBox[{"N", "[", 
+   RowBox[{"Im", "[", 
+    RowBox[{"z", "^", "8"}], "]"}], "]"}]}]], "Input",
+ CellChangeTimes->{3.921201672257197*^9, 3.9212263069791603`*^9, 
+  3.9212295103466263`*^9, 3.9212361760824957`*^9},
+ CellLabel->"In[47]:=",ExpressionUUID->"8d0c9cfe-bca2-4daa-82bc-8cd17d470297"],
+
+Cell[BoxData["0.5820410504773305`"], "Output",
+ CellChangeTimes->{3.921201689022091*^9, 3.9212018334611883`*^9, 
+  3.921201934035664*^9, 3.921204310594469*^9, 3.92122642010122*^9, 
+  3.921229573525407*^9, 3.921240196626548*^9, 3.921240265594783*^9},
+ CellLabel->"Out[47]=",ExpressionUUID->"8f2682f7-6650-4c65-a005-ddc1d6fb56d6"]
+}, Open  ]],
+
+Cell["\<\
+rotate[theta_] := {{Cos[theta], -Sin[theta]},
+    {Sin[theta], Cos[theta]}};\
+\>", "Input",
+ PageWidth:>Infinity,
+ InitializationCell->True,
+ ShowSpecialCharacters->False,
+ CellLabel->"In[48]:=",ExpressionUUID->"c52c5cb1-87fd-4c2f-b5ad-26bffafeeb0e"],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+f = {{{c,-s},{s,c}},{c,s}}
+g = {{{c1,-s1},{s1,c1}},{c1,s1}}
+\
+\>", "Input",
+ PageWidth:>Infinity,
+ InitializationCell->True,
+ CellChangeTimes->{{3.92120168232926*^9, 3.9212016837767563`*^9}},
+ ShowSpecialCharacters->False,
+ CellLabel->"In[49]:=",ExpressionUUID->"8b49138f-298a-4416-a06f-9b40cf8bce75"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "0.788104887228904`"}], ",", "0.4013578673707116`"}], 
+      "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "0.4013578673707116`"}], ",", 
+       RowBox[{"-", "0.788104887228904`"}]}], "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", "0.788104887228904`"}], ",", 
+     RowBox[{"-", "0.4013578673707116`"}]}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.921201689068878*^9, 3.9212018335182858`*^9, 3.921201934075234*^9, {
+   3.921204310066983*^9, 3.921204310641858*^9}, {3.921226414279745*^9, 
+   3.9212264201554193`*^9}, {3.921229563004901*^9, 3.921229573572076*^9}, {
+   3.9212401953870296`*^9, 3.921240196676402*^9}, 3.9212402656091127`*^9},
+ CellLabel->"Out[49]=",ExpressionUUID->"943724af-edb6-47e9-97bb-7d69405f914a"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "0.18859388835847538`"}], ",", 
+       RowBox[{"-", "0.5820410504773305`"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"0.5820410504773305`", ",", 
+       RowBox[{"-", "0.18859388835847538`"}]}], "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", "0.18859388835847538`"}], ",", "0.5820410504773305`"}], 
+    "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.921201689068878*^9, 3.9212018335182858`*^9, 3.921201934075234*^9, {
+   3.921204310066983*^9, 3.921204310641858*^9}, {3.921226414279745*^9, 
+   3.9212264201554193`*^9}, {3.921229563004901*^9, 3.921229573572076*^9}, {
+   3.9212401953870296`*^9, 3.921240196676402*^9}, 3.92124026561152*^9},
+ CellLabel->"Out[50]=",ExpressionUUID->"cfc50515-3fb2-4ca5-9e2c-9996f5a819e0"]
+}, Open  ]],
+
+Cell["(* Mark McClure's digraph fractal package*)", "Input",
+ PageWidth:>Infinity,
+ InitializationCell->True,
+ CellChangeTimes->{{3.9212038857242613`*^9, 3.92120393403517*^9}},
+ ShowSpecialCharacters->False,
+ CellLabel->"In[52]:=",ExpressionUUID->"3e1c4dfe-1853-4860-b7a0-2f8cdd18959b"],
+
+Cell["Needs[\"DigraphFractals`\"];", "Input",
+ PageWidth:>Infinity,
+ InitializationCell->True,
+ ShowSpecialCharacters->False,
+ CellLabel->"In[53]:=",ExpressionUUID->"9961ee7d-abdb-48b6-ad4b-dd539f9e0878"],
+
+Cell["", "Input",
+ PageWidth:>Infinity,
+ InitializationCell->True,
+ ShowSpecialCharacters->False,
+ CellLabel->"In[54]:=",ExpressionUUID->"46189dea-bbc6-4f7f-af56-9f7731a1cc40"],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+
+terdragonDigraph = {{{f, g}}}\
+\>", "Input",
+ PageWidth:>Infinity,
+ InitializationCell->True,
+ ShowSpecialCharacters->False,
+ CellLabel->"In[55]:=",ExpressionUUID->"79f0819d-87e1-470d-aa05-a624ca171c3b"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", "0.788104887228904`"}], ",", "0.4013578673707116`"}], 
+          "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", "0.4013578673707116`"}], ",", 
+           RowBox[{"-", "0.788104887228904`"}]}], "}"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "0.788104887228904`"}], ",", 
+         RowBox[{"-", "0.4013578673707116`"}]}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", "0.18859388835847538`"}], ",", 
+           RowBox[{"-", "0.5820410504773305`"}]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"0.5820410504773305`", ",", 
+           RowBox[{"-", "0.18859388835847538`"}]}], "}"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "0.18859388835847538`"}], ",", "0.5820410504773305`"}], 
+        "}"}]}], "}"}]}], "}"}], "}"}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.92120162901222*^9, 3.9212016891286077`*^9, 3.92120183359116*^9, 
+   3.921201934136633*^9, {3.9212043101594753`*^9, 3.921204310698225*^9}, {
+   3.921226414759877*^9, 3.9212264202300177`*^9}, {3.921229563089274*^9, 
+   3.9212295736424303`*^9}, {3.921240195553691*^9, 3.921240196808443*^9}, 
+   3.921240265694194*^9},
+ CellLabel->"Out[56]=",ExpressionUUID->"51304813-e19b-4d41-b2a0-74a5f8421bd1"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "ShowDigraphFractals"}]], "Input",
+ CellChangeTimes->{{3.921201741108719*^9, 3.9212017461209583`*^9}},
+ CellLabel->"In[57]:=",ExpressionUUID->"2cdadafa-29ef-48ac-af68-784baae97621"],
+
+Cell[BoxData[
+ InterpretationBox[
+  StyleBox[
+   FrameBox[
+    DynamicModuleBox[{System`InformationDump`open$$ = False, 
+     System`InformationDump`mouseOver$$ = False}, 
+     PaneSelectorBox[{True->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False,
+             BaseStyle -> None],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            
+            StyleBox["\<\"ShowDigraphFractals[digraph_,depth_]\\ngenerates \
+the approximation to the digraph Self Similar sets \\ndefined by digraph to \
+order depth using a deterministic algorithm.\\nThe digraph is represented by \
+a matrix of lists of affine functions\\nwritten in the form \
+{{{a1,a2},{b1,b2}},{x0,y0}}.\"\>", "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          PaneBox[
+           TagBox[GridBox[{
+              {
+               StyleBox[
+                TagBox[
+                 TooltipBox[
+                  StyleBox["\<\" Definitions\"\>", "InformationRowLabel",
+                   StripOnInput->False],
+                  "\"Definitions\"",
+                  TooltipStyle->"TextStyling"],
+                 Annotation[#, "Definitions", "Tooltip"]& ], "DialogStyle",
+                StripOnInput->False]},
+              {
+               TemplateBox[{"\"\[ThinSpace]\"", 
+                 GridBox[{{
+                    RowBox[{
+                    RowBox[{"ShowDigraphFractals", "[", 
+                    
+                    RowBox[{
+                    "DigraphFractals`Private`digraph_", ",", 
+                    "DigraphFractals`Private`depth_", ",", 
+                    "DigraphFractals`Private`opts___"}], "]"}], ":=", 
+                    RowBox[{
+                    RowBox[{"Module", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    
+                    RowBox[{"DigraphFractals`Private`digraphFuncs", ",", 
+                    "DigraphFractals`Private`toFuncs", ",", 
+                    "DigraphFractals`Private`placeHolder", ",", 
+                    "DigraphFractals`Private`start", ",", 
+                    "DigraphFractals`Private`graphicList", ",", 
+                    "DigraphFractals`Private`initiators", ",", 
+                    "DigraphFractals`Private`temp", ",", 
+                    RowBox[{"DigraphFractals`Private`valid", "=", 
+                    RowBox[{"First", "/@", 
+                    
+                    RowBox[{"Options", "[", "ShowDigraphFractals", 
+                    "]"}]}]}]}], "}"}], ",", 
+                    RowBox[{
+                    RowBox[{"Scan", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"!", 
+                    RowBox[{"MemberQ", "[", 
+                    RowBox[{"DigraphFractals`Private`valid", ",", 
+                    RowBox[{"First", "[", "#1", "]"}]}], "]"}]}], ",", 
+                    RowBox[{"Message", "[", 
+                    RowBox[{
+                    StyleBox[
+                    RowBox[{"DigraphFractals", "::", "optx"}], "MessageName"],
+                     ",", 
+                    RowBox[{"ToString", "[", 
+                    RowBox[{"First", "[", "#1", "]"}], "]"}]}], "]"}]}], 
+                    "]"}], "&"}], ",", 
+                    RowBox[{"Flatten", "[", 
+                    RowBox[{"{", "DigraphFractals`Private`opts", "}"}], 
+                    "]"}]}], "]"}], ";", 
+                    RowBox[{"DigraphFractals`Private`initiators", "=", 
+                    RowBox[{
+                    RowBox[{"Initiators", "/.", "\[VeryThinSpace]", 
+                    RowBox[{"{", "DigraphFractals`Private`opts", "}"}]}], 
+                    "/.", "\[VeryThinSpace]", 
+                    RowBox[{"Options", "[", "ShowDigraphFractals", "]"}]}]}], 
+                    ";", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    
+                    RowBox[{"DigraphFractals`Private`initiators", "===", 
+                    "Automatic"}], ",", 
+                    RowBox[{"DigraphFractals`Private`initiators", "=", 
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"Point", "[", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "0"}], "}"}], "]"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    
+                    RowBox[{"Length", "[", "DigraphFractals`Private`digraph", 
+                    "]"}], "}"}]}], "]"}]}]}], "]"}], ";", 
+                    RowBox[{
+                    RowBox[{"DigraphFractals`Private`toFuncs", "[", 
+                    RowBox[{"{", 
+                    
+                    RowBox[{"DigraphFractals`Private`A_", ",", 
+                    "DigraphFractals`Private`b_"}], "}"}], "]"}], ":=", 
+                    RowBox[{"Module", "[", 
+                    RowBox[{
+                    RowBox[{"{", "DigraphFractals`Private`fOut", "}"}], ",", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"DigraphFractals`Private`fOut", "[", 
+                    RowBox[{"{", 
+                    
+                    RowBox[{"DigraphFractals`Private`x_", ",", 
+                    "DigraphFractals`Private`y_"}], "}"}], "]"}], ":=", 
+                    RowBox[{
+                    RowBox[{"N", "[", 
+                    RowBox[{
+                    RowBox[{"DigraphFractals`Private`A", ".", 
+                    RowBox[{"{", 
+                    RowBox[{"DigraphFractals`Private`x", ",", 
+                    "DigraphFractals`Private`y"}], "}"}]}], "+", 
+                    "DigraphFractals`Private`b"}], "]"}], "/;", 
+                    RowBox[{
+                    
+                    RowBox[{"NumericQ", "[", "DigraphFractals`Private`x", 
+                    "]"}], "&&", 
+                    
+                    RowBox[{"NumericQ", "[", "DigraphFractals`Private`y", 
+                    "]"}]}]}]}], ";", 
+                    RowBox[{
+                    RowBox[{"DigraphFractals`Private`fOut", "[", 
+                    RowBox[{"Point", "[", 
+                    RowBox[{"{", 
+                    
+                    RowBox[{"DigraphFractals`Private`x_", ",", 
+                    "DigraphFractals`Private`y_"}], "}"}], "]"}], "]"}], ":=", 
+                    RowBox[{"Point", "[", 
+                    RowBox[{"DigraphFractals`Private`fOut", "[", 
+                    RowBox[{"{", 
+                    
+                    RowBox[{"DigraphFractals`Private`x", ",", 
+                    "DigraphFractals`Private`y"}], "}"}], "]"}], "]"}]}], ";", 
+                    RowBox[{
+                    
+                    RowBox[{"DigraphFractals`Private`fOut", "[", 
+                    "DigraphFractals`Private`x_List", "]"}], ":=", 
+                    
+                    RowBox[{"DigraphFractals`Private`fOut", "/@", 
+                    "DigraphFractals`Private`x"}]}], ";", 
+                    RowBox[{
+                    RowBox[{"DigraphFractals`Private`fOut", "[", 
+                    RowBox[{"Line", "[", "DigraphFractals`Private`x__", "]"}],
+                     "]"}], ":=", 
+                    RowBox[{"Line", "[", 
+                    
+                    RowBox[{"DigraphFractals`Private`fOut", "/@", 
+                    "DigraphFractals`Private`x"}], "]"}]}], ";", 
+                    RowBox[{
+                    RowBox[{"DigraphFractals`Private`fOut", "[", 
+                    
+                    RowBox[{"Polygon", "[", "DigraphFractals`Private`x__", 
+                    "]"}], "]"}], ":=", 
+                    RowBox[{"Polygon", "[", 
+                    
+                    RowBox[{"DigraphFractals`Private`fOut", "/@", 
+                    "DigraphFractals`Private`x"}], "]"}]}], ";", 
+                    RowBox[{
+                    RowBox[{"DigraphFractals`Private`fOut", "[", 
+                    RowBox[{"Disk", "[", 
+                    
+                    RowBox[{"DigraphFractals`Private`p_", ",", 
+                    "DigraphFractals`Private`r_"}], "]"}], "]"}], ":=", 
+                    RowBox[{"Disk", "[", 
+                    RowBox[{
+                    
+                    RowBox[{"DigraphFractals`Private`fOut", "[", 
+                    "DigraphFractals`Private`p", "]"}], ",", 
+                    "DigraphFractals`Private`r"}], "]"}]}], ";", 
+                    RowBox[{
+                    RowBox[{"DigraphFractals`Private`fOut", "[", 
+                    RowBox[{"Circle", "[", 
+                    
+                    RowBox[{"DigraphFractals`Private`p_", ",", 
+                    "DigraphFractals`Private`r_"}], "]"}], "]"}], ":=", 
+                    RowBox[{"Circle", "[", 
+                    RowBox[{
+                    
+                    RowBox[{"DigraphFractals`Private`fOut", "[", 
+                    "DigraphFractals`Private`p", "]"}], ",", 
+                    "DigraphFractals`Private`r"}], "]"}]}], ";", 
+                    RowBox[{
+                    RowBox[{"DigraphFractals`Private`fOut", "[", 
+                    RowBox[{"Arrow", "[", 
+                    
+                    RowBox[{"DigraphFractals`Private`arrowStart_", ",", 
+                    "DigraphFractals`Private`arrowFinish_", ",", 
+                    "DigraphFractals`Private`arrowOpts___"}], "]"}], "]"}], 
+                    ":=", 
+                    RowBox[{"Arrow", "[", 
+                    RowBox[{
+                    
+                    RowBox[{"DigraphFractals`Private`fOut", "[", 
+                    "DigraphFractals`Private`arrowStart", "]"}], ",", 
+                    
+                    RowBox[{"DigraphFractals`Private`fOut", "[", 
+                    "DigraphFractals`Private`arrowFinish", "]"}], ",", 
+                    "DigraphFractals`Private`arrowOpts"}], "]"}]}], ";", 
+                    RowBox[{
+                    RowBox[{"DigraphFractals`Private`fOut", "[", 
+                    
+                    RowBox[{"DigraphFractals`Private`h_", "[", 
+                    "DigraphFractals`Private`x__", "]"}], "]"}], ":=", 
+                    
+                    RowBox[{"DigraphFractals`Private`h", "[", 
+                    "DigraphFractals`Private`x", "]"}]}], ";", 
+                    "DigraphFractals`Private`fOut"}]}], "]"}]}], ";", 
+                    RowBox[{"DigraphFractals`Private`start", "=", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    
+                    RowBox[{"DigraphFractals`Private`placeHolder", "@@", 
+                    "#1"}], "&"}], ")"}], "/@", 
+                    "DigraphFractals`Private`initiators"}]}], ";", 
+                    RowBox[{"DigraphFractals`Private`digraphFuncs", "=", 
+                    RowBox[{"Map", "[", 
+                    
+                    RowBox[{"DigraphFractals`Private`toFuncs", ",", 
+                    "DigraphFractals`Private`digraph", ",", 
+                    RowBox[{"{", "3", "}"}]}], "]"}]}], ";", 
+                    RowBox[{"DigraphFractals`Private`digraphFuncs", "=", 
+                    RowBox[{"Map", "[", 
+                    RowBox[{
+                    RowBox[{
+                    
+                    RowBox[{"DigraphFractals`Private`placeHolder", "@@", 
+                    "#1"}], "&"}], ",", 
+                    "DigraphFractals`Private`digraphFuncs", ",", 
+                    RowBox[{"{", "2", "}"}]}], "]"}]}], ";", 
+                    RowBox[{"DigraphFractals`Private`graphicList", "=", 
+                    RowBox[{
+                    RowBox[{"Nest", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Inner", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Outer", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"#1", "[", "#2", "]"}], "&"}], ",", "#1", ",", 
+                    "#2"}], "]"}], "&"}], ",", 
+                    "DigraphFractals`Private`digraphFuncs", ",", "#1", ",", 
+                    "List"}], "]"}], "&"}], ",", 
+                    "DigraphFractals`Private`start", ",", 
+                    "DigraphFractals`Private`depth"}], "]"}], "//.", 
+                    "\[VeryThinSpace]", 
+                    RowBox[{
+                    
+                    RowBox[{"DigraphFractals`Private`placeHolder", "[", 
+                    "DigraphFractals`Private`x___", "]"}], "\[Rule]", 
+                    RowBox[{"{", "DigraphFractals`Private`x", "}"}]}]}]}], 
+                    ";", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"Show", "[", 
+                    RowBox[{
+                    RowBox[{"Graphics", "[", "#1", "]"}], ",", 
+                    RowBox[{"Utilities`FilterOptions`FilterOptions", "[", 
+                    RowBox[{"Graphics", ",", "DigraphFractals`Private`opts"}],
+                     "]"}], ",", 
+                    RowBox[{"Utilities`FilterOptions`FilterOptions", "[", 
+                    RowBox[{"Graphics", ",", 
+                    RowBox[{"Sequence", "@@", 
+                    RowBox[{"Options", "[", "ShowDigraphFractals", "]"}]}]}], 
+                    "]"}]}], "]"}], "&"}], ")"}], "/@", 
+                    "DigraphFractals`Private`graphicList"}]}]}], "]"}], "/;", 
+                    
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"And", "@@", 
+                    RowBox[{"Flatten", "[", 
+                    RowBox[{"Map", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"MatchQ", "[", 
+                    RowBox[{"#1", ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"DigraphFractals`Private`a_", "?", "NumericQ"}], 
+                    ",", 
+                    RowBox[{"DigraphFractals`Private`b_", "?", "NumericQ"}]}],
+                     "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"DigraphFractals`Private`c_", "?", "NumericQ"}], 
+                    ",", 
+                    RowBox[{"DigraphFractals`Private`d_", "?", "NumericQ"}]}],
+                     "}"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"DigraphFractals`Private`e_", "?", "NumericQ"}], 
+                    ",", 
+                    RowBox[{"DigraphFractals`Private`f_", "?", "NumericQ"}]}],
+                     "}"}]}], "}"}]}], "]"}], "&"}], ",", 
+                    "DigraphFractals`Private`digraph", ",", 
+                    RowBox[{"{", "3", "}"}]}], "]"}], "]"}]}], "||", 
+                    RowBox[{"Message", "[", 
+                    RowBox[{
+                    StyleBox[
+                    RowBox[{"DigraphFractals", "::", "badDigraph"}], 
+                    "MessageName"], ",", "ShowDigraphFractals"}], "]"}]}], 
+                    ")"}], "&&", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    
+                    RowBox[{"IntegerQ", "[", "DigraphFractals`Private`depth", 
+                    "]"}], "&&", 
+                    
+                    RowBox[{"DigraphFractals`Private`depth", 
+                    "\[GreaterEqual]", "0"}]}], ")"}], "||", 
+                    RowBox[{"Message", "[", 
+                    RowBox[{
+                    StyleBox[
+                    RowBox[{"DigraphFractals", "::", "badInt"}], 
+                    "MessageName"], ",", "ShowDigraphFractals", ",", 
+                    "DigraphFractals`Private`depth"}], "]"}]}], ")"}], "&&", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"And", "@@", 
+                    RowBox[{"OptionQ", "/@", 
+                    RowBox[{"{", "DigraphFractals`Private`opts", "}"}]}]}], 
+                    "||", 
+                    RowBox[{"Message", "[", 
+                    RowBox[{
+                    StyleBox[
+                    RowBox[{"DigraphFractals", "::", "badOpt"}], 
+                    "MessageName"], ",", "ShowDigraphFractals"}], "]"}]}], 
+                    ")"}]}]}]}]}, {" "}}, 
+                  GridBoxAlignment -> {"Columns" -> {{Left}}}, 
+                  DefaultBaseStyle -> "Column", 
+                  GridBoxItemSize -> {
+                   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]},
+                "RowDefault"]}
+             },
+             DefaultBaseStyle->"Column",
+             GridBoxAlignment->{"Columns" -> {{Left}}},
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Column"],
+           FrameMargins->{{6, 0}, {3, 6}}], "\<\"\"\>"},
+         {
+          PaneBox[GridBox[{
+             {
+              
+              DynamicModuleBox[{System`InformationDump`open$$ = {
+               False, False, False, False, False, False}}, 
+               StyleBox[GridBox[{
+                  {
+                   PaneSelectorBox[{True->
+                    ButtonBox[
+                    PaneSelectorBox[{False->
+                    TemplateBox[{"\[ThickSpace]", "\"\[ThickSpace]\"", 
+                    StyleBox[
+                    "\"Options\"", "InformationRowLabel", StripOnInput -> 
+                    False], 
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "DownPointerOpener"]]},
+                    "RowWithSeparators"], True->
+                    TemplateBox[{"\[ThickSpace]", "\"\[ThickSpace]\"", 
+                    StyleBox[
+                    "\"Options\"", "InformationRowLabel", StripOnInput -> 
+                    False], 
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "DownPointerOpenerHot"]]},
+                    "RowWithSeparators"]}, Dynamic[
+                    CurrentValue["MouseOver"]],
+                    FrameMargins->0,
+                    ImageSize->Automatic],
+                    Appearance->None,
+                    BaseStyle->None,
+                    
+                    ButtonFunction:>(Part[System`InformationDump`open$$, 3] = 
+                    False),
+                    Evaluator->Automatic,
+                    FrameMargins->0,
+                    ImageMargins->0,
+                    Method->"Preemptive"], False->
+                    ButtonBox[
+                    PaneSelectorBox[{False->
+                    TemplateBox[{"\[ThickSpace]", "\"\[ThickSpace]\"", 
+                    StyleBox[
+                    "\"Options\"", "InformationRowLabel", StripOnInput -> 
+                    False], 
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "RightPointerOpener"]]},
+                    "RowWithSeparators"], True->
+                    TemplateBox[{"\[ThickSpace]", "\"\[ThickSpace]\"", 
+                    StyleBox[
+                    "\"Options\"", "InformationRowLabel", StripOnInput -> 
+                    False], 
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "RightPointerOpenerHot"]]},
+                    "RowWithSeparators"]}, Dynamic[
+                    CurrentValue["MouseOver"]],
+                    FrameMargins->0,
+                    ImageSize->Automatic],
+                    Appearance->None,
+                    BaseStyle->None,
+                    
+                    ButtonFunction:>(Part[System`InformationDump`open$$, 3] = 
+                    True),
+                    Evaluator->Automatic,
+                    FrameMargins->0,
+                    ImageMargins->0,
+                    Method->"Preemptive"]}, Dynamic[
+                    FEPrivate`Part[System`InformationDump`open$$, 3]]], 
+                   PaneSelectorBox[{True->GridBox[{
+                    {
+                    RowBox[{"AlignmentPoint", "\[Rule]", "Center"}]},
+                    {
+                    RowBox[{"AspectRatio", "\[Rule]", "Automatic"}]},
+                    {
+                    RowBox[{"Axes", "\[Rule]", "False"}]},
+                    {
+                    RowBox[{"AxesLabel", "\[Rule]", "None"}]},
+                    {
+                    RowBox[{"AxesOrigin", "\[Rule]", "Automatic"}]},
+                    {
+                    RowBox[{"AxesStyle", "\[Rule]", 
+                    RowBox[{"{", "}"}]}]},
+                    {
+                    RowBox[{"Background", "\[Rule]", "None"}]},
+                    {
+                    RowBox[{"BaselinePosition", "\[Rule]", "Automatic"}]},
+                    {
+                    RowBox[{"BaseStyle", "\[Rule]", 
+                    RowBox[{"{", "}"}]}]},
+                    {
+                    RowBox[{"ColorOutput", "\[Rule]", "Automatic"}]},
+                    {
+                    RowBox[{"ContentSelectable", "\[Rule]", "Automatic"}]},
+                    {
+                    RowBox[{
+                    "CoordinatesToolOptions", "\[Rule]", "Automatic"}]},
+                    {
+                    RowBox[{"Epilog", "\[Rule]", 
+                    RowBox[{"{", "}"}]}]},
+                    {
+                    RowBox[{"FormatType", "\[Rule]", "TraditionalForm"}]},
+                    {
+                    RowBox[{"Frame", "\[Rule]", "False"}]},
+                    {
+                    RowBox[{"FrameLabel", "\[Rule]", "None"}]},
+                    {
+                    RowBox[{"FrameStyle", "\[Rule]", 
+                    RowBox[{"{", "}"}]}]},
+                    {
+                    RowBox[{"FrameTicks", "\[Rule]", "Automatic"}]},
+                    {
+                    RowBox[{"FrameTicksStyle", "\[Rule]", 
+                    RowBox[{"{", "}"}]}]},
+                    {
+                    RowBox[{"GridLines", "\[Rule]", "None"}]},
+                    {
+                    RowBox[{"GridLinesStyle", "\[Rule]", 
+                    RowBox[{"{", "}"}]}]},
+                    {
+                    RowBox[{"ImageMargins", "\[Rule]", "0.`"}]},
+                    {
+                    RowBox[{"ImagePadding", "\[Rule]", "All"}]},
+                    {
+                    RowBox[{"ImageSize", "\[Rule]", "Automatic"}]},
+                    {
+                    RowBox[{"ImageSizeRaw", "\[Rule]", "Automatic"}]},
+                    {
+                    RowBox[{"Initiators", "\[Rule]", "Automatic"}]},
+                    {
+                    RowBox[{"LabelStyle", "\[Rule]", 
+                    RowBox[{"{", "}"}]}]},
+                    {
+                    RowBox[{"Method", "\[Rule]", "Automatic"}]},
+                    {
+                    RowBox[{"PlotLabel", "\[Rule]", "None"}]},
+                    {
+                    RowBox[{"PlotRange", "\[Rule]", "All"}]},
+                    {
+                    RowBox[{"PlotRangeClipping", "\[Rule]", "False"}]},
+                    {
+                    RowBox[{"PlotRangePadding", "\[Rule]", "Automatic"}]},
+                    {
+                    RowBox[{"PlotRegion", "\[Rule]", "Automatic"}]},
+                    {
+                    RowBox[{
+                    "PreserveImageOptions", "\[Rule]", "Automatic"}]},
+                    {
+                    RowBox[{"Prolog", "\[Rule]", 
+                    RowBox[{"AbsolutePointSize", "[", "0.05`", "]"}]}]},
+                    {
+                    RowBox[{"RotateLabel", "\[Rule]", "True"}]},
+                    {
+                    RowBox[{"Ticks", "\[Rule]", "Automatic"}]},
+                    {
+                    RowBox[{"TicksStyle", "\[Rule]", 
+                    RowBox[{"{", "}"}]}]},
+                    {
+                    RowBox[{"DefaultFont", "\[RuleDelayed]", "$DefaultFont"}]},
+                    {
+                    RowBox[{
+                    "DisplayFunction", "\[RuleDelayed]", "$DisplayFunction"}]},
+                    {
+                    StyleBox[
+                    
+                    TemplateBox[{
+                    "\"(\"", "\"\[InvisibleSpace]\"", "40", "\" total)\""},
+                    "RowDefault"], "InformationRowOpener",
+                    StripOnInput->False]}
+                    },
+                    BaselinePosition->{Baseline, {1, 1}},
+                    DefaultBaseStyle->"Column",
+                    GridBoxAlignment->{"Columns" -> {{Left}}},
+                    
+                    GridBoxItemSize->{
+                    "Columns" -> {{Automatic}}, "Rows" -> {{1.}}}], False->
+                    RowBox[{
+                    RowBox[{"AlignmentPoint", "\[Rule]", "Center"}], 
+                    "\[ThinSpace]", 
+                    StyleBox["\<\"\[Ellipsis]\"\>", "InformationRowOpener",
+                    StripOnInput->False], "\[ThinSpace]", 
+                    StyleBox[
+                    
+                    TemplateBox[{
+                    "\"(\"", "\"\[InvisibleSpace]\"", "40", "\" total)\""},
+                    "RowDefault"], "InformationRowOpener",
+                    StripOnInput->False]}]}, Dynamic[
+                    FEPrivate`Part[System`InformationDump`open$$, 3]],
+                    BaselinePosition->Baseline,
+                    ImageSize->Automatic]},
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Attributes\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"Attributes\"",
+                    TooltipStyle->"TextStyling"],
+                    Annotation[#, "Attributes", "Tooltip"]& ], 
+                   RowBox[{"{", "Protected", "}"}]},
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Full Name\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"FullName\"",
+                    TooltipStyle->"TextStyling"],
+                    
+                    Annotation[#, "FullName", 
+                    "Tooltip"]& ], "\<\"DigraphFractals`ShowDigraphFractals\"\
+\>"}
+                 },
+                 AutoDelete->False,
+                 GridBoxAlignment->{"Columns" -> {Right, Left}},
+                 GridBoxDividers->None,
+                 GridBoxItemSize->{"Columns" -> {Automatic, Automatic}},
+                 GridBoxSpacings->{"Columns" -> {
+                    Offset[0.27999999999999997`], {
+                    Offset[0.5599999999999999]}, 
+                    Offset[0.27999999999999997`]}, "Rows" -> {
+                    Offset[0.2], {
+                    Offset[0.8]}, 
+                    Offset[0.2]}}], "DialogStyle",
+                StripOnInput->False],
+               DynamicModuleValues:>{}]}
+            },
+            DefaultBaseStyle->"Column",
+            GridBoxAlignment->{"Columns" -> {{Left}}},
+            GridBoxDividers->{"Columns" -> {{False}}, "Rows" -> {{False}}},
+            
+            GridBoxItemSize->{
+             "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+            GridBoxSpacings->{"Columns" -> {
+                Offset[0.27999999999999997`], {
+                 Offset[0.5599999999999999]}, 
+                Offset[0.27999999999999997`]}, "Rows" -> {
+                Offset[0.2], {
+                 Offset[3.6]}, 
+                Offset[0.2]}}],
+           FrameMargins->{{6, 6}, {6, 3}}], ""},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpener"]], True->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpenerHot"]]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, False],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"], False->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            
+            StyleBox["\<\"ShowDigraphFractals[digraph_,depth_]\\ngenerates \
+the approximation to the digraph Self Similar sets \\ndefined by digraph to \
+order depth using a deterministic algorithm.\\nThe digraph is represented by \
+a matrix of lists of affine functions\\nwritten in the form \
+{{{a1,a2},{b1,b2}},{x0,y0}}.\"\>", "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpener"],
+               ImageSizeCache->{10., {2., 8.}}], True->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpenerHot"],
+               ImageSizeCache->{10., {2., 8.}}]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, True],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"]}, Dynamic[System`InformationDump`open$$],
+      BaselinePosition->Baseline,
+      FrameMargins->0,
+      ImageSize->Automatic],
+     DynamicModuleValues:>{}],
+    BaseStyle->"InformationGridFrame",
+    StripOnInput->False], "InformationGridPlain",
+   StripOnInput->False],
+  InformationData[
+   Association[
+   "ObjectType" -> "Symbol", "Usage" -> 
+    "ShowDigraphFractals[digraph_,depth_]\ngenerates the approximation to the \
+digraph Self Similar sets \ndefined by digraph to order depth using a \
+deterministic algorithm.\nThe digraph is represented by a matrix of lists of \
+affine functions\nwritten in the form {{{a1,a2},{b1,b2}},{x0,y0}}.", 
+    "Documentation" -> None, "OwnValues" -> None, "UpValues" -> None, 
+    "DownValues" -> 
+    Information`InformationValueForm[
+     DownValues, DigraphFractals`ShowDigraphFractals, {
+      DigraphFractals`ShowDigraphFractals[
+         Pattern[DigraphFractals`Private`digraph, 
+          Blank[]], 
+         Pattern[DigraphFractals`Private`depth, 
+          Blank[]], 
+         Pattern[DigraphFractals`Private`opts, 
+          BlankNullSequence[]]] :> Condition[
+         Module[{
+          DigraphFractals`Private`digraphFuncs, 
+           DigraphFractals`Private`toFuncs, 
+           DigraphFractals`Private`placeHolder, DigraphFractals`Private`start,
+            DigraphFractals`Private`graphicList, 
+           DigraphFractals`Private`initiators, DigraphFractals`Private`temp, 
+           DigraphFractals`Private`valid = Map[First, 
+             Options[DigraphFractals`ShowDigraphFractals]]}, Scan[If[
+             Not[
+              MemberQ[DigraphFractals`Private`valid, 
+               First[#]]], 
+             Message[
+              MessageName[DigraphFractals`DigraphFractals, "optx"], 
+              ToString[
+               First[#]]]]& , 
+            Flatten[{DigraphFractals`Private`opts}]]; 
+          DigraphFractals`Private`initiators = ReplaceAll[
+             ReplaceAll[
+             DigraphFractals`Initiators, {DigraphFractals`Private`opts}], 
+             Options[DigraphFractals`ShowDigraphFractals]]; 
+          If[DigraphFractals`Private`initiators === Automatic, 
+            DigraphFractals`Private`initiators = Table[{
+               Point[{0, 0}]}, {
+               Length[DigraphFractals`Private`digraph]}]]; 
+          DigraphFractals`Private`toFuncs[{
+              Pattern[DigraphFractals`Private`A, 
+               Blank[]], 
+              Pattern[DigraphFractals`Private`b, 
+               Blank[]]}] := 
+           Module[{DigraphFractals`Private`fOut}, 
+             DigraphFractals`Private`fOut[{
+                 Pattern[DigraphFractals`Private`x, 
+                  Blank[]], 
+                 Pattern[DigraphFractals`Private`y, 
+                  Blank[]]}] := Condition[
+                N[
+                Dot[DigraphFractals`Private`A, {
+                   DigraphFractals`Private`x, DigraphFractals`Private`y}] + 
+                 DigraphFractals`Private`b], 
+                And[
+                 NumericQ[DigraphFractals`Private`x], 
+                 NumericQ[DigraphFractals`Private`y]]]; 
+             DigraphFractals`Private`fOut[
+                Point[{
+                  Pattern[DigraphFractals`Private`x, 
+                   Blank[]], 
+                  Pattern[DigraphFractals`Private`y, 
+                   Blank[]]}]] := Point[
+                
+                DigraphFractals`Private`fOut[{
+                 DigraphFractals`Private`x, DigraphFractals`Private`y}]]; 
+             DigraphFractals`Private`fOut[
+                Pattern[DigraphFractals`Private`x, 
+                 Blank[List]]] := 
+              Map[DigraphFractals`Private`fOut, DigraphFractals`Private`x]; 
+             DigraphFractals`Private`fOut[
+                Line[
+                 Pattern[DigraphFractals`Private`x, 
+                  BlankSequence[]]]] := Line[
+                Map[DigraphFractals`Private`fOut, DigraphFractals`Private`x]]; 
+             DigraphFractals`Private`fOut[
+                Polygon[
+                 Pattern[DigraphFractals`Private`x, 
+                  BlankSequence[]]]] := Polygon[
+                Map[DigraphFractals`Private`fOut, DigraphFractals`Private`x]]; 
+             DigraphFractals`Private`fOut[
+                Disk[
+                 Pattern[DigraphFractals`Private`p, 
+                  Blank[]], 
+                 Pattern[DigraphFractals`Private`r, 
+                  Blank[]]]] := Disk[
+                DigraphFractals`Private`fOut[DigraphFractals`Private`p], 
+                DigraphFractals`Private`r]; DigraphFractals`Private`fOut[
+                Circle[
+                 Pattern[DigraphFractals`Private`p, 
+                  Blank[]], 
+                 Pattern[DigraphFractals`Private`r, 
+                  Blank[]]]] := Circle[
+                DigraphFractals`Private`fOut[DigraphFractals`Private`p], 
+                DigraphFractals`Private`r]; DigraphFractals`Private`fOut[
+                Arrow[
+                 Pattern[DigraphFractals`Private`arrowStart, 
+                  Blank[]], 
+                 Pattern[DigraphFractals`Private`arrowFinish, 
+                  Blank[]], 
+                 Pattern[DigraphFractals`Private`arrowOpts, 
+                  BlankNullSequence[]]]] := Arrow[
+                DigraphFractals`Private`fOut[
+                DigraphFractals`Private`arrowStart], 
+                DigraphFractals`Private`fOut[
+                DigraphFractals`Private`arrowFinish], 
+                DigraphFractals`Private`arrowOpts]; 
+             DigraphFractals`Private`fOut[
+                Pattern[DigraphFractals`Private`h, 
+                 Blank[]][
+                 Pattern[DigraphFractals`Private`x, 
+                  BlankSequence[]]]] := 
+              DigraphFractals`Private`h[DigraphFractals`Private`x]; 
+             DigraphFractals`Private`fOut]; 
+          DigraphFractals`Private`start = 
+           Map[Apply[DigraphFractals`Private`placeHolder, #]& , 
+             DigraphFractals`Private`initiators]; 
+          DigraphFractals`Private`digraphFuncs = 
+           Map[DigraphFractals`Private`toFuncs, 
+             DigraphFractals`Private`digraph, {3}]; 
+          DigraphFractals`Private`digraphFuncs = 
+           Map[Apply[DigraphFractals`Private`placeHolder, #]& , 
+             DigraphFractals`Private`digraphFuncs, {2}]; 
+          DigraphFractals`Private`graphicList = ReplaceRepeated[
+             Nest[
+             Inner[Outer[#[#2]& , #, #2]& , 
+               DigraphFractals`Private`digraphFuncs, #, List]& , 
+              DigraphFractals`Private`start, DigraphFractals`Private`depth], 
+             DigraphFractals`Private`placeHolder[
+               Pattern[DigraphFractals`Private`x, 
+                BlankNullSequence[]]] -> {DigraphFractals`Private`x}]; 
+          Map[Show[
+             Graphics[#], 
+             Utilities`FilterOptions`FilterOptions[
+             Graphics, DigraphFractals`Private`opts], 
+             Utilities`FilterOptions`FilterOptions[Graphics, 
+              Apply[Sequence, 
+               Options[DigraphFractals`ShowDigraphFractals]]]]& , 
+            DigraphFractals`Private`graphicList]], 
+         And[
+          Or[
+           Apply[And, 
+            Flatten[
+             Map[MatchQ[#, {{{
+                  PatternTest[
+                   Pattern[DigraphFractals`Private`a, 
+                    Blank[]], NumericQ], 
+                  PatternTest[
+                   Pattern[DigraphFractals`Private`b, 
+                    Blank[]], NumericQ]}, {
+                  PatternTest[
+                   Pattern[DigraphFractals`Private`c, 
+                    Blank[]], NumericQ], 
+                  PatternTest[
+                   Pattern[DigraphFractals`Private`d, 
+                    Blank[]], NumericQ]}}, {
+                 PatternTest[
+                  Pattern[DigraphFractals`Private`e, 
+                   Blank[]], NumericQ], 
+                 PatternTest[
+                  Pattern[DigraphFractals`Private`f, 
+                   Blank[]], NumericQ]}}]& , 
+              DigraphFractals`Private`digraph, {3}]]], 
+           Message[
+            MessageName[DigraphFractals`DigraphFractals, "badDigraph"], 
+            DigraphFractals`ShowDigraphFractals]], 
+          Or[
+           And[
+            IntegerQ[DigraphFractals`Private`depth], 
+            DigraphFractals`Private`depth >= 0], 
+           Message[
+            MessageName[DigraphFractals`DigraphFractals, "badInt"], 
+            DigraphFractals`ShowDigraphFractals, 
+            DigraphFractals`Private`depth]], 
+          Or[
+           Apply[And, 
+            Map[OptionQ, {DigraphFractals`Private`opts}]], 
+           Message[
+            MessageName[DigraphFractals`DigraphFractals, "badOpt"], 
+            DigraphFractals`ShowDigraphFractals]]]]}], "SubValues" -> None, 
+    "DefaultValues" -> None, "NValues" -> None, "FormatValues" -> None, 
+    "Options" -> {
+     AlignmentPoint -> Center, AspectRatio -> Automatic, Axes -> False, 
+      AxesLabel -> None, AxesOrigin -> Automatic, AxesStyle -> {}, Background -> 
+      None, BaselinePosition -> Automatic, BaseStyle -> {}, ColorOutput -> 
+      Automatic, ContentSelectable -> Automatic, CoordinatesToolOptions -> 
+      Automatic, Epilog -> {}, FormatType -> TraditionalForm, Frame -> False, 
+      FrameLabel -> None, FrameStyle -> {}, FrameTicks -> Automatic, 
+      FrameTicksStyle -> {}, GridLines -> None, GridLinesStyle -> {}, 
+      ImageMargins -> 0., ImagePadding -> All, ImageSize -> Automatic, 
+      ImageSizeRaw -> Automatic, DigraphFractals`Initiators -> Automatic, 
+      LabelStyle -> {}, Method -> Automatic, PlotLabel -> None, PlotRange -> 
+      All, PlotRangeClipping -> False, PlotRangePadding -> Automatic, 
+      PlotRegion -> Automatic, PreserveImageOptions -> Automatic, Prolog -> 
+      AbsolutePointSize[0.05], RotateLabel -> True, Ticks -> Automatic, 
+      TicksStyle -> {}, DefaultFont :> $DefaultFont, 
+      DisplayFunction :> $DisplayFunction}, "Attributes" -> {Protected}, 
+    "FullName" -> "DigraphFractals`ShowDigraphFractals"], False]]], "Output",
+ CellChangeTimes->{3.921201750864995*^9, 3.9212018338296337`*^9, 
+  3.9212019343842*^9, 3.9212043109445047`*^9, 3.9212264217862587`*^9, 
+  3.921229582505107*^9, 3.921240197107868*^9, 3.921240265960217*^9},
+ CellLabel->"Out[57]=",ExpressionUUID->"a19dfb09-1835-4415-a56e-3eb5e273c82c"]
+}, Open  ]],
+
+Cell["\<\
+(* digraph generated fractal level 17*)
+g=ShowDigraphFractals[terdragonDigraph, 17][[1]];\
+\>", "Input",
+ PageWidth:>Infinity,
+ InitializationCell->True,
+ CellChangeTimes->{{3.921201695563167*^9, 3.921201729080474*^9}, {
+   3.921201858343961*^9, 3.921201860175186*^9}, {3.9212019022396917`*^9, 
+   3.9212019033188353`*^9}, 3.921202042478723*^9, {3.9212039411723347`*^9, 
+   3.9212039838189087`*^9}},
+ ShowSpecialCharacters->False,
+ CellLabel->"In[58]:=",ExpressionUUID->"691ff249-12aa-4683-ae22-9d5efb4b4433"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ga", "=", 
+   RowBox[{"Show", "[", 
+    RowBox[{"g", ",", 
+     RowBox[{"ImageSize", "\[Rule]", "2000"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.921201907617535*^9, 3.921201943288872*^9}, {
+  3.921204142378767*^9, 3.92120414841009*^9}, {3.921204183321213*^9, 
+  3.921204184800971*^9}},
+ CellLabel->"In[60]:=",ExpressionUUID->"e9cf4766-6241-4554-9532-626387230cba"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ComputeDimension", "[", "terdragonDigraph", "]"}]], "Input",
+ CellChangeTimes->{{3.921202243113906*^9, 3.9212022448996077`*^9}},
+ CellLabel->"In[61]:=",ExpressionUUID->"186c34f2-7963-4d19-b49a-6b5a545d8599"],
+
+Cell[BoxData["2.623953925734641`"], "Output",
+ CellChangeTimes->{3.921202248453541*^9, 3.9212043144814987`*^9, 
+  3.9212264272625837`*^9, 3.9212295957547417`*^9, 3.921240202133626*^9, 
+  3.9212402697755413`*^9},
+ CellLabel->"Out[61]=",ExpressionUUID->"8007bf2b-e373-4ab0-88d6-5ede1475e195"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Norm", "[", 
+  RowBox[{
+   RowBox[{"ComputePMatrix", "[", "terdragonDigraph", "]"}], "[", 
+   RowBox[{"[", 
+    RowBox[{"1", ",", "1"}], "]"}], "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.9212024897883244`*^9, 3.921202571456657*^9}},
+ CellLabel->"In[62]:=",ExpressionUUID->"4520fe70-48e2-4551-82a1-41927e7bbb03"],
+
+Cell[BoxData["0.775108559694562`"], "Output",
+ CellChangeTimes->{{3.921202496450521*^9, 3.921202574571313*^9}, 
+   3.921204314521286*^9, 3.921226427450989*^9, 3.9212295964840803`*^9, 
+   3.921240202381576*^9, 3.921240269797554*^9},
+ CellLabel->"Out[62]=",ExpressionUUID->"c5bf62f7-907c-4e77-9367-f9be7b6ecba9"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"(*", " ", 
+  RowBox[{"IFS", " ", "as", " ", "Stochastic"}], "*)"}]], "Input",
+ CellChangeTimes->{{3.9212040127481422`*^9, 3.921204042834509*^9}},
+ CellLabel->"In[63]:=",ExpressionUUID->"bb5d1897-2ecf-495b-b216-193494ac6f3b"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"gb", "=", 
+   RowBox[{"Show", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"ShowDigraphFractalsStochastic", "[", 
+       RowBox[{"terdragonDigraph", ",", "500000"}], "]"}], "[", 
+      RowBox[{"[", "1", "]"}], "]"}], ",", 
+     RowBox[{"ImageSize", "\[Rule]", "2000"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{
+  3.92120282615035*^9, {3.921202955662998*^9, 3.921202973109179*^9}, {
+   3.9212041321472692`*^9, 3.9212041926492853`*^9}},
+ CellLabel->"In[64]:=",ExpressionUUID->"a264a4e2-e0df-487d-b086-53c43388522f"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Export", "[", 
+  RowBox[{"\"\<2nd_minimal_Pisot_28_digraph17_IFS_500000_Grid.jpg\>\"", ",", 
+   RowBox[{"GraphicsGrid", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", "ga", "}"}], ",", 
+       RowBox[{"{", "gb", "}"}]}], "}"}], ",", 
+     RowBox[{"ImageSize", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"2000", ",", "4000"}], "}"}]}]}], "]"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.9212041963535833`*^9, 3.9212042619044657`*^9}, {
+  3.921204425824703*^9, 3.9212044303754597`*^9}, {3.921204572511376*^9, 
+  3.9212046445571003`*^9}, {3.921226345752109*^9, 3.9212263498719587`*^9}, {
+  3.9212295209848557`*^9, 3.921229521962514*^9}, {3.921236188938425*^9, 
+  3.921236199474289*^9}},
+ CellLabel->"In[65]:=",ExpressionUUID->"00def159-096c-44ae-b453-2956a615be19"],
+
+Cell[BoxData["\<\"2nd_minimal_Pisot_28_digraph17_IFS_500000_Grid.jpg\"\>"], \
+"Output",
+ CellChangeTimes->{3.921240246432901*^9, 3.921240474886167*^9},
+ CellLabel->"Out[65]=",ExpressionUUID->"25eae1c5-c389-40c8-b100-4a5aa2b6d6d8"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"(*", "end", "*)"}]], "Input",
+ CellChangeTimes->{{3.9212040490751143`*^9, 3.921204054474288*^9}},
+ CellLabel->"In[66]:=",ExpressionUUID->"e57bdc15-5738-44a5-9bb3-e2eb8b5d4a6e"],
+
+Cell[BoxData[
+ RowBox[{"(*", "Mathematica", "*)"}]], "Input",
+ CellChangeTimes->{{3.921203700274474*^9, 3.921203720285295*^9}},
+ CellLabel->"In[10]:=",ExpressionUUID->"34a55eb7-8e54-4357-b415-51db060f4536"],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{"2", "nd", " ", "minimal", " ", 
+   RowBox[{"Pisot", ":", 
+    RowBox[{
+     RowBox[{"x", "^", "4"}], "-", 
+     RowBox[{"x", "^", "3"}], "-", 
+     RowBox[{"1", " ", "as", " ", 
+      RowBox[{"{", 
+       RowBox[{"2", ",", "8"}], "}"}]}]}], ":", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"x", "^", "8"}], "+", 
+      RowBox[{"x", "^", "2"}]}], "\[Equal]", "1"}]}]}], "*)"}]], "Input",
+ CellChangeTimes->{{3.9212037243669167`*^9, 3.921203785085287*^9}, 
+   3.921236206722691*^9, {3.921236278042137*^9, 3.921236278060419*^9}, {
+   3.921236391155942*^9, 3.921236397511403*^9}},
+ CellLabel->"In[11]:=",ExpressionUUID->"dc4cc37f-1e99-48f4-901b-4fc869cbe67e"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"z", "=", 
+  RowBox[{"x", "/.", 
+   RowBox[{
+    RowBox[{"NSolve", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"x", "^", "4"}], "-", 
+        RowBox[{"x", "^", "3"}], "-", "1"}], "==", "0"}], ",", "x"}], "]"}], 
+    "[", 
+    RowBox[{"[", "2", "]"}], "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.9212016027384977`*^9, 3.921201621937808*^9}, {
+  3.921201824760844*^9, 3.921201829751733*^9}},
+ CellLabel->"In[12]:=",ExpressionUUID->"4ca50acc-c932-439f-b392-0eb70aacbfb8"],
+
+Cell[BoxData[
+ RowBox[{"0.21944747214927518`", "\[VeryThinSpace]", "-", 
+  RowBox[{"0.9144736629677265`", " ", "\[ImaginaryI]"}]}]], "Output",
+ CellChangeTimes->{3.9212016292256536`*^9, 3.921201688891309*^9, 
+  3.9212018332814713`*^9, 3.921201933906089*^9, 3.921204310395626*^9, 
+  3.9212264199480247`*^9, 3.921229573333552*^9, 3.921240196466712*^9, 
+  3.92124026541498*^9, 3.9212406090614643`*^9},
+ CellLabel->"Out[12]=",ExpressionUUID->"7effd821-ba53-4423-8248-5730b10965da"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{" ", 
+   RowBox[{"Akiyama", " ", "like", " ", 
+    RowBox[{"{", 
+     RowBox[{"1", ",", "5"}], "}"}], " ", "as", " ", "powers", " ", "of", " ",
+     "second", " ", "root", " ", 
+    RowBox[{"{", 
+     RowBox[{"2", ",", "8"}], "}"}]}], ")"}], "*)"}]], "Input",
+ CellChangeTimes->{{3.921203803413609*^9, 3.921203855060062*^9}, {
+  3.921224791534425*^9, 3.9212247921170483`*^9}, {3.921236401831675*^9, 
+  3.921236406647369*^9}},
+ CellLabel->"In[13]:=",ExpressionUUID->"98fe2bcb-80cf-43cd-b50c-6874940a2b10"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"c", "=", 
+  RowBox[{"Re", "[", 
+   RowBox[{"z", "^", "2"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.921236160002822*^9, 3.921236160624012*^9}},
+ CellLabel->"In[14]:=",ExpressionUUID->"d7bbe651-be6d-45b4-9db9-1925437df309"],
+
+Cell[BoxData[
+ RowBox[{"-", "0.788104887228904`"}]], "Output",
+ CellChangeTimes->{3.9212016889328423`*^9, 3.921201833342655*^9, 
+  3.921201933952669*^9, 3.921204310461442*^9, 3.921226420006983*^9, 
+  3.9212295734227133`*^9, 3.921240196520698*^9, 3.9212402654696827`*^9, 
+  3.9212406091392927`*^9},
+ CellLabel->"Out[14]=",ExpressionUUID->"41c47e45-0868-4717-9d2b-d93cd84a604c"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"s", "=", 
+  RowBox[{"Im", "[", 
+   RowBox[{"z", "^", "2"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.92123616558716*^9, 3.921236166377857*^9}, {
+  3.9212402498142033`*^9, 3.92124025529425*^9}},
+ CellLabel->"In[15]:=",ExpressionUUID->"96f351fe-24bf-4a3d-89fd-5f56886a8d1d"],
+
+Cell[BoxData[
+ RowBox[{"-", "0.4013578673707116`"}]], "Output",
+ CellChangeTimes->{3.921201688941366*^9, 3.921201833352304*^9, 
+  3.921201933962502*^9, 3.921204310502371*^9, 3.9212264200161*^9, 
+  3.921229573431717*^9, 3.921240196569488*^9, 3.9212402654794207`*^9, 
+  3.921240609147942*^9},
+ CellLabel->"Out[15]=",ExpressionUUID->"722cb43f-39b6-4f0f-9e7f-3ad71fca516b"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"z", "^", "5"}]], "Input",
+ CellChangeTimes->{3.921201808313043*^9, 3.921229497018152*^9},
+ CellLabel->"In[16]:=",ExpressionUUID->"09f47686-f5de-4aa5-9475-9ab7596c7ec0"],
+
+Cell[BoxData[
+ RowBox[{"0.6794686477229931`", "\[VeryThinSpace]", "-", 
+  RowBox[{"0.28184946936247024`", " ", "\[ImaginaryI]"}]}]], "Output",
+ CellChangeTimes->{
+  3.921201688976407*^9, {3.921201816318577*^9, 3.921201833402534*^9}, 
+   3.921201933993763*^9, 3.921204310545525*^9, 3.921226420053711*^9, 
+   3.921229573473298*^9, 3.921240196577582*^9, 3.921240265532991*^9, 
+   3.9212406091764708`*^9},
+ CellLabel->"Out[16]=",ExpressionUUID->"7b9e5d78-5ff1-491b-b5c9-0787667141c0"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"c1", "=", 
+  RowBox[{"N", "[", 
+   RowBox[{"Re", "[", 
+    RowBox[{"z", "^", "8"}], "]"}], "]"}]}]], "Input",
+ CellChangeTimes->{
+  3.921201667265748*^9, {3.9212295025626717`*^9, 3.921229506602667*^9}, 
+   3.921236172062344*^9},
+ CellLabel->"In[17]:=",ExpressionUUID->"6755229c-925e-407d-83a2-f1e9d52f60fc"],
+
+Cell[BoxData[
+ RowBox[{"-", "0.18859388835847538`"}]], "Output",
+ CellChangeTimes->{3.9212016889856367`*^9, 3.921201833412202*^9, 
+  3.921201934003457*^9, 3.92120431055326*^9, 3.921226420061839*^9, 
+  3.921229573484126*^9, 3.921240196619837*^9, 3.921240265541058*^9, 
+  3.921240609184764*^9},
+ CellLabel->"Out[17]=",ExpressionUUID->"8485246d-9faf-41cb-b54a-665789c00494"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"s1", "=", 
+  RowBox[{"N", "[", 
+   RowBox[{"Im", "[", 
+    RowBox[{"z", "^", "8"}], "]"}], "]"}]}]], "Input",
+ CellChangeTimes->{3.921201672257197*^9, 3.9212263069791603`*^9, 
+  3.9212295103466263`*^9, 3.9212361760824957`*^9},
+ CellLabel->"In[18]:=",ExpressionUUID->"b0e98884-eb43-4740-af6f-204016a6515f"],
+
+Cell[BoxData["0.5820410504773305`"], "Output",
+ CellChangeTimes->{3.921201689022091*^9, 3.9212018334611883`*^9, 
+  3.921201934035664*^9, 3.921204310594469*^9, 3.92122642010122*^9, 
+  3.921229573525407*^9, 3.921240196626548*^9, 3.921240265594783*^9, 
+  3.9212406092155647`*^9},
+ CellLabel->"Out[18]=",ExpressionUUID->"738e9ac6-d77b-4713-8cad-b60f8de69cf7"]
+}, Open  ]],
+
+Cell["\<\
+(* Adjusted Probability IFS program type*)
+(* Akiyama_Hinsley*)
+f1[{x_,y_}] = {x*c-s*y+c, s*x+c*y+s};
+f2[{x_,y_}] = {x*c1-s1*y+c1, s1*x+c1*y+s1};
+\
+\>", "Input",
+ InitializationCell->True,
+ AspectRatioFixed->True,
+ CellLabel->"In[19]:=",ExpressionUUID->"712ef2a8-a17d-42f6-890e-f929e9bcc32f"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Resolution", "=", "500000"}]], "Input",
+ CellChangeTimes->{3.921224768061224*^9},
+ CellLabel->"In[24]:=",ExpressionUUID->"17200780-7be9-4569-b529-c2a35be9a768"],
+
+Cell[BoxData["500000"], "Output",
+ CellChangeTimes->{3.921224883313882*^9, 3.921227628382393*^9, 
+  3.921235797756236*^9, 3.921240609227442*^9},
+ CellLabel->"Out[24]=",ExpressionUUID->"362ceeb3-92ba-49fd-afb9-f46e29cf2dc7"]
+}, Open  ]],
+
+Cell["\<\
+fa[x_] := Which[(r=Random[]) <= 1/3, f1[x],
+\tr <= 1.00, f2[x]]\t\
+\>", "Input",
+ InitializationCell->True,
+ CellChangeTimes->{3.921224442352283*^9},
+ AspectRatioFixed->True,
+ CellLabel->"In[25]:=",ExpressionUUID->"f3a16e64-4f9c-4fce-be7b-3532c60d8e79"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"fb", "[", "x_", "]"}], " ", ":=", " ", 
+  RowBox[{"Which", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{"r", "=", 
+       RowBox[{"Random", "[", "]"}]}], ")"}], " ", "\[LessEqual]", 
+     RowBox[{"2", "/", "3"}]}], ",", " ", 
+    RowBox[{"f1", "[", "x", "]"}], ",", "\n", "\t", 
+    RowBox[{"r", " ", "<=", " ", "1.00"}], ",", " ", 
+    RowBox[{"f2", "[", "x", "]"}]}], "]"}], "\t"}]], "Input",
+ CellChangeTimes->{{3.921224450077683*^9, 3.921224454966157*^9}},
+ CellLabel->"In[26]:=",ExpressionUUID->"2d9e24a3-45ad-4d94-8670-df50d08db236"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"fc", "[", "x_", "]"}], " ", ":=", " ", 
+  RowBox[{"Which", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{"r", "=", 
+       RowBox[{"Random", "[", "]"}]}], ")"}], " ", "<=", " ", 
+     RowBox[{"1", "/", "2"}]}], ",", " ", 
+    RowBox[{"f1", "[", "x", "]"}], ",", "\n", "\t", 
+    RowBox[{"r", " ", "<=", " ", "1.00"}], ",", " ", 
+    RowBox[{"f2", "[", "x", "]"}]}], "]"}], "\t"}]], "Input",
+ CellLabel->"In[27]:=",ExpressionUUID->"4ee22a90-eea0-4b62-9d2e-891ff06cede2"],
+
+Cell["\<\
+ifsa[n_] := Show[Graphics[{PointSize[.0005],RGBColor[1,0,0],
+\tMap[Point, NestList[fa, {0,0}, n]]}],
+\t\tPlotRange->All,AspectRatio->Automatic,ImageSize->2000]\
+\>", "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.921224514893793*^9, 3.921224536773697*^9}, {
+  3.921226218720509*^9, 3.921226219737706*^9}},
+ AspectRatioFixed->True,
+ CellLabel->"In[28]:=",ExpressionUUID->"4cc53d71-32c8-4e74-9291-7ab1b9970502"],
+
+Cell["ga=ifsa[Resolution];", "Input",
+ CellChangeTimes->{3.921224548470273*^9},
+ AspectRatioFixed->True,
+ CellLabel->"In[29]:=",ExpressionUUID->"b6655947-ccfc-4f33-b624-eb9cbced1b38"],
+
+Cell["\<\
+ifsb[n_] := Show[Graphics[{PointSize[.0005],RGBColor[0,0,1],
+\tMap[Point, NestList[fb, {0,0}, n]]}],
+\t\tPlotRange->All,AspectRatio->Automatic,ImageSize->2000];\
+\>", "Input",
+ InitializationCell->True,
+ CellChangeTimes->{
+  3.921224558382247*^9, 3.92122459645268*^9, {3.92122622487385*^9, 
+   3.9212262263538437`*^9}},
+ AspectRatioFixed->True,
+ CellLabel->"In[30]:=",ExpressionUUID->"3f0104da-be6e-4f04-8e62-36c47c72de98"],
+
+Cell["gb=ifsb[Resolution];", "Input",
+ CellChangeTimes->{3.921224561805653*^9},
+ AspectRatioFixed->True,
+ CellLabel->"In[31]:=",ExpressionUUID->"d3eacb6b-5253-41ba-92f9-2b860cdaa7c6"],
+
+Cell["\<\
+ifsc[n_] := Show[Graphics[{PointSize[.0005],RGBColor[0,1,0],
+\tMap[Point, NestList[fc, {0,0}, n]]}],
+\t\tPlotRange->All,AspectRatio->Automatic,ImageSize->2000];\
+\>", "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.921224601849094*^9, 3.921224617093402*^9}, {
+  3.921226230921796*^9, 3.921226232865582*^9}},
+ AspectRatioFixed->True,
+ CellLabel->"In[32]:=",ExpressionUUID->"e2ff4ee2-8d21-4e8a-8a65-0e4d002600ab"],
+
+Cell["gc=ifsc[Resolution];", "Input",
+ CellChangeTimes->{3.92122457320618*^9},
+ AspectRatioFixed->True,
+ CellLabel->"In[33]:=",ExpressionUUID->"560789b3-d046-4c71-81b1-aef48ded920f"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"gd", "=", 
+   RowBox[{"Show", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"gb", ",", "gc", ",", "ga"}], "}"}], ",", 
+     RowBox[{"ImageSize", "\[Rule]", "Full"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.921224608134226*^9, 3.9212246621500483`*^9}},
+ CellLabel->"In[34]:=",ExpressionUUID->"eb649503-0f7c-4306-9974-4264b6798db8"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"Export", "[", 
+  RowBox[{"\"\<2nd_minimal_Pisot28_IFS_500000_Grid.jpg\>\"", ",", 
+   RowBox[{"GraphicsGrid", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"ga", ",", "gc"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"gb", ",", "gd"}], "}"}]}], "}"}], ",", 
+     RowBox[{"ImageSize", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"4000", ",", "4000"}], "}"}]}]}], "]"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", "end", "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.921224704589972*^9, 3.921224757692992*^9}, {
+  3.921226380145905*^9, 3.921226381128697*^9}, {3.921229397957295*^9, 
+  3.9212293993308277`*^9}, {3.921229447588983*^9, 3.921229448875495*^9}, {
+  3.921240375952582*^9, 3.9212403838781548`*^9}},
+ CellLabel->"In[35]:=",ExpressionUUID->"a5bf7fd6-d33f-4e08-9bcb-d160c00d4a8d"],
+
+Cell[BoxData["\<\"2nd_minimal_Pisot28_IFS_500000_Grid.jpg\"\>"], "Output",
+ CellChangeTimes->{3.92124179061722*^9},
+ CellLabel->"Out[35]=",ExpressionUUID->"bca97d1c-e1f2-42be-839f-4a0c94edbcff"]
+}, Open  ]]
+},
+AutoGeneratedPackage->None,
+WindowToolbars->{},
+CellGrouping->Manual,
+WindowSize->{808, 911},
+WindowMargins->{{174, Automatic}, {44, Automatic}},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+ShowCellLabel->True,
+ShowCellTags->False,
+FrontEndVersion->"12.2 for Mac OS X x86 (64-bit) (December 12, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"66bc0caf-468d-4a03-83a0-61f20a7fcc8e"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 206, 3, 30, "Input",ExpressionUUID->"c3a491d8-b390-4869-b007-a9da94d61d24"],
+Cell[767, 25, 699, 17, 30, "Input",ExpressionUUID->"22c44d1b-6c0f-4a9b-b015-dd0d239e1c5c"],
+Cell[CellGroupData[{
+Cell[1491, 46, 513, 14, 30, "Input",ExpressionUUID->"b29ea901-c649-4ba0-9634-7c30bae6e938"],
+Cell[2007, 62, 453, 7, 34, "Output",ExpressionUUID->"7fb1b608-986f-4dff-9078-9c3aa534e970"]
+}, Open  ]],
+Cell[2475, 72, 544, 12, 30, "Input",ExpressionUUID->"e0a4a3a4-800f-4910-97a4-a23892cfd077"],
+Cell[CellGroupData[{
+Cell[3044, 88, 247, 5, 30, "Input",ExpressionUUID->"762e2ca9-0f2d-4861-9c1c-3734a2c4c5d4"],
+Cell[3294, 95, 349, 5, 34, "Output",ExpressionUUID->"5aa7c69d-8ef0-4cb9-8ffb-bfe0946225b2"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3680, 105, 296, 6, 30, "Input",ExpressionUUID->"4f8beb61-438b-403f-b3e0-08819dbcd97d"],
+Cell[3979, 113, 344, 5, 34, "Output",ExpressionUUID->"b6d9ac36-1978-4bad-9139-57f1a045313a"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4360, 123, 192, 3, 30, "Input",ExpressionUUID->"45ad1b0d-8394-424a-86ef-9ae8a1f53d1b"],
+Cell[4555, 128, 452, 7, 34, "Output",ExpressionUUID->"c72101f0-b427-4d90-923c-b7b309fdf739"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5044, 140, 331, 8, 30, "Input",ExpressionUUID->"5fbcee57-fc8b-4539-9822-cee4e5004dae"],
+Cell[5378, 150, 346, 5, 34, "Output",ExpressionUUID->"fad39d20-0bcc-41e6-9077-19f415899115"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5761, 160, 329, 7, 30, "Input",ExpressionUUID->"8d0c9cfe-bca2-4daa-82bc-8cd17d470297"],
+Cell[6093, 169, 328, 4, 34, "Output",ExpressionUUID->"8f2682f7-6650-4c65-a005-ddc1d6fb56d6"]
+}, Open  ]],
+Cell[6436, 176, 260, 7, 64, "Input",ExpressionUUID->"c52c5cb1-87fd-4c2f-b5ad-26bffafeeb0e",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[6721, 187, 311, 9, 82, "Input",ExpressionUUID->"8b49138f-298a-4416-a06f-9b40cf8bce75",
+ InitializationCell->True],
+Cell[7035, 198, 894, 22, 34, "Output",ExpressionUUID->"943724af-edb6-47e9-97bb-7d69405f914a"],
+Cell[7932, 222, 874, 21, 34, "Output",ExpressionUUID->"cfc50515-3fb2-4ca5-9e2c-9996f5a819e0"]
+}, Open  ]],
+Cell[8821, 246, 286, 5, 46, "Input",ExpressionUUID->"3e1c4dfe-1853-4860-b7a0-2f8cdd18959b",
+ InitializationCell->True],
+Cell[9110, 253, 204, 4, 46, "Input",ExpressionUUID->"9961ee7d-abdb-48b6-ad4b-dd539f9e0878",
+ InitializationCell->True],
+Cell[9317, 259, 176, 4, 46, "Input",ExpressionUUID->"46189dea-bbc6-4f7f-af56-9f7731a1cc40",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[9518, 267, 214, 7, 64, "Input",ExpressionUUID->"79f0819d-87e1-470d-aa05-a624ca171c3b",
+ InitializationCell->True],
+Cell[9735, 276, 1591, 42, 56, "Output",ExpressionUUID->"51304813-e19b-4d41-b2a0-74a5f8421bd1"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11363, 323, 209, 3, 30, "Input",ExpressionUUID->"2cdadafa-29ef-48ac-af68-784baae97621"],
+Cell[11575, 328, 43142, 951, 191, "Output",ExpressionUUID->"a19dfb09-1835-4415-a56e-3eb5e273c82c"]
+}, Open  ]],
+Cell[54732, 1282, 519, 11, 64, "Input",ExpressionUUID->"691ff249-12aa-4683-ae22-9d5efb4b4433",
+ InitializationCell->True],
+Cell[55254, 1295, 410, 9, 30, "Input",ExpressionUUID->"e9cf4766-6241-4554-9532-626387230cba"],
+Cell[CellGroupData[{
+Cell[55689, 1308, 231, 3, 30, "Input",ExpressionUUID->"186c34f2-7963-4d19-b49a-6b5a545d8599"],
+Cell[55923, 1313, 290, 4, 34, "Output",ExpressionUUID->"8007bf2b-e373-4ab0-88d6-5ede1475e195"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[56250, 1322, 338, 7, 30, "Input",ExpressionUUID->"4520fe70-48e2-4551-82a1-41927e7bbb03"],
+Cell[56591, 1331, 310, 4, 34, "Output",ExpressionUUID->"c5bf62f7-907c-4e77-9367-f9be7b6ecba9"]
+}, Open  ]],
+Cell[56916, 1338, 248, 4, 30, "Input",ExpressionUUID->"bb5d1897-2ecf-495b-b216-193494ac6f3b"],
+Cell[57167, 1344, 557, 13, 30, "Input",ExpressionUUID->"a264a4e2-e0df-487d-b086-53c43388522f"],
+Cell[CellGroupData[{
+Cell[57749, 1361, 815, 17, 52, "Input",ExpressionUUID->"00def159-096c-44ae-b453-2956a615be19"],
+Cell[58567, 1380, 230, 3, 34, "Output",ExpressionUUID->"25eae1c5-c389-40c8-b100-4a5aa2b6d6d8"]
+}, Open  ]],
+Cell[58812, 1386, 200, 3, 30, "Input",ExpressionUUID->"e57bdc15-5738-44a5-9bb3-e2eb8b5d4a6e"],
+Cell[59015, 1391, 206, 3, 30, "Input",ExpressionUUID->"34a55eb7-8e54-4357-b415-51db060f4536"],
+Cell[59224, 1396, 699, 17, 30, "Input",ExpressionUUID->"dc4cc37f-1e99-48f4-901b-4fc869cbe67e"],
+Cell[CellGroupData[{
+Cell[59948, 1417, 513, 14, 30, "Input",ExpressionUUID->"4ca50acc-c932-439f-b392-0eb70aacbfb8"],
+Cell[60464, 1433, 477, 7, 34, "Output",ExpressionUUID->"7effd821-ba53-4423-8248-5730b10965da"]
+}, Open  ]],
+Cell[60956, 1443, 544, 12, 30, "Input",ExpressionUUID->"98fe2bcb-80cf-43cd-b50c-6874940a2b10"],
+Cell[CellGroupData[{
+Cell[61525, 1459, 247, 5, 30, "Input",ExpressionUUID->"d7bbe651-be6d-45b4-9db9-1925437df309"],
+Cell[61775, 1466, 376, 6, 34, "Output",ExpressionUUID->"41c47e45-0868-4717-9d2b-d93cd84a604c"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[62188, 1477, 296, 6, 30, "Input",ExpressionUUID->"96f351fe-24bf-4a3d-89fd-5f56886a8d1d"],
+Cell[62487, 1485, 369, 6, 34, "Output",ExpressionUUID->"722cb43f-39b6-4f0f-9e7f-3ad71fca516b"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[62893, 1496, 192, 3, 30, "Input",ExpressionUUID->"09f47686-f5de-4aa5-9475-9ab7596c7ec0"],
+Cell[63088, 1501, 480, 8, 34, "Output",ExpressionUUID->"7b9e5d78-5ff1-491b-b5c9-0787667141c0"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[63605, 1514, 331, 8, 30, "Input",ExpressionUUID->"6755229c-925e-407d-83a2-f1e9d52f60fc"],
+Cell[63939, 1524, 371, 6, 34, "Output",ExpressionUUID->"8485246d-9faf-41cb-b54a-665789c00494"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[64347, 1535, 329, 7, 30, "Input",ExpressionUUID->"b0e98884-eb43-4740-af6f-204016a6515f"],
+Cell[64679, 1544, 355, 5, 34, "Output",ExpressionUUID->"738e9ac6-d77b-4713-8cad-b60f8de69cf7"]
+}, Open  ]],
+Cell[65049, 1552, 302, 9, 118, "Input",ExpressionUUID->"712ef2a8-a17d-42f6-890e-f929e9bcc32f",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[65376, 1565, 184, 3, 30, "Input",ExpressionUUID->"17200780-7be9-4569-b529-c2a35be9a768"],
+Cell[65563, 1570, 223, 3, 34, "Output",ExpressionUUID->"362ceeb3-92ba-49fd-afb9-f46e29cf2dc7"]
+}, Open  ]],
+Cell[65801, 1576, 263, 7, 64, "Input",ExpressionUUID->"f3a16e64-4f9c-4fce-be7b-3532c60d8e79",
+ InitializationCell->True],
+Cell[66067, 1585, 593, 14, 52, "Input",ExpressionUUID->"2d9e24a3-45ad-4d94-8670-df50d08db236"],
+Cell[66663, 1601, 522, 13, 52, "Input",ExpressionUUID->"4ee22a90-eea0-4b62-9d2e-891ff06cede2"],
+Cell[67188, 1616, 430, 9, 82, "Input",ExpressionUUID->"4cc53d71-32c8-4e74-9291-7ab1b9970502",
+ InitializationCell->True],
+Cell[67621, 1627, 183, 3, 30, "Input",ExpressionUUID->"b6655947-ccfc-4f33-b624-eb9cbced1b38"],
+Cell[67807, 1632, 433, 10, 82, "Input",ExpressionUUID->"3f0104da-be6e-4f04-8e62-36c47c72de98",
+ InitializationCell->True],
+Cell[68243, 1644, 183, 3, 30, "Input",ExpressionUUID->"d3eacb6b-5253-41ba-92f9-2b860cdaa7c6"],
+Cell[68429, 1649, 431, 9, 82, "Input",ExpressionUUID->"e2ff4ee2-8d21-4e8a-8a65-0e4d002600ab",
+ InitializationCell->True],
+Cell[68863, 1660, 182, 3, 30, "Input",ExpressionUUID->"560789b3-d046-4c71-81b1-aef48ded920f"],
+Cell[69048, 1665, 381, 9, 30, "Input",ExpressionUUID->"eb649503-0f7c-4306-9974-4264b6798db8"],
+Cell[CellGroupData[{
+Cell[69454, 1678, 879, 21, 73, "Input",ExpressionUUID->"a5bf7fd6-d33f-4e08-9bcb-d160c00d4a8d"],
+Cell[70336, 1701, 194, 2, 82, "Output",ExpressionUUID->"bca97d1c-e1f2-42be-839f-4a0c94edbcff"]
+}, Open  ]]
+}
+]
+*)
+
