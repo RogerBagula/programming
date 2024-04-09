@@ -1,0 +1,4847 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[    179144,       4839]
+NotebookOptionsPosition[    157497,       4422]
+NotebookOutlinePosition[    158021,       4443]
+CellTagsIndexPosition[    157978,       4440]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Tiling based on Pisot numbers", "Subtitle",ExpressionUUID->"de984a1c-4ac0-4a2f-b42b-f43d00cd921f"],
+
+Cell[TextData[{
+ "Some years ago I looked through the web for tilings based on Pisot numbers. \
+There I found a work of Jean-Ren\[EAcute] Geoffroy ",
+ StyleBox["[1] ",
+  FontWeight->"Bold"],
+ "(french language) containing a Maple V program which is still available. \n\
+This notebook contains my version of the Maple routines converted into ",
+ StyleBox["Mathematica",
+  FontSlant->"Italic"],
+ " code. It is restricted to polynomials of order three which have roots that \
+are Pisot numbers. In order to limit the size all output of the notebook is \
+deleted. So the first action is to evaluate the complete notebook. In my \
+opinion the most interesting feature of this implementation is the ability to \
+create sub-tilings of every tiling. You find some more theoretical background \
+in ",
+ StyleBox["[2] ",
+  FontWeight->"Bold"],
+ "and",
+ StyleBox[" [3]",
+  FontWeight->"Bold"],
+ ". As far as I am aware no ",
+ StyleBox["Mathematica",
+  FontSlant->"Italic"],
+ " code for tilings based on beta expansion of Pisot numbers is available in \
+the web. The notebook \"Perron Number Tiling Systems\" from Roger Bagula ",
+ StyleBox["[4]",
+  FontWeight->"Bold"],
+ " can produce the border lines of the tilings below. That is because any \
+Pisot number is a Perron number ",
+ StyleBox["[5]",
+  FontWeight->"Bold"],
+ ".\n\nPlease feel free to mail your comments or interesting add-on. My \
+experience in the English language is limited, so please excuse errors.\n\n\
+Author:\tDieter K. Steemann, Bremen, Germany \[Copyright]\nCreated:\t2008, \
+Jan. 29 with ",
+ StyleBox["Mathematica",
+  FontSlant->"Italic"],
+ " 5\nChanges:\t2012, Nov., 28; converted into ",
+ StyleBox["Mathematica",
+  FontSlant->"Italic"],
+ " 7, translated German explanations into English language.\n\t\t2014, July, \
+29; minor changes in color designation; \n\t\tadded a bunch of tiling \
+examples in the new section \"A systematic approach\"\nTested:\t\twith ",
+ StyleBox["Mathematica",
+  FontSlant->"Italic"],
+ " 7\t"
+}], "Text",
+ CellChangeTimes->{{3.921657465955633*^9, 
+  3.921657473327567*^9}},ExpressionUUID->"b817c3fb-5ef3-429d-92d9-\
+6b4c8049bab1"],
+
+Cell[TextData[StyleBox["In order to see the graphics this notebook must be \
+evaluated first. All these graphics need a lot of computer resources. So \
+perhaps it may be advisable to evaluate only one section at time, But always \
+allow the initialization cells to be evaluated.",
+ FontColor->RGBColor[1, 0, 1]]], "Text",ExpressionUUID->"e097e984-b946-4489-\
+94b6-9badfa705698"],
+
+Cell[CellGroupData[{
+
+Cell["Initialize tiling routines", "Section",ExpressionUUID->"964582ee-a27c-4a90-9c6d-127e6feb3feb"],
+
+Cell[CellGroupData[{
+
+Cell["Test if polynomial roots result in a Pisot number", "Subsubsection",ExpressionUUID->"1769b4c1-9b8d-4676-bccf-fa6450b5ff14"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"isPisot", "[", 
+   RowBox[{"p_", ",", "x_"}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"pRoots", ",", "pisot", ",", "expan"}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"PolynomialQ", "[", 
+         RowBox[{"p", ",", "x"}], "]"}], "\[Equal]", "False"}], ",", 
+       RowBox[{
+        RowBox[{"Print", "[", 
+         RowBox[{
+         "\"\<Error: \>\"", ",", "p", ",", "\"\< is not polynomial!\>\""}], 
+         "]"}], ";", 
+        RowBox[{"Abort", "[", "]"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Last", "[", 
+         RowBox[{"CoefficientList", "[", 
+          RowBox[{"p", ",", "x"}], "]"}], "]"}], "\[NotEqual]", "1"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{
+        "Print", "[", "\"\<Error: Polynomial must be normalize!\>\"", "]"}], 
+        ";", 
+        RowBox[{"Abort", "[", "]"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Select", "[", 
+         RowBox[{
+          RowBox[{"CoefficientList", "[", 
+           RowBox[{"p", ",", "x"}], "]"}], ",", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Head", "[", "#", "]"}], "=!=", " ", "Integer"}], "&"}]}],
+          "]"}], "\[NotEqual]", 
+        RowBox[{"{", "}"}]}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{
+        "Print", "[", 
+         "\"\<Error: Polynomial must have integer coefficients!\>\"", "]"}], 
+        ";", 
+        RowBox[{"Abort", "[", "]"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"First", "[", 
+         RowBox[{"Abs", "[", 
+          RowBox[{"CoefficientList", "[", 
+           RowBox[{"p", ",", "x"}], "]"}], "]"}], "]"}], "\[NotEqual]", "1"}],
+        ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{
+        "Print", "[", 
+         "\"\<Error: The constant term of the polynomial is <> 1!\>\"", "]"}],
+         ";", 
+        RowBox[{"Abort", "[", "]"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"pRoots", "=", 
+      RowBox[{"x", "/.", 
+       RowBox[{"Solve", "[", 
+        RowBox[{
+         RowBox[{"p", "==", "0"}], ",", "x"}], "]"}]}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"pisot", "=", 
+      RowBox[{"Select", "[", 
+       RowBox[{"pRoots", ",", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Head", "[", 
+           RowBox[{"N", "[", "#", "]"}], "]"}], "\[Equal]", "Real"}], "&"}]}],
+        "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+       RowBox[{"pisot", "=", 
+        RowBox[{"Select", "[", 
+         RowBox[{"pisot", ",", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"N", "[", "#", "]"}], ">", "1"}], " ", "&"}]}], "]"}]}], 
+       ";"}], "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Length", "[", "pisot", "]"}], ">", "1"}], ",", 
+       RowBox[{
+        RowBox[{
+        "Print", "[", "\"\<Error: Polynomial has several real roots >1!\>\"", 
+         "]"}], ";", 
+        RowBox[{"Abort", "[", "]"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Length", "[", "pisot", "]"}], "\[Equal]", "0"}], ",", 
+       RowBox[{
+        RowBox[{
+        "Print", "[", "\"\<Error: Polynomial has no real root >1!\>\"", "]"}],
+         ";", 
+        RowBox[{"Abort", "[", "]"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"expan", "=", 
+      RowBox[{"Select", "[", 
+       RowBox[{"pRoots", ",", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Im", "[", 
+           RowBox[{"N", "[", "#", "]"}], "]"}], ">", "0"}], " ", "&"}]}], 
+       "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Length", "[", "expan", "]"}], "\[Equal]", "0"}], ",", 
+       RowBox[{
+        RowBox[{
+        "Print", "[", "\"\<Error: Polynomial has no complex root!\>\"", "]"}],
+         ";", 
+        RowBox[{"Abort", "[", "]"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{"pisot", ",", "expan"}], "}"}]}]}], "\[IndentingNewLine]", 
+   "]"}]}]], "Input",
+ InitializationCell->True,
+ CellLabel->"In[12]:=",ExpressionUUID->"b5647fcc-6e8a-49f7-99cd-4298fb727240"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Development of the number x after the basis b (beta expansion)\
+\>", "Subsubsection",ExpressionUUID->"4bb547bf-c689-4a10-a171-c141dc4c69e1"],
+
+Cell[TextData[{
+ "For correct results the numbers ",
+ StyleBox["x",
+  FontWeight->"Bold"],
+ " and its base ",
+ StyleBox["b",
+  FontWeight->"Bold"],
+ " must be given as precise expressions or as high precision numbers. \
+Ordinary floating point values may fail in the beta expansion."
+}], "Text",ExpressionUUID->"844a7f20-ec4e-4a65-a305-5270c8c90b67"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"dev2Base", "[", 
+   RowBox[{"b_", ",", "x_", ",", "n_"}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"y", ",", "i", ",", 
+      RowBox[{"digits", "=", 
+       RowBox[{"50", "+", 
+        RowBox[{"n", "*", "30"}]}]}], ",", "bi", ",", "xi", ",", "i1", ",", 
+      "j", ",", "y1"}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"bi", "=", 
+      RowBox[{"SetAccuracy", "[", 
+       RowBox[{"b", ",", "digits"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"xi", "=", 
+      RowBox[{"SetAccuracy", "[", 
+       RowBox[{"x", ",", "digits"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"i", "=", 
+      RowBox[{"Floor", "[", 
+       RowBox[{"N", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Log", "[", "xi", "]"}], "/", 
+          RowBox[{"Log", "[", "bi", "]"}]}], ",", "digits"}], "]"}], "]"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"i1", "=", 
+      RowBox[{"SetAccuracy", "[", 
+       RowBox[{"i", ",", "digits"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"y", "=", 
+      RowBox[{"N", "[", 
+       RowBox[{
+        RowBox[{"xi", "*", 
+         RowBox[{"bi", "^", 
+          RowBox[{"(", 
+           RowBox[{"-", "i1"}], ")"}]}]}], ",", "digits"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Join", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"i", "+", "1"}], "}"}], ",", 
+       RowBox[{"Table", "[", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"y1", "=", 
+           RowBox[{
+            RowBox[{"Floor", "[", "y", "]"}], "-", 
+            RowBox[{"Floor", "[", 
+             RowBox[{"N", "[", 
+              RowBox[{
+               RowBox[{"1", "-", 
+                RowBox[{"FractionalPart", "[", "y", "]"}]}], ",", "digits"}], 
+              "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"y", "=", 
+           RowBox[{"N", "[", 
+            RowBox[{
+             RowBox[{"bi", "*", 
+              RowBox[{"(", 
+               RowBox[{"y", "-", 
+                RowBox[{"SetAccuracy", "[", 
+                 RowBox[{"y1", ",", "digits"}], "]"}]}], ")"}]}], ",", 
+             "digits"}], "]"}]}], ";", "\[IndentingNewLine]", "y1"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"{", 
+          RowBox[{"j", ",", "1", ",", 
+           RowBox[{"n", "+", 
+            RowBox[{"Max", "[", 
+             RowBox[{"0", ",", 
+              RowBox[{"i", "+", "1"}]}], "]"}]}]}], "}"}]}], 
+        "\[IndentingNewLine]", "]"}]}], "]"}]}]}], "\[IndentingNewLine]", 
+   "]"}]}]], "Input",
+ InitializationCell->True,
+ CellLabel->"In[13]:=",ExpressionUUID->"ae1c34c8-3c5f-41e8-ab8e-4544fffe8557"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Calculation of the tiling based on a Pisot polynomial", "Subsubsection",ExpressionUUID->"d91f9879-f0fd-4db3-88c1-493180e7d3b6"],
+
+Cell[TextData[{
+ "Kernel of the tiling calculation is the ",
+ StyleBox["calcTiles",
+  FontWeight->"Bold"],
+ " routine. Only polynomial of order three give correct results. \nBecause \
+the ",
+ StyleBox["Sow",
+  FontWeight->"Bold"],
+ " mechanism of ",
+ StyleBox["Mathematica ",
+  FontSlant->"Italic"],
+ "is used to output the results the ",
+ StyleBox["Reap",
+  FontWeight->"Bold"],
+ " mechanism must be used in order to collect the results.  Look at the \
+routines ",
+ StyleBox["tiling ",
+  FontWeight->"Bold"],
+ "or",
+ StyleBox[" showTiling",
+  FontWeight->"Bold"],
+ " how to get and evaluate the results. The parameter of  ",
+ StyleBox["calcTiles",
+  FontWeight->"Bold"],
+ " are defined as follows:\n\n",
+ StyleBox["Input:",
+  FontWeight->"Bold"],
+ "\n",
+ StyleBox["r:",
+  FontWeight->"Bold"],
+ "\tpolynomial given in the form ",
+ Cell[BoxData[
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      SuperscriptBox["x", "n"], "+", 
+      SuperscriptBox["x", 
+       RowBox[{"n", "-", "1"}]]}], ".."}], "x"}], "\[PlusMinus]", "1"}]],
+  ExpressionUUID->"f37249d6-d267-402c-a91c-9eea5242cd01"],
+ "\n",
+ StyleBox["x:",
+  FontWeight->"Bold"],
+ "\tthe variable of the polynomial, i.e. x.\n",
+ StyleBox["p:",
+  FontWeight->"Bold"],
+ "\tDuring the evaluation ",
+ StyleBox["p",
+  FontWeight->"Bold"],
+ " is interpreted as the number of digits after the \"decimal\" point.\n\tThe \
+precision (number of digits after the \"decimal\" point)  during the \[Beta] \
+development of the Pisot number is ",
+ StyleBox["p + q",
+  FontWeight->"Bold"],
+ ".\n\tThis determines the number of points produced for every tile and not \
+to forget the computation time.\n",
+ StyleBox["q:",
+  FontWeight->"Bold"],
+ "\tDefines the number of digits before the \"decimal\" point. This \
+determines the number of tiles. ",
+ StyleBox["q=0",
+  FontWeight->"Bold"],
+ " results in a single tile.\n",
+ StyleBox["opts",
+  FontWeight->"Bold"],
+ ":\tThe only accepted options are \"quiet\" \[Rule] True | False. Default is \
+\"quiet\"=True and no information about the tiling is given.\n\n",
+ StyleBox["Output: ",
+  FontWeight->"Bold"],
+ "The output is given in the form: ",
+ Cell[BoxData[
+  RowBox[{"{", 
+   RowBox[{"info", ",", 
+    RowBox[{"{", 
+     RowBox[{
+      SubscriptBox["pts", "1"], ",", 
+      SubscriptBox["pts", "2"], ",", ".."}], "}"}]}], "}"}]],ExpressionUUID->
+  "12f50e38-4ee1-4ec6-9a75-27d7b4654515"],
+ "\n",
+ StyleBox["info",
+  FontWeight->"Bold"],
+ ":\tInformation about the tilling\n",
+ StyleBox["pts",
+  FontWeight->"Bold"],
+ ":\tpoint lists of the form ",
+ Cell[BoxData[
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       SubscriptBox["px", "1"], ",", 
+       SubscriptBox["py", "1"]}], "}"}], ".."}], 
+    RowBox[{"{", 
+     RowBox[{
+      SubscriptBox["px", "n"], ",", 
+      SubscriptBox["py", "n"]}], "}"}]}], "}"}]],ExpressionUUID->
+  "d629c0c9-1daa-44e9-9fee-d557a3fed319"],
+ " with point coordinates ",
+ Cell[BoxData[
+  RowBox[{"{", 
+   RowBox[{"px", ",", "py"}], "}"}]],ExpressionUUID->
+  "11f18d77-dce0-4552-974c-b01912e2cf39"],
+ ".\n\tThe number of point lists is equal the number of tiles."
+}], "Text",ExpressionUUID->"042b3054-603d-4d3b-b922-244d481e07a7"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"$HistoryLength", "=", "2"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"calcTiles", "[", 
+    RowBox[{"r_", ",", "x_", ",", "p_", ",", "q_", ",", "opts___"}], "]"}], ":=", 
+   RowBox[{"Module", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "b", ",", "lambda", ",", "pisot", ",", "i", ",", "j", ",", "k", ",", 
+       "y", ",", "ypos", ",", "v", ",", "carry", ",", "rep", ",", "rpol", ",",
+        "lpol", ",", "pol", ",", "simpX", ",", "simpY", ",", "pos", ",", 
+       "deg", ",", 
+       RowBox[{"tString", "=", 
+        RowBox[{"{", "}"}]}], ",", "ru", ",", "tileNo"}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"pisot", "=", 
+       RowBox[{"isPisot", "[", 
+        RowBox[{"r", ",", "x"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"b", "=", 
+       RowBox[{"pisot", "[", 
+        RowBox[{"[", 
+         RowBox[{"1", ",", "1"}], "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"lambda", "=", 
+       RowBox[{"N", "[", 
+        RowBox[{"pisot", "[", 
+         RowBox[{"[", 
+          RowBox[{"2", ",", "1"}], "]"}], "]"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"carry", "=", 
+       RowBox[{"dev2Base", "[", 
+        RowBox[{"b", ",", "1", ",", 
+         RowBox[{"p", "+", "q"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"carry", "=", 
+       RowBox[{"Take", "[", 
+        RowBox[{"carry", ",", 
+         RowBox[{"{", 
+          RowBox[{"3", ",", 
+           RowBox[{"Length", "[", "carry", "]"}]}], "}"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"deg", "=", 
+       RowBox[{
+        RowBox[{"Length", "[", 
+         RowBox[{"CoefficientList", "[", 
+          RowBox[{"r", ",", "x"}], "]"}], "]"}], "-", "1"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"simpX", "=", 
+       RowBox[{"Sum", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"-", 
+           RowBox[{"Coefficient", "[", 
+            RowBox[{"r", ",", "x", ",", "k"}], "]"}]}], "*", 
+          RowBox[{"x", "^", "k"}]}], ",", 
+         RowBox[{"{", 
+          RowBox[{"k", ",", "0", ",", 
+           RowBox[{"deg", "-", "1"}]}], "}"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"simpY", "=", 
+       RowBox[{"Sum", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"-", 
+           RowBox[{"Coefficient", "[", 
+            RowBox[{"r", ",", "x", ",", "0"}], "]"}]}], "*", 
+          RowBox[{"Coefficient", "[", 
+           RowBox[{"r", ",", "x", ",", "k"}], "]"}], "*", 
+          RowBox[{"x", "^", 
+           RowBox[{"(", 
+            RowBox[{"k", "-", "1"}], ")"}]}]}], ",", 
+         RowBox[{"{", 
+          RowBox[{"k", ",", "1", ",", "deg"}], "}"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"ru", "=", 
+       RowBox[{"FilterRules", "[", 
+        RowBox[{
+         RowBox[{"{", "opts", "}"}], ",", "\"\<quiet\>\""}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"\"\<quiet\>\"", "/.", "ru"}], ")"}], "===", "  ", 
+         "False"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<Tiling of Pisot number: \>\"", ",", 
+          RowBox[{"N", "[", 
+           RowBox[{"b", ",", "20"}], "]"}], ",", "\"\<..\\n\>\"", ",", 
+          "\[IndentingNewLine]", "\"\<Expansion coefficient: \>\"", ",", 
+          RowBox[{"NumberForm", "[", 
+           RowBox[{
+            RowBox[{"1", "/", "lambda"}], ",", "10"}], "]"}], ",", 
+          "\"\<\\n\>\"", ",", "\[IndentingNewLine]", 
+          "\"\<Carry sequence: \>\"", ",", "carry", ",", "\"\<\\np:q = \>\"", 
+          ",", "p", ",", "\"\<:\>\"", ",", "q"}], "]"}]}], 
+       "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+      RowBox[{"rep", "=", "carry"}], ";", "\[IndentingNewLine]", 
+      RowBox[{"j", "=", 
+       RowBox[{"Length", "[", "rep", "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"rep", "[", 
+        RowBox[{"[", "j", "]"}], "]"}], "=", 
+       RowBox[{
+        RowBox[{"rep", "[", 
+         RowBox[{"[", "j", "]"}], "]"}], "+", "1"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Clear", "[", "tileNo", "]"}], ";", "\[IndentingNewLine]", 
+      RowBox[{"While", "[", 
+       RowBox[{
+        RowBox[{"j", ">", "0"}], ",", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"rep", "[", 
+             RowBox[{"[", "j", "]"}], "]"}], ">", "0"}], ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"rep", "[", 
+             RowBox[{"[", "j", "]"}], "]"}], "=", 
+            RowBox[{
+             RowBox[{"rep", "[", 
+              RowBox[{"[", "j", "]"}], "]"}], "-", "1"}]}], ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{"(*", "Else", "*)"}], "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"For", "[", 
+             RowBox[{
+              RowBox[{"i", "=", "j"}], ",", 
+              RowBox[{"i", ">=", "1"}], ",", 
+              RowBox[{"If", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"rep", "[", 
+                  RowBox[{"[", "i", "]"}], "]"}], "\[NotEqual]", "0"}], ",", 
+                RowBox[{"Break", "[", "]"}]}], "]"}], ",", 
+              RowBox[{"i", "--"}]}], "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"i", "\[Equal]", "0"}], ",", 
+              RowBox[{"Break", "[", "]"}], 
+              RowBox[{"(*", 
+               RowBox[{"End", " ", "of", " ", "calculation"}], "*)"}], ",", 
+              "\[IndentingNewLine]", 
+              RowBox[{"(*", "Else", "*)"}], "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"rep", "[", 
+                 RowBox[{"[", "i", "]"}], "]"}], "=", 
+                RowBox[{
+                 RowBox[{"rep", "[", 
+                  RowBox[{"[", "i", "]"}], "]"}], "-", "1"}]}], ";", 
+               "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"rep", "[", 
+                 RowBox[{"[", 
+                  RowBox[{
+                   RowBox[{"i", "+", "1"}], ";;", 
+                   RowBox[{"p", "+", "q"}]}], "]"}], "]"}], "=", 
+                RowBox[{"carry", "[", 
+                 RowBox[{"[", 
+                  RowBox[{"1", ";;", 
+                   RowBox[{"p", "+", "q", "-", "i"}]}], "]"}], "]"}]}]}], 
+              ","}], "\[IndentingNewLine]", "]"}]}]}], "\[IndentingNewLine]", 
+          "]"}], ";", "\[IndentingNewLine]", 
+         RowBox[{"lpol", "=", 
+          RowBox[{"Sum", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"rep", "[", 
+              RowBox[{"[", 
+               RowBox[{"p", "-", "i"}], "]"}], "]"}], "*", 
+             RowBox[{"x", "^", "i"}]}], ",", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", "0", ",", 
+              RowBox[{"p", "-", "1"}]}], "}"}]}], "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"rpol", "=", 
+          RowBox[{"Sum", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"rep", "[", 
+              RowBox[{"[", 
+               RowBox[{"p", "+", "i"}], "]"}], "]"}], "*", 
+             RowBox[{"y", "^", "i"}]}], ",", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", "1", ",", "q"}], "}"}]}], "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"v", "=", 
+          RowBox[{"rpol", "/.", 
+           RowBox[{"y", "\[Rule]", 
+            RowBox[{"Ceiling", "[", "b", "]"}]}]}]}], ";", 
+         RowBox[{"(*", 
+          RowBox[{
+          "every", " ", "tile", " ", "is", " ", "associated", " ", "to", " ", 
+           "a", " ", "number", " ", "v"}], "*)"}], "\[IndentingNewLine]", 
+         RowBox[{"lpol", "=", 
+          RowBox[{"PolynomialRemainder", "[", 
+           RowBox[{"lpol", ",", 
+            RowBox[{
+             RowBox[{"x", "^", "3"}], "-", "simpX"}], ",", "x"}], "]"}]}], 
+         ";", "\[IndentingNewLine]", 
+         RowBox[{"rpol", "=", 
+          RowBox[{"PolynomialRemainder", "[", 
+           RowBox[{"rpol", ",", 
+            RowBox[{"y", "-", "simpY"}], ",", "y"}], "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"rpol", "=", 
+          RowBox[{"PolynomialRemainder", "[", 
+           RowBox[{"rpol", ",", 
+            RowBox[{
+             RowBox[{"x", "^", "3"}], "-", "simpX"}], ",", "x"}], "]"}]}], 
+         ";", "\[IndentingNewLine]", 
+         RowBox[{"pos", "=", 
+          RowBox[{
+           RowBox[{"Collect", "[", 
+            RowBox[{
+             RowBox[{"lpol", "+", "rpol"}], ",", "x"}], "]"}], "/.", 
+           RowBox[{"x", "->", "lambda"}]}]}], ";", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"tileNo", "[", "v", "]"}], "=!=", "1"}], ",", 
+           RowBox[{
+            RowBox[{"tString", "=", 
+             RowBox[{"Append", "[", 
+              RowBox[{"tString", ",", "v"}], "]"}]}], ";", 
+            RowBox[{
+             RowBox[{"tileNo", "[", "v", "]"}], "=", "1"}]}]}], "]"}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"Sow", "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"Re", "[", "pos", "]"}], ",", 
+             RowBox[{"Im", "[", "pos", "]"}]}], "}"}], ",", "v"}], "]"}], 
+         ";"}]}], "\[IndentingNewLine]", "]"}], ";", 
+      RowBox[{"(*", 
+       RowBox[{"end", " ", "While"}], " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"\"\<tile(s): \>\"", "<>", 
+       RowBox[{"ToString", "[", "tString", "]"}]}]}]}], "\[IndentingNewLine]",
+     "]"}]}], ";"}]}], "Input",
+ InitializationCell->True,
+ CellLabel->"In[14]:=",ExpressionUUID->"73865a25-9150-4551-a672-ee8f05c6f53c"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Tiling", "Subsubsection",ExpressionUUID->"b6f9a196-1105-4c10-902c-991965ea1b62"],
+
+Cell[TextData[{
+ StyleBox["showTiling",
+  FontWeight->"Bold"],
+ " and ",
+ StyleBox["tiling",
+  FontWeight->"Bold"],
+ " accept the same parameter as ",
+ StyleBox["calcTiles",
+  FontWeight->"Bold"],
+ " as explained above. Additionally the option \"ptSize\" \[Rule] value \
+controls the point size of the graphics with default=.009."
+}], "Text",ExpressionUUID->"c3a8a99c-a631-4cbe-9c19-5edd34fe9803"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"tiling", "[", 
+    RowBox[{"r_", ",", "x_", ",", "p_", ",", "q_", ",", "opts___"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"Reap", "[", 
+     RowBox[{"calcTiles", "[", 
+      RowBox[{"r", ",", "x", ",", "p", ",", "q"}], "]"}], "]"}], "[", 
+    RowBox[{"[", "2", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"showTiling", "[", 
+   RowBox[{"r_", ",", "x_", ",", "p_", ",", "q_", ",", "opts___"}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"t0", ",", "t", ",", "i", ",", "t1", ",", "ps", ",", "ptSize"}], 
+     "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"t0", "=", 
+      RowBox[{"AbsoluteTime", "[", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"t", "=", 
+      RowBox[{"Reap", "[", 
+       RowBox[{"calcTiles", "[", 
+        RowBox[{"r", ",", "x", ",", "p", ",", "q", ",", "opts"}], "]"}], 
+       "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"t1", "=", 
+      RowBox[{"Round", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"AbsoluteTime", "[", "]"}], "-", "t0"}], ",", ".01"}], 
+       "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"\"\<quiet\>\"", "/.", 
+          RowBox[{"FilterRules", "[", 
+           RowBox[{
+            RowBox[{"{", "opts", "}"}], ",", "\"\<quiet\>\""}], "]"}]}], 
+         ")"}], "===", "  ", "False"}], ",", 
+       RowBox[{"Print", "[", 
+        RowBox[{
+         RowBox[{"t", "[", 
+          RowBox[{"[", "1", "]"}], "]"}], ",", "\"\<\\nruntime = \>\"", ",", 
+         "t1", ",", " ", "\"\< seconds\>\""}], "]"}]}], " ", "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"ptSize", "=", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"NumericQ", "[", 
+         RowBox[{"(", 
+          RowBox[{"ps", "=", 
+           RowBox[{"\"\<ptSize\>\"", "/.", 
+            RowBox[{"FilterRules", "[", 
+             RowBox[{
+              RowBox[{"{", "opts", "}"}], ",", "\"\<ptSize\>\""}], "]"}]}]}], 
+          ")"}], "]"}], ",", "ps", ",", ".009"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Show", "[", 
+      RowBox[{
+       RowBox[{"Table", "[", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"ListPlot", "[", 
+          RowBox[{
+           RowBox[{"t", "[", 
+            RowBox[{"[", 
+             RowBox[{"2", ",", "i"}], "]"}], "]"}], ",", 
+           RowBox[{"AspectRatio", "\[Rule]", "Automatic"}], ",", 
+           RowBox[{"PlotStyle", "\[Rule]", 
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"cols", "[", 
+               RowBox[{"[", 
+                RowBox[{
+                 RowBox[{"Mod", "[", 
+                  RowBox[{
+                   RowBox[{"i", "-", "1"}], ",", 
+                   RowBox[{"Length", "[", "cols", "]"}]}], "]"}], "+", "1"}], 
+                "]"}], "]"}], ",", 
+              RowBox[{"PointSize", "[", "ptSize", "]"}]}], "}"}]}]}], "]"}], 
+         ",", "\[IndentingNewLine]", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", "1", ",", 
+           RowBox[{"Length", "[", 
+            RowBox[{"t", "[", 
+             RowBox[{"[", "2", "]"}], "]"}], "]"}]}], "}"}]}], 
+        "\[IndentingNewLine]", "]"}], ",", 
+       RowBox[{"Axes", "\[Rule]", "False"}], ",", 
+       RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+       RowBox[{"FilterRules", "[", 
+        RowBox[{
+         RowBox[{"{", "opts", "}"}], ",", 
+         RowBox[{"Options", "[", "Graphics", "]"}]}], "]"}]}], "]"}]}]}], 
+   "\[IndentingNewLine]", "]"}]}]}], "Input",
+ InitializationCell->True,
+ CellLabel->"In[16]:=",ExpressionUUID->"c7c7a951-048a-45ed-b9c4-f3b8884f2c47"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Definition of named colours", "Subsection",ExpressionUUID->"d3cfbe3f-262d-4d4c-87e0-b8e5a5a54287"],
+
+Cell[TextData[{
+ "I still use the named colors of former ",
+ StyleBox["Mathematica",
+  FontSlant->"Italic"],
+ " versions. "
+}], "Text",ExpressionUUID->"e9ecf25c-35be-4588-b950-bddf319a87b8"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"deleteCols", "=", 
+   RowBox[{"{", 
+    RowBox[{
+    "\"\<AliceBlue\>\"", ",", "\"\<Antique\>\"", ",", "\"\<Azure\>\"", ",", 
+     "\"\<Beige\>\"", ",", "\"\<Black\>\"", ",", "\"\<BlanchedAlmond\>\"", 
+     ",", "\"\<LemonChiffon\>\"", ",", "\"\<White\>\""}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"allColors", "=", 
+   RowBox[{"Complement", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"ColorData", "[", "\"\<Legacy\>\"", "]"}], "[", 
+      RowBox[{"[", 
+       RowBox[{"3", ",", "1"}], "]"}], "]"}], ",", "deleteCols"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"firstCols", "=", 
+   RowBox[{"{", 
+    RowBox[{
+    "\"\<Red\>\"", ",", "\"\<Green\>\"", ",", "\"\<Blue\>\"", ",", 
+     "\"\<Magenta\>\"", ",", "\"\<DarkOrchid\>\"", ",", "\"\<LightSalmon\>\"",
+      ",", "\"\<LightPink\>\"", ",", "\"\<Sienna\>\"", ",", "\"\<Mint\>\"", 
+     ",", "\"\<DarkSlateGray\>\"", ",", "\"\<ManganeseBlue\>\"", ",", 
+     "\"\<SlateGray\>\"", ",", "\"\<DarkOrange\>\"", ",", "\"\<MistyRose\>\"",
+      ",", "\"\<DeepNaplesYellow\>\"", ",", "\"\<GoldOchre\>\"", ",", 
+     "\"\<SapGreen\>\"", ",", "\"\<Yellow\>\""}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"cols", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ColorData", "[", 
+      RowBox[{"\"\<Legacy\>\"", ",", "#"}], "]"}], "&"}], "/@", 
+    RowBox[{"Join", "[", 
+     RowBox[{"firstCols", ",", 
+      RowBox[{"Complement", "[", 
+       RowBox[{
+        RowBox[{"Complement", "[", 
+         RowBox[{"allColors", ",", "deleteCols"}], "]"}], ",", "firstCols"}], 
+       "]"}]}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Length", "[", "cols", "]"}], ";"}]}], "Input",
+ InitializationCell->True,
+ CellLabel->"In[18]:=",ExpressionUUID->"9328e8b7-df02-486c-b440-aedfa64756c5"],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+    "Hyperbolic", " ", "3", " ", "Manifolds", " ", "by", " ", "their", " ", 
+     "discriminants", " ", 
+     RowBox[{"(", "cubics", ")"}]}], "\n", "\[IndentingNewLine]", "-", "23"}],
+    ",", 
+   RowBox[{
+    RowBox[{"x", "^", "3"}], "-", 
+    RowBox[{"x", "^", "2"}], "+", "1", "\n", "\[IndentingNewLine]", "-", 
+    "31"}], ",", 
+   RowBox[{
+    RowBox[{"x", "^", "3"}], "+", "x", "-", "1", "\n", "\[IndentingNewLine]", 
+    "-", "59"}], ",", 
+   RowBox[{
+    RowBox[{"x", "^", "3"}], "-", 
+    RowBox[{"2", "*", "x"}], "-", "1", "\n", "\[IndentingNewLine]", "-", 
+    "83"}], ",", 
+   RowBox[{
+    RowBox[{"x", "^", "3"}], "-", 
+    RowBox[{"x", "^", "2"}], "+", "x", "-", "2", "\n", "\[IndentingNewLine]", 
+    "-", "107"}], ",", 
+   RowBox[{
+    RowBox[{"x", "^", "3"}], "-", 
+    RowBox[{"x", "^", "2"}], "+", 
+    RowBox[{"3", "*", "x"}], "-", "2"}]}], "*)"}]], "Input",
+ CellChangeTimes->{{3.918659466988617*^9, 3.91865947519377*^9}},
+ CellLabel->"In[23]:=",ExpressionUUID->"c2494172-4c95-4a71-b6f2-a78e71dd31d1"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Make some  tilings", "Section",ExpressionUUID->"e4b4b782-4098-444c-af40-26767d82d1a0"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Tilings of the ",
+ "polynomial",
+ " ",
+ Cell[BoxData[
+  RowBox[{
+   SuperscriptBox["x", "3"], "-", "x", "-", "1"}]],ExpressionUUID->
+  "992e6b40-1ef2-4327-9f61-52dbe0f95228"]
+}], "Subsection",ExpressionUUID->"228d286d-f99c-4270-9708-909715a06d97"],
+
+Cell[CellGroupData[{
+
+Cell["Tiling depth 2", "Item",ExpressionUUID->"be072b8a-ecc1-49a0-9277-8baf03829d24"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", "x", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"showTiling", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"x", "^", "3"}], "-", "x", "-", "1"}], ",", "x", ",", "25", ",", 
+   "2", ",", 
+   RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}]}], "]"}]}], "Input",
+ CellLabel->"In[24]:=",ExpressionUUID->"e3089fdd-4f98-4efd-9b25-fb09fa64ac6b"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "1.32471795724474602596090885447809734073`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-0.8774388331\"\>",
+       ShowStringCharacters->False],
+      -0.8774388331233461,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"0.7448617666\"\>",
+        ShowStringCharacters->False],
+       0.7448617666197441,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "1", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0", ",", "0",
+      ",", "0", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0", ",", "0", 
+     ",", "1", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0", 
+     ",", "0", ",", "0", ",", "0", ",", "1", ",", "0"}], "}"}], 
+   "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", "25", 
+   "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "2"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 1.32471795724474602596090885447809734073`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-0.8774388331233461, -0.7448617666197441], 10], "\n", 
+   "Carry sequence: ", {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 
+   0, 0, 1, 0, 0, 0, 0, 1, 0}, "\np:q = ", 25, ":", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659482156053*^9},
+ CellLabel->
+  "During evaluation of \
+In[24]:=",ExpressionUUID->"a820f94c-f1ed-4aea-bc27-4f1486075134"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {2, 4, 0}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "1.34`",
+    "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm["tile(s): {2, 4, 0}", "\nruntime = ", 1.34, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659483024148*^9},
+ CellLabel->
+  "During evaluation of \
+In[24]:=",ExpressionUUID->"5484cbd8-f17d-4c68-ad5f-93fc32afff68"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Tiling depth 10", "Item",ExpressionUUID->"721e7b6e-a5f9-413e-8812-8c8ec2b9295f"],
+
+Cell[BoxData[
+ RowBox[{"showTiling", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"x", "^", "3"}], "-", "x", "-", "1"}], ",", "x", ",", "22", ",", 
+   "10"}], "]"}]], "Input",
+ CellLabel->"In[26]:=",ExpressionUUID->"8678c328-7ee1-4feb-862e-4df67ae3a117"],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"NotebookDirectory", "[", "]"}], "<>", 
+     "\"\<PisotTile1.png\>\""}], ",", 
+    RowBox[{"showTiling", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"x", "^", "3"}], "-", "x", "-", "1"}], ",", "x", ",", "22", 
+      ",", "10", ",", 
+      RowBox[{"\"\<ptSize\>\"", "\[Rule]", ".009"}]}], "]"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "800"}]}], "]"}], "*)"}]], "Input",
+ CellLabel->"In[27]:=",ExpressionUUID->"a526c4d7-e9d3-4229-96e8-cc956c58cbce"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Tilings of the polynomial  ",
+ Cell[BoxData[
+  RowBox[{
+   SuperscriptBox["x", "3"], "-", 
+   RowBox[{"3", 
+    SuperscriptBox["x", "2"]}], "+", 
+   RowBox[{"2", "x"}], "-", "1"}]],ExpressionUUID->
+  "9e37ef03-d9ec-47e8-b173-9c79cca7f9b8"]
+}], "Subsection",ExpressionUUID->"5df007f1-3a14-4bd7-9243-3bab8cde3582"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"r", "=", 
+   RowBox[{
+    RowBox[{"x", "^", "3"}], "-", 
+    RowBox[{"3", "*", 
+     RowBox[{"x", "^", "2"}]}], "+", 
+    RowBox[{"2", "*", "x"}], "-", "1"}]}], ";"}]], "Input",
+ CellLabel->"In[28]:=",ExpressionUUID->"d46fb271-1ef4-48b8-88b5-b071c826faa7"],
+
+Cell[CellGroupData[{
+
+Cell["Basic tile  (tiling depth 0)", "Item",ExpressionUUID->"13958116-0c5e-4c7b-b94e-1e46d612ee42"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"showTiling", "[", 
+  RowBox[{"r", ",", "x", ",", "11", ",", "0", ",", 
+   RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}]}], "]"}]], "Input",
+ CellLabel->"In[29]:=",ExpressionUUID->"de844b8e-7400-4168-95d9-30c935dd20ec"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "2.32471795724474602596090885447809734073`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"0.7849201455\"\>",
+       ShowStringCharacters->False],
+      0.7849201454990266,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.307141279\"\>",
+        ShowStringCharacters->False],
+       1.3071412786820455`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "2", ",", "0", ",", "1", ",", "1", ",", "1", ",", "1", ",", "1", ",", "1",
+      ",", "1", ",", "1", ",", "1"}], "}"}], 
+   "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", "11", 
+   "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "0"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 2.32471795724474602596090885447809734073`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[0.7849201454990266, -1.3071412786820455`], 10], "\n", 
+   "Carry sequence: ", {2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1}, "\np:q = ", 11, ":",
+    0],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9186594978954372`*^9},
+ CellLabel->
+  "During evaluation of \
+In[29]:=",ExpressionUUID->"5e0c2287-bb85-4ea7-af98-e894e8b1301a"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {0}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "2.38`",
+    "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm["tile(s): {0}", "\nruntime = ", 2.38, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659500254434*^9},
+ CellLabel->
+  "During evaluation of \
+In[29]:=",ExpressionUUID->"baec2d7c-b9a5-4631-a82b-d0cb1423007f"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["tiling depth 1", "Item",ExpressionUUID->"f2f27f82-33f2-4667-bf27-3a8a815d1c00"],
+
+Cell[BoxData[
+ RowBox[{"showTiling", "[", 
+  RowBox[{"r", ",", "x", ",", "10", ",", "1"}], "]"}]], "Input",
+ CellLabel->"In[30]:=",ExpressionUUID->"2b5b2566-76a1-4193-9716-765bc34b938f"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["tiling depth 2", "Item",ExpressionUUID->"219cebed-be16-4664-b55a-8ecffb2f85b2"],
+
+Cell[BoxData[
+ RowBox[{"showTiling", "[", 
+  RowBox[{"r", ",", "x", ",", "10", ",", "2", ",", 
+   RowBox[{"\"\<ptSize\>\"", "\[Rule]", ".006"}]}], "]"}]], "Input",
+ CellLabel->"In[31]:=",ExpressionUUID->"2036b368-1e52-4cdb-84e9-e7a77dcc6d1e"],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{
+   RowBox[{"dir", "=", 
+    RowBox[{"NotebookDirectory", "[", "]"}]}], ";", "\[IndentingNewLine]", 
+   RowBox[{"Export", "[", 
+    RowBox[{
+     RowBox[{"dir", "<>", "\"\<PisotTile2.png\>\""}], ",", 
+     RowBox[{"showTiling", "[", 
+      RowBox[{"r", ",", "x", ",", "10", ",", "2", ",", 
+       RowBox[{"\"\<ptSize\>\"", "\[Rule]", ".006"}]}], "]"}], ",", 
+     RowBox[{"ImageSize", "\[Rule]", "800"}]}], "]"}]}], "*)"}]], "Input",
+ CellLabel->"In[32]:=",ExpressionUUID->"d9c0dda8-945c-4f36-88b2-f2ead5cc949a"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Tilings of the polynomial  ",
+ Cell[BoxData[
+  RowBox[{
+   SuperscriptBox["x", "3"], "-", 
+   RowBox[{"5", " ", 
+    SuperscriptBox["x", "2"]}], "+", 
+   RowBox[{"2", " ", "x"}], "-", "1"}]],ExpressionUUID->
+  "44d648dc-c5d9-4a97-9459-9f3b42e7469a"]
+}], "Subsection",ExpressionUUID->"604457db-542f-46b7-bb33-db0abb15dce6"],
+
+Cell[CellGroupData[{
+
+Cell["Basiselement der Parketts (tiling depth 0)", "Subsubsection",ExpressionUUID->"9aa44f39-3875-431b-a702-58326767a5e8"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"r", "=", 
+   RowBox[{
+    RowBox[{"x", "^", "3"}], "-", 
+    RowBox[{"5", "*", 
+     RowBox[{"x", "^", "2"}]}], "+", 
+    RowBox[{"2", "*", "x"}], "-", "1"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"showTiling", "[", 
+  RowBox[{"r", ",", "x", ",", "5", ",", "0"}], "]"}]}], "Input",
+ CellLabel->"In[33]:=",ExpressionUUID->"60cd823b-469f-47c8-8328-93561a07d969"],
+
+Cell[CellGroupData[{
+
+Cell["Tiling depth 1", "Item",ExpressionUUID->"bdadaef3-6e44-4af5-a9dc-ca2722a49a70"],
+
+Cell[BoxData[
+ RowBox[{"showTiling", "[", 
+  RowBox[{"r", ",", "x", ",", "5", ",", "1"}], "]"}]], "Input",
+ CellLabel->"In[35]:=",ExpressionUUID->"1dc22f26-bdcb-47a8-9db1-36f54fa04c4b"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Tiling depth 2", "Item",ExpressionUUID->"7529852b-b7e9-44b2-b049-f06fa0e2ba30"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"showTiling", "[", 
+  RowBox[{"r", ",", "x", ",", "5", ",", "2", ",", 
+   RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}]}], "]"}]], "Input",
+ CellLabel->"In[36]:=",ExpressionUUID->"61cbfdc7-09da-4528-a390-977068c13cfb"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "4.61347026758155538068294619015092647294`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"0.891621714\"\>",
+       ShowStringCharacters->False],
+      0.8916217140243752,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.954093393\"\>",
+        ShowStringCharacters->False],
+       1.9540933925126993`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"4", ",", "2", ",", "3", ",", "3", ",", "3", ",", "3", ",", "3"}],
+     "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", 
+   "5", "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "2"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 4.61347026758155538068294619015092647294`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[0.8916217140243752, -1.9540933925126993`], 10], "\n", 
+   "Carry sequence: ", {4, 2, 3, 3, 3, 3, 3}, "\np:q = ", 5, ":", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659515065063*^9},
+ CellLabel->
+  "During evaluation of \
+In[36]:=",ExpressionUUID->"445b26ea-eb07-48fe-a085-347aaaa8b515"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {90, 65, 40, 15, 110, 85, 60, 35, 10, 105, 80, 55, \
+30, 5, 100, 75, 50, 25, 0, 70, 45, 20, 115}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", 
+   "10.11`", "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {90, 65, 40, 15, 110, 85, 60, 35, 10, 105, 80, 55, 30, 5, 100, \
+75, 50, 25, 0, 70, 45, 20, 115}", "\nruntime = ", 10.11, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9186595251646223`*^9},
+ CellLabel->
+  "During evaluation of \
+In[36]:=",ExpressionUUID->"ef4e8dac-cd35-431a-9058-af76e7bea71c"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Tiling of depth 1 assembled by foot", "Item",ExpressionUUID->"8277f7d8-1a10-4ab2-9fff-b958d1b541c3"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Lambda]", "=", 
+    RowBox[{"1", "/", 
+     RowBox[{"N", "[", 
+      RowBox[{
+       RowBox[{"isPisot", "[", 
+        RowBox[{"r", ",", "x"}], "]"}], "[", 
+       RowBox[{"[", 
+        RowBox[{"2", ",", "1"}], "]"}], "]"}], "]"}]}]}], ";", " ", 
+   RowBox[{"la", "=", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Re", "[", "\[Lambda]", "]"}], ",", 
+      RowBox[{"Im", "[", "\[Lambda]", "]"}]}], "}"}]}], ";"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"complex", " ", "multiplication"}], " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"f", "[", 
+    RowBox[{"a_", ",", "b_"}], "]"}], ":=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"a", "[", 
+        RowBox[{"[", "1", "]"}], "]"}], "*", 
+       RowBox[{"b", "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}], "-", 
+      RowBox[{
+       RowBox[{"a", "[", 
+        RowBox[{"[", "2", "]"}], "]"}], "*", 
+       RowBox[{"b", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}]}], ",", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"a", "[", 
+        RowBox[{"[", "1", "]"}], "]"}], "*", 
+       RowBox[{"b", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}], "+", 
+      RowBox[{
+       RowBox[{"a", "[", 
+        RowBox[{"[", "2", "]"}], "]"}], "*", 
+       RowBox[{"b", "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}]}]}], "}"}]}], ";"}]}], "Input",
+ CellLabel->"In[37]:=",ExpressionUUID->"8cb3c950-ec71-4611-a2db-f03941cdf11d"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"t", "=", 
+   RowBox[{"tiling", "[", 
+    RowBox[{"r", ",", "x", ",", "5", ",", "0"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"g0", "=", 
+   RowBox[{"ListPlot", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"f", "[", 
+        RowBox[{"#", ",", "la"}], "]"}], "&"}], "/@", 
+      RowBox[{"t", "[", 
+       RowBox[{"[", "1", "]"}], "]"}]}], ",", 
+     RowBox[{"AspectRatio", "\[Rule]", "Automatic"}], ",", 
+     RowBox[{"PlotStyle", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"cols", "[", 
+         RowBox[{"[", "1", "]"}], "]"}], ",", 
+        RowBox[{"PointSize", "[", "0.01", "]"}]}], "}"}]}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"g1", "=", 
+   RowBox[{"ListPlot", "[", 
+    RowBox[{
+     RowBox[{"t", "[", 
+      RowBox[{"[", "1", "]"}], "]"}], ",", 
+     RowBox[{"AspectRatio", "\[Rule]", "Automatic"}], ",", 
+     RowBox[{"PlotStyle", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"cols", "[", 
+         RowBox[{"[", "2", "]"}], "]"}], ",", 
+        RowBox[{"PointSize", "[", "0.006", "]"}]}], "}"}]}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"g2", "=", 
+   RowBox[{"ListPlot", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"#", "+", "la"}], ")"}], "&"}], "/@", 
+      RowBox[{"t", "[", 
+       RowBox[{"[", "1", "]"}], "]"}]}], ",", 
+     RowBox[{"AspectRatio", "\[Rule]", "Automatic"}], ",", 
+     RowBox[{"PlotStyle", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"cols", "[", 
+         RowBox[{"[", "3", "]"}], "]"}], ",", 
+        RowBox[{"PointSize", "[", "0.006", "]"}]}], "}"}]}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"g3", "=", 
+   RowBox[{"ListPlot", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"#", "+", 
+         RowBox[{"2", " ", "la"}]}], ")"}], "&"}], "/@", 
+      RowBox[{"t", "[", 
+       RowBox[{"[", "1", "]"}], "]"}]}], ",", 
+     RowBox[{"AspectRatio", "\[Rule]", "Automatic"}], ",", 
+     RowBox[{"PlotStyle", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"cols", "[", 
+         RowBox[{"[", "4", "]"}], "]"}], ",", 
+        RowBox[{"PointSize", "[", "0.006", "]"}]}], "}"}]}]}], "]"}]}], 
+  ";"}]}], "Input",
+ CellLabel->"In[39]:=",ExpressionUUID->"acfba426-6df5-4721-a37a-33e5d2575fd2"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"t", "=", 
+   RowBox[{"tiling", "[", 
+    RowBox[{"r", ",", "x", ",", "5", ",", "1"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"g4", "=", 
+   RowBox[{"ListPlot", "[", 
+    RowBox[{
+     RowBox[{"t", "[", 
+      RowBox[{"[", "1", "]"}], "]"}], ",", 
+     RowBox[{"AspectRatio", "\[Rule]", "Automatic"}], ",", 
+     RowBox[{"PlotStyle", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"cols", "[", 
+         RowBox[{"[", "6", "]"}], "]"}], ",", 
+        RowBox[{"PointSize", "[", "0.006", "]"}]}], "}"}]}]}], "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"g5", "=", 
+   RowBox[{"ListPlot", "[", 
+    RowBox[{
+     RowBox[{"t", "[", 
+      RowBox[{"[", "5", "]"}], "]"}], ",", 
+     RowBox[{"AspectRatio", "\[Rule]", "Automatic"}], ",", 
+     RowBox[{"PlotStyle", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"cols", "[", 
+         RowBox[{"[", "9", "]"}], "]"}], ",", 
+        RowBox[{"PointSize", "[", "0.006", "]"}]}], "}"}]}]}], "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{"Show", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"(*", 
+     RowBox[{"g0", ","}], "*)"}], 
+    RowBox[{"g1", ",", "g2", ",", "g3", ",", "g4", ",", "g5"}], "}"}], ",", 
+   RowBox[{"PlotRange", "\[Rule]", "All"}]}], "]"}]}], "Input",
+ CellLabel->"In[44]:=",ExpressionUUID->"01e0ebbd-d127-43c4-a5a2-2ce53562d499"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Tilings of the polynomial  ",
+ Cell[BoxData[
+  RowBox[{
+   SuperscriptBox["x", "3"], "-", 
+   RowBox[{"2", " ", 
+    SuperscriptBox["x", "2"]}], "-", "1"}]],ExpressionUUID->
+  "9a82d0d3-57d1-4f24-83cf-a5c97f4e334b"]
+}], "Subsection",ExpressionUUID->"d99f2634-06e3-4898-9559-340cc040c112"],
+
+Cell[CellGroupData[{
+
+Cell["Tiling depth 2", "Item",ExpressionUUID->"064a0fce-10ef-4378-874b-b40fa5db4601"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"r", "=", 
+   RowBox[{
+    RowBox[{"x", "^", "3"}], "-", 
+    RowBox[{"2", "*", 
+     RowBox[{"x", "^", "2"}]}], "-", "1"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"showTiling", "[", 
+  RowBox[{"r", ",", "x", ",", "9", ",", "2"}], "]"}]}], "Input",
+ CellLabel->"In[48]:=",ExpressionUUID->"228f2d84-985c-48ed-bd77-311ee764b276"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Tiling depth 5", "Item",ExpressionUUID->"7f9ab29e-5ff5-4228-bdc6-1e6a5673709e"],
+
+Cell[BoxData[
+ RowBox[{"showTiling", "[", 
+  RowBox[{"r", ",", "x", ",", "8", ",", "5"}], "]"}]], "Input",
+ CellLabel->"In[50]:=",ExpressionUUID->"da361532-f5d2-40c0-8aa5-6c128728a613"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Tilings of the polynomial  ",
+ Cell[BoxData[
+  RowBox[{
+   SuperscriptBox["x", "3"], "-", 
+   SuperscriptBox["x", "2"], "-", "x", "-", "1"}]],ExpressionUUID->
+  "7f2cef6b-8d06-49b6-8ca1-af80f5be0774"]
+}], "Subsection",ExpressionUUID->"0a051a30-3c7c-4992-8b5b-52cb7966f71b"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"r", "=", 
+   RowBox[{
+    RowBox[{"x", "^", "3"}], "-", 
+    RowBox[{"x", "^", "2"}], "-", "x", "-", "1"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"showTiling", "[", 
+  RowBox[{"r", ",", "x", ",", "15", ",", "1"}], "]"}]}], "Input",
+ CellLabel->"In[51]:=",ExpressionUUID->"3354c420-32b0-468a-9fc7-60bad5167cdc"],
+
+Cell[BoxData[
+ RowBox[{"showTiling", "[", 
+  RowBox[{"r", ",", "x", ",", "15", ",", "2"}], "]"}]], "Input",
+ CellLabel->"In[53]:=",ExpressionUUID->"ec6aca70-f74e-4e76-aed0-6936e2baf730"],
+
+Cell[BoxData[
+ RowBox[{"showTiling", "[", 
+  RowBox[{"r", ",", "x", ",", "15", ",", "4"}], "]"}]], "Input",
+ CellLabel->"In[54]:=",ExpressionUUID->"1ab631fb-1bea-4800-99ce-7620e82ed8e0"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Tilings of the polynomial  ",
+ Cell[BoxData[
+  RowBox[{
+   SuperscriptBox["x", "3"], "-", 
+   RowBox[{"2", " ", 
+    SuperscriptBox["x", "2"]}], "+", "x", "-", "1"}]],ExpressionUUID->
+  "51c249ca-47dc-4d3d-a798-ae60cb799a37"]
+}], "Subsection",ExpressionUUID->"82b89a15-f65d-41c9-aade-bd5ae478f778"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"r", "=", 
+   RowBox[{
+    RowBox[{"x", "^", "3"}], "-", 
+    RowBox[{"2", 
+     RowBox[{"x", "^", "2"}]}], "+", "x", "-", "1"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"showTiling", "[", 
+  RowBox[{"r", ",", "x", ",", "12", ",", "2"}], "]"}]}], "Input",
+ CellLabel->"In[55]:=",ExpressionUUID->"7219f572-a1d6-4bee-b29d-184b4bf4ebff"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Tilings of the polynomial  ",
+ Cell[BoxData[
+  RowBox[{
+   SuperscriptBox["x", "3"], "-", 
+   RowBox[{"6", " ", 
+    SuperscriptBox["x", "2"]}], "+", 
+   RowBox[{"3", "x"}], "-", "1"}]],ExpressionUUID->
+  "bf6646d9-5234-4bf3-a39b-b91ed32d9ea4"]
+}], "Subsection",ExpressionUUID->"9ee7620f-d188-41f8-9604-e9275e1763dd"],
+
+Cell[BoxData[{
+ RowBox[{"Clear", "[", "x", "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"r", "=", 
+   RowBox[{
+    RowBox[{"x", "^", "3"}], "-", 
+    RowBox[{"6", 
+     RowBox[{"x", "^", "2"}]}], "+", 
+    RowBox[{"3", "x"}], "-", "1"}]}], ";"}], "\n", 
+ RowBox[{"showTiling", "[", 
+  RowBox[{"r", ",", "x", ",", "4", ",", "2"}], "]"}]}], "Input",
+ CellLabel->"In[57]:=",ExpressionUUID->"cefb3ea4-260a-4497-b489-f453f9f41efa"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Tilings of the polynomial  ",
+ Cell[BoxData[
+  RowBox[{
+   SuperscriptBox["x", "3"], "-", " ", 
+   SuperscriptBox["x", "2"], "-", "1"}]],ExpressionUUID->
+  "eeafe041-a4dd-40d7-b047-921d77bebca4"]
+}], "Subsection",ExpressionUUID->"82fb163e-e885-4236-b23d-4624dad9e119"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"r", "=", 
+   RowBox[{
+    RowBox[{"x", "^", "3"}], "-", 
+    RowBox[{"x", "^", "2"}], "-", "1"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"showTiling", "[", 
+  RowBox[{"r", ",", "x", ",", "20", ",", "2"}], "]"}]}], "Input",
+ CellLabel->"In[60]:=",ExpressionUUID->"e7a4e743-b154-461f-a609-46113155b3e8"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Tilings of the polynomial  ",
+ Cell[BoxData[
+  RowBox[{
+   SuperscriptBox["x", "3"], "-", " ", 
+   RowBox[{"3", 
+    SuperscriptBox["x", "2"]}], "+", "x", "-", "1"}]],ExpressionUUID->
+  "1be4f74f-f3de-427d-8182-64589076923b"]
+}], "Subsection",ExpressionUUID->"de0b96c6-fe98-4dc9-a036-c7a7970b8a90"],
+
+Cell[BoxData[
+ RowBox[{"showTiling", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"x", "^", "3"}], "-", 
+    RowBox[{"3", 
+     RowBox[{"x", "^", "2"}]}], "+", "x", "-", "1"}], ",", "x", ",", "6", ",",
+    "3"}], "]"}]], "Input",
+ CellLabel->"In[62]:=",ExpressionUUID->"92db0ca7-917c-4368-af35-1e64a4f3d320"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["A sytematic approach", "Section",ExpressionUUID->"6740d21a-f778-496f-b134-06e392f1aa68"],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Find all Pisot numbers from cubic polynomials with coefficients <= 10\
+\>", "Subsection",ExpressionUUID->"a7fdd42d-5909-4be1-95d4-02270b859890"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", 
+   RowBox[{"isPisot2", ",", "x"}], "]"}], ";", " ", 
+  RowBox[{"cmax", "=", "10"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"isPisot2", "[", 
+     RowBox[{"p_", ",", "x_"}], "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"pRoots", ",", "pisot", ",", "expan"}], "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"PolynomialQ", "[", 
+           RowBox[{"p", ",", "x"}], "]"}], "\[Equal]", "False"}], ",", 
+         RowBox[{"Return", "[", "\"\<Error\>\"", "]"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Last", "[", 
+           RowBox[{"CoefficientList", "[", 
+            RowBox[{"p", ",", "x"}], "]"}], "]"}], "\[NotEqual]", "1"}], ",", 
+         RowBox[{"Return", "[", "\"\<Error\>\"", "]"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Select", "[", 
+           RowBox[{
+            RowBox[{"CoefficientList", "[", 
+             RowBox[{"p", ",", "x"}], "]"}], ",", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Head", "[", "#", "]"}], "=!=", " ", "Integer"}], 
+             "&"}]}], "]"}], "\[NotEqual]", 
+          RowBox[{"{", "}"}]}], ",", 
+         RowBox[{"Return", "[", "\"\<Error\>\"", "]"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"First", "[", 
+           RowBox[{"Abs", "[", 
+            RowBox[{"CoefficientList", "[", 
+             RowBox[{"p", ",", "x"}], "]"}], "]"}], "]"}], "\[NotEqual]", 
+          "1"}], ",", 
+         RowBox[{"Return", "[", "\"\<Error\>\"", "]"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"pRoots", "=", 
+        RowBox[{"x", "/.", 
+         RowBox[{"Solve", "[", 
+          RowBox[{
+           RowBox[{"p", "==", "0"}], ",", "x"}], "]"}]}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"pisot", "=", 
+        RowBox[{"Select", "[", 
+         RowBox[{"pRoots", ",", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Head", "[", 
+             RowBox[{"N", "[", "#", "]"}], "]"}], "\[Equal]", "Real"}], 
+           "&"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"pisot", "=", 
+        RowBox[{"Select", "[", 
+         RowBox[{"pisot", ",", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"N", "[", "#", "]"}], ">", "1"}], " ", "&"}]}], "]"}]}], 
+       ";", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Length", "[", "pisot", "]"}], "!=", "1"}], ",", 
+         RowBox[{"Return", "[", "\"\<Error\>\"", "]"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"expan", "=", 
+        RowBox[{"Select", "[", 
+         RowBox[{"pRoots", ",", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Im", "[", 
+             RowBox[{"N", "[", "#", "]"}], "]"}], ">", "0"}], " ", "&"}]}], 
+         "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Length", "[", "expan", "]"}], "\[Equal]", "0"}], ",", 
+         RowBox[{"Return", "[", "\"\<Error\>\"", "]"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"{", 
+        RowBox[{"pisot", ",", "expan"}], "}"}]}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"pList", "=", 
+   RowBox[{"Reap", "[", "\[IndentingNewLine]", 
+    RowBox[{"Table", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"tt", "=", 
+        RowBox[{
+         RowBox[{"x", "^", "3"}], "+", 
+         RowBox[{"c2", "*", 
+          RowBox[{"x", "^", "2"}]}], "+", 
+         RowBox[{"c1", "*", "x"}], "+", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"-", "1"}], ")"}], "^", "c0"}]}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"pisot", "=", 
+        RowBox[{"isPisot2", "[", 
+         RowBox[{"tt", ",", "x"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"Length", "[", "pisot", "]"}], ">", "1"}], "&&", 
+          RowBox[{
+           RowBox[{"pisot", "[", 
+            RowBox[{"[", 
+             RowBox[{"1", ",", "1"}], "]"}], "]"}], ">", "0"}]}], ",", 
+         RowBox[{"Sow", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"pisot", "[", 
+             RowBox[{"[", 
+              RowBox[{"1", ",", "1"}], "]"}], "]"}], " ", ",", "tt"}], "}"}], 
+          "]"}]}], "]"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"c1", ",", 
+        RowBox[{"-", "cmax"}], ",", "cmax"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"c2", ",", 
+        RowBox[{"-", "cmax"}], ",", "cmax"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"c0", ",", "0", ",", "1"}], "}"}]}], "]"}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<The \\\"pList\\\" holds \>\"", ",", 
+   RowBox[{
+    RowBox[{"pList", " ", "[", 
+     RowBox[{"[", 
+      RowBox[{"2", ",", "1"}], "]"}], "]"}], "//", "Length"}], ",", 
+   "\"\< Pisot numbers & corresponding polynomials of order 3\>\""}], 
+  "]"}], "\n", 
+ RowBox[{
+  RowBox[{"pPols", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"#", "[", 
+      RowBox[{"[", "2", "]"}], "]"}], "&"}], "/@", 
+    RowBox[{"pList", "[", 
+     RowBox[{"[", 
+      RowBox[{"2", ",", "1"}], "]"}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"irpPols", "[", "pPols_", "]"}], ":=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"IrreduciblePolynomialQ", "[", "#", "]"}], "==", "True"}], ",", 
+      RowBox[{"Sow", "[", "#", "]"}]}], "]"}], "&"}], "/@", 
+   "pPols"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"irPisPols", "=", 
+   RowBox[{
+    RowBox[{"Reap", "[", 
+     RowBox[{"irpPols", "[", "pPols", "]"}], "]"}], "[", 
+    RowBox[{"[", 
+     RowBox[{"2", ",", "1"}], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<The list \\\"irPisPols\\\" holds \>\"", ",", 
+   RowBox[{"irPisPols", "//", "Length"}], ",", 
+   "\"\< irreducible polynomials of order 3\>\""}], "]"}], "\n", 
+ RowBox[{
+  RowBox[{"pipoList", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"N", "[", 
+        RowBox[{"#", "[", 
+         RowBox[{"[", "1", "]"}], "]"}], "]"}], ",", 
+       RowBox[{"#", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}], "}"}], "&"}], "/@", 
+    RowBox[{"pList", "[", 
+     RowBox[{"[", 
+      RowBox[{"2", ",", "1"}], "]"}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"orderedPipoList", "=", 
+   RowBox[{"Union", "[", "pipoList", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<The list \\\"orderedPipoList\\\" holds \>\"", ",", " ", 
+   RowBox[{"oderPipoList", "//", "Length"}], ",", 
+   "\"\< ordered Pisot numbers & corresponding polynomials of order 3\>\""}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"TableForm", "[", "orderedPipoList", "]"}], ";"}]}], "Input",
+ CellLabel->"In[63]:=",ExpressionUUID->"22d4902f-8f7d-4452-a928-37293afd0493"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"The \\\"pList\\\" holds \"\>", "\[InvisibleSpace]", "89", 
+   "\[InvisibleSpace]", "\<\" Pisot numbers & corresponding polynomials of \
+order 3\"\>"}],
+  SequenceForm[
+  "The \"pList\" holds ", 89, 
+   " Pisot numbers & corresponding polynomials of order 3"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659639674786*^9},
+ CellLabel->
+  "During evaluation of \
+In[63]:=",ExpressionUUID->"009ee027-1c66-4463-84e2-2cb68e05526f"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"The list \\\"irPisPols\\\" holds \"\>", "\[InvisibleSpace]", 
+   "89", "\[InvisibleSpace]", "\<\" irreducible polynomials of order 3\"\>"}],
+  SequenceForm[
+  "The list \"irPisPols\" holds ", 89, " irreducible polynomials of order 3"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9186596397580013`*^9},
+ CellLabel->
+  "During evaluation of \
+In[63]:=",ExpressionUUID->"cb8abcc8-3909-4693-bdf7-f8565ebb170f"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"The list \\\"orderedPipoList\\\" holds \"\>", 
+   "\[InvisibleSpace]", "0", 
+   "\[InvisibleSpace]", "\<\" ordered Pisot numbers & corresponding \
+polynomials of order 3\"\>"}],
+  SequenceForm[
+  "The list \"orderedPipoList\" holds ", 0, 
+   " ordered Pisot numbers & corresponding polynomials of order 3"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659639760482*^9},
+ CellLabel->
+  "During evaluation of \
+In[63]:=",ExpressionUUID->"fd340ce0-4648-4bed-b9ed-34a771c673d4"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Plot examles of the first 33 tilings with small Pisot numbers from \
+polynomials of order 3\
+\>", "Subsection",ExpressionUUID->"87b00aea-301e-456b-a4bd-c2bc8cab6c18"],
+
+Cell["\<\
+Some examples and most of the interesting ones are also contained in the \
+previous section. But here you find all tilings ordered according to \
+ascending Pisot number.\
+\>", "Text",ExpressionUUID->"4939e404-ca50-429f-ad6a-ea01b5088718"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "1"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "29", ",", "3", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".008"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "150"}]}], "]"}]}]], "Input",
+ CellLabel->"In[75]:=",ExpressionUUID->"a4d1342b-5f2a-40dc-9a6e-48900a768ba5"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "1.32471795724474602596090885447809734073`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-0.8774388331\"\>",
+       ShowStringCharacters->False],
+      -0.8774388331233461,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"0.7448617666\"\>",
+        ShowStringCharacters->False],
+       0.7448617666197441,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "1", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0", ",", "0",
+      ",", "0", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0", ",", "0", 
+     ",", "1", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0", 
+     ",", "0", ",", "0", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0", 
+     ",", "0", ",", "1", ",", "0"}], "}"}], 
+   "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", "29", 
+   "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "3"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 1.32471795724474602596090885447809734073`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-0.8774388331233461, -0.7448617666197441], 10], "\n", 
+   "Carry sequence: ", {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 
+   0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0}, "\np:q = ", 29, ":", 3],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659639810526*^9},
+ CellLabel->
+  "During evaluation of \
+In[75]:=",ExpressionUUID->"5e7dcb20-bec6-4fca-a2c9-12096dd564a2"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {4, 8, 0, 2}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "4.09`",
+    "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm["tile(s): {4, 8, 0, 2}", "\nruntime = ", 4.09, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659643893217*^9},
+ CellLabel->
+  "During evaluation of \
+In[75]:=",ExpressionUUID->"0c5afcd3-9d7a-4cf9-af3b-25dc80f1832f"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "2"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "22", ",", "2", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".008"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "250"}]}], "]"}]}]], "Input",
+ CellLabel->"In[76]:=",ExpressionUUID->"1dddeaa5-48f3-4bbb-bc70-bbc94c592543"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "1.46557123187676802665673122521993910803`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-0.3411639019\"\>",
+       ShowStringCharacters->False],
+      -0.34116390191400964`,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.1615414\"\>",
+        ShowStringCharacters->False],
+       1.161541399997252,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "1", ",", "0", ",", "0", ",", "1", ",", "0", ",", "0", ",", "1", ",", "0",
+      ",", "0", ",", "1", ",", "0", ",", "0", ",", "1", ",", "0", ",", "0", 
+     ",", "1", ",", "0", ",", "0", ",", "1", ",", "0", ",", "0", ",", "1", 
+     ",", "0", ",", "0"}], "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", 
+   "\[InvisibleSpace]", "22", "\[InvisibleSpace]", "\<\":\"\>", 
+   "\[InvisibleSpace]", "2"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 1.46557123187676802665673122521993910803`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-0.34116390191400964`, -1.161541399997252], 10], "\n", 
+   "Carry sequence: ", {1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 
+   1, 0, 0, 1, 0, 0}, "\np:q = ", 22, ":", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659644383669*^9},
+ CellLabel->
+  "During evaluation of \
+In[76]:=",ExpressionUUID->"166dd836-7d74-4c96-b4d6-5d902dea3e65"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {0, 2, 4}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "3.38`",
+    "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm["tile(s): {0, 2, 4}", "\nruntime = ", 3.38, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9186596477560883`*^9},
+ CellLabel->
+  "During evaluation of \
+In[76]:=",ExpressionUUID->"b4deefa1-5ba1-4a2c-9d0b-3e2f9b169b8a"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[TextData[{
+ "see also: ",
+ ButtonBox["http://www.meden.demon.co.uk/Fractals/cubic3.html",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://www.meden.demon.co.uk/Fractals/cubic3.html"], None},
+  ButtonNote->"http://www.meden.demon.co.uk/Fractals/cubic3.html"]
+}], "Text",ExpressionUUID->"9bca8c38-b67b-492a-9831-9ea83d12928e"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "3"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "13", ",", "3", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".008"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "250"}]}], "]"}]}]], "Input",
+ CellLabel->"In[77]:=",ExpressionUUID->"4e3ad07f-a2da-42c7-a703-2b9109d647a7"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "1.75487766624669276004950889635852869189`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"0.2150798545\"\>",
+       ShowStringCharacters->False],
+      0.21507985450097336`,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.307141279\"\>",
+        ShowStringCharacters->False],
+       1.3071412786820453`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "1", ",", "1", ",", "0", ",", "0", ",", "1", ",", "1", ",", "0", ",", "0",
+      ",", "1", ",", "1", ",", "0", ",", "0", ",", "1", ",", "1", ",", "0", 
+     ",", "0"}], "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", 
+   "\[InvisibleSpace]", "13", "\[InvisibleSpace]", "\<\":\"\>", 
+   "\[InvisibleSpace]", "3"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 1.75487766624669276004950889635852869189`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[0.21507985450097336`, -1.3071412786820453`], 10], "\n", 
+   "Carry sequence: ", {1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0}, 
+   "\np:q = ", 13, ":", 3],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9186596482136097`*^9},
+ CellLabel->
+  "During evaluation of \
+In[77]:=",ExpressionUUID->"119b2227-6b78-43ec-b43b-027ef34fcfcb"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {2, 12, 4, 8, 0, 6, 10}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "2.73`",
+    "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {2, 12, 4, 8, 0, 6, 10}", "\nruntime = ", 2.73, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9186596509439096`*^9},
+ CellLabel->
+  "During evaluation of \
+In[77]:=",ExpressionUUID->"935116c5-1cc5-46e4-864f-bd41ee828d45"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{
+   RowBox[{"dir", "=", 
+    RowBox[{"NotebookDirectory", "[", "]"}]}], ";", " ", 
+   RowBox[{"xRes", "=", "800"}], ";", "\[IndentingNewLine]", 
+   RowBox[{"g", "=", 
+    RowBox[{"showTiling", "[", 
+     RowBox[{
+      RowBox[{"orderedPipoList", "[", 
+       RowBox[{"[", 
+        RowBox[{"3", ",", "2"}], "]"}], "]"}], ",", "x", ",", "16", ",", "2", 
+      ",", 
+      RowBox[{"\"\<ptSize\>\"", "->", ".005"}]}], "]"}]}], ";", 
+   "\[IndentingNewLine]", 
+   RowBox[{"Export", "[", 
+    RowBox[{
+     RowBox[{"dir", "<>", "\"\<PisotTile3.png\>\""}], ",", "g", ",", 
+     RowBox[{"ImageSize", "\[Rule]", "800"}], ",", 
+     RowBox[{"Method", "\[Rule]", "\"\<ShrinkWrap\>\""}]}], "]"}]}], 
+  "*)"}]], "Input",
+ CellLabel->"In[78]:=",ExpressionUUID->"34ea5a0c-cea3-405b-969a-0b3ccc93eba0"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "4"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "14", ",", "2", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".008"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "250"}]}], "]"}]}]], "Input",
+ CellLabel->"In[79]:=",ExpressionUUID->"b801d2ea-6d9e-404c-b87d-321fdf726405"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "1.83928675521416113255185256465328660042`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-0.7718445063\"\>",
+       ShowStringCharacters->False],
+      -0.7718445063460382,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.115142508\"\>",
+        ShowStringCharacters->False],
+       1.1151425080399373`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "1", ",", "1", ",", "0", ",", "1", ",", "1", ",", "0", ",", "1", ",", "1",
+      ",", "0", ",", "1", ",", "1", ",", "0", ",", "1", ",", "1", ",", "0", 
+     ",", "1"}], "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", 
+   "\[InvisibleSpace]", "14", "\[InvisibleSpace]", "\<\":\"\>", 
+   "\[InvisibleSpace]", "2"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 1.83928675521416113255185256465328660042`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-0.7718445063460382, -1.1151425080399373`], 10], "\n", 
+   "Carry sequence: ", {1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1}, 
+   "\np:q = ", 14, ":", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659651416635*^9},
+ CellLabel->
+  "During evaluation of \
+In[79]:=",ExpressionUUID->"6510a3ae-463d-494e-a20d-bdbc646127bb"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {4, 0, 6, 2}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "4.64`",
+    "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm["tile(s): {4, 0, 6, 2}", "\nruntime = ", 4.64, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9186596560534267`*^9},
+ CellLabel->
+  "During evaluation of \
+In[79]:=",ExpressionUUID->"0f85a21b-9e0c-4125-819a-c87407c7290c"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "5"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "10", ",", "2", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".008"}]}], "]"}]}]], "Input",
+ CellLabel->"In[80]:=",ExpressionUUID->"8c5e0d14-e0d6-4781-90dd-313b6c8eeedc"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "2.14789903570478735402621496493098736492`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-1.232785616\"\>",
+       ShowStringCharacters->False],
+      -1.2327856159383839`,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"0.7925519925\"\>",
+        ShowStringCharacters->False],
+       0.7925519925154478,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "2", ",", "0", ",", "0", ",", "1", ",", "0", ",", "2", ",", "0", ",", "0",
+      ",", "1", ",", "0", ",", "2", ",", "0"}], "}"}], 
+   "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", "10", 
+   "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "2"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 2.14789903570478735402621496493098736492`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-1.2327856159383839`, -0.7925519925154478], 10], "\n", 
+   "Carry sequence: ", {2, 0, 0, 1, 0, 2, 0, 0, 1, 0, 2, 0}, "\np:q = ", 10, 
+   ":", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.91865965672801*^9},
+ CellLabel->
+  "During evaluation of \
+In[80]:=",ExpressionUUID->"e5d63db0-b6b2-4635-9af9-ef927e7feda8"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {6, 21, 12, 3, 18, 9, 0}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "3.2`", 
+   "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {6, 21, 12, 3, 18, 9, 0}", "\nruntime = ", 3.2, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659659923099*^9},
+ CellLabel->
+  "During evaluation of \
+In[80]:=",ExpressionUUID->"70162786-4d32-47b4-8c04-085f1e0f2a19"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{
+   RowBox[{"dir", "=", 
+    RowBox[{"NotebookDirectory", "[", "]"}]}], ";", " ", 
+   RowBox[{"xRes", "=", "800"}], ";", "\[IndentingNewLine]", 
+   RowBox[{"g", "=", 
+    RowBox[{"showTiling", "[", 
+     RowBox[{
+      RowBox[{"orderedPipoList", "[", 
+       RowBox[{"[", 
+        RowBox[{"5", ",", "2"}], "]"}], "]"}], ",", "x", ",", "11", ",", "2", 
+      ",", 
+      RowBox[{"\"\<ptSize\>\"", "->", ".008"}]}], "]"}]}], ";", "\n", 
+   RowBox[{"Export", "[", 
+    RowBox[{
+     RowBox[{"dir", "<>", "\"\<PisotTile5.png\>\""}], ",", "g", ",", 
+     RowBox[{"ImageSize", "\[Rule]", "800"}], ",", 
+     RowBox[{"Method", "\[Rule]", "\"\<ShrinkWrap\>\""}]}], "]"}]}], 
+  "*)"}]], "Input",
+ CellLabel->"In[81]:=",ExpressionUUID->"b85aaf1d-6307-4ddb-97b3-31b41acf0b27"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "6"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "9", ",", "2", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".008"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "250"}]}], "]"}]}]], "Input",
+ CellLabel->"In[82]:=",ExpressionUUID->"4001e49e-feab-4632-a59c-98a82a62eea4"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "2.20556943040059031170202861778382342638`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-0.2266988258\"\>",
+       ShowStringCharacters->False],
+      -0.22669882575820188`,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.467711509\"\>",
+        ShowStringCharacters->False],
+       1.4677115087102242`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "2", ",", "0", ",", "0", ",", "2", ",", "0", ",", "0", ",", "2", ",", "0",
+      ",", "0", ",", "2", ",", "0"}], "}"}], 
+   "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", "9", 
+   "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "2"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 2.20556943040059031170202861778382342638`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-0.22669882575820188`, -1.4677115087102242`], 10], "\n", 
+   "Carry sequence: ", {2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0}, "\np:q = ", 9, ":", 
+   2],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9186596616394577`*^9},
+ CellLabel->
+  "During evaluation of \
+In[82]:=",ExpressionUUID->"f514b1d6-4318-479c-8b10-bf5e0d26cd27"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {6, 21, 12, 3, 18, 9, 0}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "1.83`",
+    "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {6, 21, 12, 3, 18, 9, 0}", "\nruntime = ", 1.83, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659663605628*^9},
+ CellLabel->
+  "During evaluation of \
+In[82]:=",ExpressionUUID->"ca7262dd-aa2f-4116-b592-787e4f26c51e"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "7"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "9", ",", "2", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".007"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "250"}]}], "]"}]}]], "Input",
+ CellLabel->"In[83]:=",ExpressionUUID->"4ac25fa9-9b6f-414a-90aa-ade52b563dff"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "2.32471795724474602596090885447809734073`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"0.7849201455\"\>",
+       ShowStringCharacters->False],
+      0.7849201454990266,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.307141279\"\>",
+        ShowStringCharacters->False],
+       1.3071412786820455`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "2", ",", "0", ",", "1", ",", "1", ",", "1", ",", "1", ",", "1", ",", "1",
+      ",", "1", ",", "1", ",", "1"}], "}"}], 
+   "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", "9", 
+   "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "2"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 2.32471795724474602596090885447809734073`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[0.7849201454990266, -1.3071412786820455`], 10], "\n", 
+   "Carry sequence: ", {2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1}, "\np:q = ", 9, ":", 
+   2],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659664024158*^9},
+ CellLabel->
+  "During evaluation of \
+In[83]:=",ExpressionUUID->"9353e939-67a3-412b-87fe-2706d6981862"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {12, 3, 18, 9, 0, 6, 21}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", 
+   "3.0700000000000003`", "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {12, 3, 18, 9, 0, 6, 21}", "\nruntime = ", 3.0700000000000003`, 
+   " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659667090028*^9},
+ CellLabel->
+  "During evaluation of \
+In[83]:=",ExpressionUUID->"f91f1bf9-e82f-4147-83df-ce9dbca3fa0f"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "8"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "8", ",", "2", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".008"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "250"}]}], "]"}]}]], "Input",
+ CellLabel->"In[84]:=",ExpressionUUID->"88ded2f4-8e4d-4841-8504-e338a88f9fb3"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "2.54681827688408207913599750880979152881`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-0.6963233909\"\>",
+       ShowStringCharacters->False],
+      -0.6963233908513206,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.435949864\"\>",
+        ShowStringCharacters->False],
+       1.4359498641099562`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "2", ",", "1", ",", "0", ",", "2", ",", "1", ",", "0", ",", "2", ",", "1",
+      ",", "0", ",", "2"}], "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", 
+   "\[InvisibleSpace]", "8", "\[InvisibleSpace]", "\<\":\"\>", 
+   "\[InvisibleSpace]", "2"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 2.54681827688408207913599750880979152881`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-0.6963233908513206, -1.4359498641099562`], 10], "\n", 
+   "Carry sequence: ", {2, 1, 0, 2, 1, 0, 2, 1, 0, 2}, "\np:q = ", 8, ":", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9186596676742277`*^9},
+ CellLabel->
+  "During evaluation of \
+In[84]:=",ExpressionUUID->"f3a805ce-4dc0-4a5f-94af-9e93733e8caa"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {18, 9, 0, 15, 6, 21, 12, 3}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "3.08`",
+    "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {18, 9, 0, 15, 6, 21, 12, 3}", "\nruntime = ", 3.08, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659670746193*^9},
+ CellLabel->
+  "During evaluation of \
+In[84]:=",ExpressionUUID->"e854d4e4-f1c1-4ac2-9a44-f8ddeb23af5f"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "9"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "8", ",", "2", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".008"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "250"}]}], "]"}]}]], "Input",
+ CellLabel->"In[85]:=",ExpressionUUID->"00247904-ea21-454b-8fa3-002da6da8f8f"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "2.76929235423863141524040946433503349267`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"0.3194484597\"\>",
+       ShowStringCharacters->False],
+      0.3194484597356757,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.633170241\"\>",
+        ShowStringCharacters->False],
+       1.6331702409152367`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "2", ",", "2", ",", "0", ",", "0", ",", "2", ",", "2", ",", "0", ",", "0",
+      ",", "2", ",", "2"}], "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", 
+   "\[InvisibleSpace]", "8", "\[InvisibleSpace]", "\<\":\"\>", 
+   "\[InvisibleSpace]", "2"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 2.76929235423863141524040946433503349267`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[0.3194484597356757, -1.6331702409152367`], 10], "\n", 
+   "Carry sequence: ", {2, 2, 0, 0, 2, 2, 0, 0, 2, 2}, "\np:q = ", 8, ":", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.91865967136862*^9},
+ CellLabel->
+  "During evaluation of \
+In[85]:=",ExpressionUUID->"df4da2c4-ff7b-46fe-b7ed-4b49ee71ef58"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {24, 15, 6, 21, 12, 3, 18, 9, 0}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "7.07`",
+    "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {24, 15, 6, 21, 12, 3, 18, 9, 0}", "\nruntime = ", 7.07, 
+   " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9186596784355793`*^9},
+ CellLabel->
+  "During evaluation of \
+In[85]:=",ExpressionUUID->"553b0d76-06de-4c9d-93f3-184e5554d450"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "10"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "8", ",", "2", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".008"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "150"}]}], "]"}]}]], "Input",
+ CellLabel->"In[86]:=",ExpressionUUID->"c32e8405-5fa2-4ca4-bf32-57cf3943b3aa"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "2.83117720720833690413002641391956355872`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-1.176604982\"\>",
+       ShowStringCharacters->False],
+      -1.1766049820996622`,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.202820819\"\>",
+        ShowStringCharacters->False],
+       1.202820819285479,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "2", ",", "2", ",", "0", ",", "2", ",", "2", ",", "0", ",", "2", ",", "2",
+      ",", "0", ",", "2"}], "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", 
+   "\[InvisibleSpace]", "8", "\[InvisibleSpace]", "\<\":\"\>", 
+   "\[InvisibleSpace]", "2"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 2.83117720720833690413002641391956355872`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-1.1766049820996622`, -1.202820819285479], 10], "\n", 
+   "Carry sequence: ", {2, 2, 0, 2, 2, 0, 2, 2, 0, 2}, "\np:q = ", 8, ":", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659679943404*^9},
+ CellLabel->
+  "During evaluation of \
+In[86]:=",ExpressionUUID->"5cbd090c-65ea-4238-82d6-f4533f037efb"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {18, 9, 0, 24, 15, 6, 21, 12, 3}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "8.1`", 
+   "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {18, 9, 0, 24, 15, 6, 21, 12, 3}", "\nruntime = ", 8.1, 
+   " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659688040737*^9},
+ CellLabel->
+  "During evaluation of \
+In[86]:=",ExpressionUUID->"8d144d19-a691-489c-9623-606680e09a02"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "11"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "7", ",", "2", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".008"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "250"}]}], "]"}]}]], "Input",
+ CellLabel->"In[87]:=",ExpressionUUID->"13a0174b-282e-4e48-adb5-bc9a9ecab2ca"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "3.07959562349143878601041775083662603263`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-1.662358979\"\>",
+       ShowStringCharacters->False],
+      -1.662358978622373,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"0.5622795121\"\>",
+        ShowStringCharacters->False],
+       0.5622795120623013,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "3", ",", "0", ",", "0", ",", "2", ",", "0", ",", "3", ",", "0", ",", "0",
+      ",", "2"}], "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", 
+   "\[InvisibleSpace]", "7", "\[InvisibleSpace]", "\<\":\"\>", 
+   "\[InvisibleSpace]", "2"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 3.07959562349143878601041775083662603263`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-1.662358978622373, -0.5622795120623013], 10], "\n", 
+   "Carry sequence: ", {3, 0, 0, 2, 0, 3, 0, 0, 2}, "\np:q = ", 7, ":", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9186596892762136`*^9},
+ CellLabel->
+  "During evaluation of \
+In[87]:=",ExpressionUUID->"bef9ea31-3f92-460a-910e-bfb9566857bb"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {32, 16, 0, 12, 56, 40, 24, 8, 52, 36, 20, 4, \
+48}\"\>", "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", 
+   "7.34`", "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {32, 16, 0, 12, 56, 40, 24, 8, 52, 36, 20, 4, 48}", 
+   "\nruntime = ", 7.34, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659696611231*^9},
+ CellLabel->
+  "During evaluation of \
+In[87]:=",ExpressionUUID->"0e5d84f4-b0ab-4825-bdfa-673042db4cfe"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "12"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "7", ",", "2", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".008"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "250"}]}], "]"}]}]], "Input",
+ CellLabel->"In[88]:=",ExpressionUUID->"d6eb5f59-225e-47fd-9e87-72595293b824"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "3.10380340273553653316494733282892809242`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-0.1610926773\"\>",
+       ShowStringCharacters->False],
+      -0.16109267731304283`,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.75438096\"\>",
+        ShowStringCharacters->False],
+       1.7543809597837217`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "3", ",", "0", ",", "0", ",", "3", ",", "0", ",", "0", ",", "3", ",", "0",
+      ",", "0"}], "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", 
+   "\[InvisibleSpace]", "7", "\[InvisibleSpace]", "\<\":\"\>", 
+   "\[InvisibleSpace]", "2"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 3.10380340273553653316494733282892809242`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-0.16109267731304283`, -1.7543809597837217`], 10], "\n", 
+   "Carry sequence: ", {3, 0, 0, 3, 0, 0, 3, 0, 0}, "\np:q = ", 7, ":", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9186596978461227`*^9},
+ CellLabel->
+  "During evaluation of \
+In[88]:=",ExpressionUUID->"a45f3f3f-2c02-4fe8-8a78-bbd20522576e"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {0, 12, 56, 40, 24, 8, 52, 36, 20, 4, 48, 32, \
+16}\"\>", "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", 
+   "7.51`", "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {0, 12, 56, 40, 24, 8, 52, 36, 20, 4, 48, 32, 16}", 
+   "\nruntime = ", 7.51, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9186597053535957`*^9},
+ CellLabel->
+  "During evaluation of \
+In[88]:=",ExpressionUUID->"a958216c-3147-4c56-81f8-20d88f337fd9"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "13"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "7", ",", "2", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".005"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "200"}]}], "]"}]}]], "Input",
+ CellLabel->"In[89]:=",ExpressionUUID->"35d72426-2d95-4370-a15a-8a04631aa1d4"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "3.14789903570478735402621496493098736492`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"1.341163902\"\>",
+       ShowStringCharacters->False],
+      1.3411639019140096`,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.1615414\"\>",
+        ShowStringCharacters->False],
+       1.1615413999972521`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "3", ",", "0", ",", "1", ",", "1", ",", "1", ",", "1", ",", "1", ",", "1",
+      ",", "1"}], "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", 
+   "\[InvisibleSpace]", "7", "\[InvisibleSpace]", "\<\":\"\>", 
+   "\[InvisibleSpace]", "2"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 3.14789903570478735402621496493098736492`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[1.3411639019140096`, -1.1615413999972521`], 10], "\n", 
+   "Carry sequence: ", {3, 0, 1, 1, 1, 1, 1, 1, 1}, "\np:q = ", 7, ":", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659706633319*^9},
+ CellLabel->
+  "During evaluation of \
+In[89]:=",ExpressionUUID->"1c7a76b2-f6d2-444e-8b2e-d923cf9cd80c"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {20, 4, 48, 32, 16, 0, 12, 56, 40, 24, 8, 52, \
+36}\"\>", "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", 
+   "9.11`", "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {20, 4, 48, 32, 16, 0, 12, 56, 40, 24, 8, 52, 36}", 
+   "\nruntime = ", 9.11, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659715734499*^9},
+ CellLabel->
+  "During evaluation of \
+In[89]:=",ExpressionUUID->"ff4a6988-1038-4466-91a3-3674f8affbf6"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "14"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "7", ",", "2", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".005"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "200"}]}], "]"}]}]], "Input",
+ CellLabel->"In[90]:=",ExpressionUUID->"910373fc-1812-401f-8f7f-c288534505b4"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "3.38297576790623749412270853645503458695`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-0.6477988713\"\>",
+       ShowStringCharacters->False],
+      -0.6477988712610423,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.721433237\"\>",
+        ShowStringCharacters->False],
+       1.7214332372471366`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "3", ",", "1", ",", "0", ",", "3", ",", "1", ",", "0", ",", "3", ",", "1",
+      ",", "0"}], "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", 
+   "\[InvisibleSpace]", "7", "\[InvisibleSpace]", "\<\":\"\>", 
+   "\[InvisibleSpace]", "2"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 3.38297576790623749412270853645503458695`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-0.6477988712610423, -1.7214332372471366`], 10], "\n", 
+   "Carry sequence: ", {3, 1, 0, 3, 1, 0, 3, 1, 0}, "\np:q = ", 7, ":", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659717271812*^9},
+ CellLabel->
+  "During evaluation of \
+In[90]:=",ExpressionUUID->"c994e212-856c-44bd-b5cb-c984fbfdab11"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {4, 48, 32, 16, 0, 28, 12, 56, 40, 24, 8, 52, 36, 20}\
+\"\>", "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", 
+   "15.71`", "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {4, 48, 32, 16, 0, 28, 12, 56, 40, 24, 8, 52, 36, 20}", 
+   "\nruntime = ", 15.71, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659732977854*^9},
+ CellLabel->
+  "During evaluation of \
+In[90]:=",ExpressionUUID->"26f304f5-81b9-45f1-85b2-322d8a0082ee"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "15"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "6", ",", "1", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".005"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "150"}]}], "]"}]}]], "Input",
+ CellLabel->"In[91]:=",ExpressionUUID->"de38872d-539d-4de8-8cef-cc92f9e58203"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "3.51154714169453198401776805530751230323`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"0.8576126192\"\>",
+       ShowStringCharacters->False],
+      0.8576126192175452,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.666147574\"\>",
+        ShowStringCharacters->False],
+       1.6661475736120597`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"3", ",", "1", ",", "2", ",", "2", ",", "2", ",", "2", ",", "2"}],
+     "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", 
+   "6", "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "1"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 3.51154714169453198401776805530751230323`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[0.8576126192175452, -1.6661475736120597`], 10], "\n", 
+   "Carry sequence: ", {3, 1, 2, 2, 2, 2, 2}, "\np:q = ", 6, ":", 1],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659735295519*^9},
+ CellLabel->
+  "During evaluation of \
+In[91]:=",ExpressionUUID->"2ee3a7d3-3d48-4f67-8b78-e7acb7dc2d88"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {8, 4, 0, 12}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "1.27`",
+    "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm["tile(s): {8, 4, 0, 12}", "\nruntime = ", 1.27, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659736557592*^9},
+ CellLabel->
+  "During evaluation of \
+In[91]:=",ExpressionUUID->"391a4d64-7862-4b7e-bb31-8a47c89e6d2c"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "16"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "6", ",", "1", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".005"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "150"}]}], "]"}]}]], "Input",
+ CellLabel->"In[92]:=",ExpressionUUID->"dad7dbdd-e4b2-4cb8-a6ad-822a164ca18d"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "3.62736508471183313934430693917518765546`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-1.137841102\"\>",
+       ShowStringCharacters->False],
+      -1.1378411018254926`,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.527312251\"\>",
+        ShowStringCharacters->False],
+       1.5273122508866293`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"3", ",", "2", ",", "0", ",", "3", ",", "2", ",", "0", ",", "3"}],
+     "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", 
+   "6", "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "1"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 3.62736508471183313934430693917518765546`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-1.1378411018254926`, -1.5273122508866293`], 10], "\n", 
+   "Carry sequence: ", {3, 2, 0, 3, 2, 0, 3}, "\np:q = ", 6, ":", 1],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.91865973687854*^9},
+ CellLabel->
+  "During evaluation of \
+In[92]:=",ExpressionUUID->"7c76e12e-e3fd-4ee4-93e2-ba2ac2dea305"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {12, 8, 4, 0}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "1.6`", 
+   "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm["tile(s): {12, 8, 4, 0}", "\nruntime = ", 1.6, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659738474557*^9},
+ CellLabel->
+  "During evaluation of \
+In[92]:=",ExpressionUUID->"e3a9e956-4744-44ef-a0c2-830aaf9e8ab0"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "17"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "7", ",", "1", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".005"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "150"}]}], "]"}]}]], "Input",
+ CellLabel->"In[93]:=",ExpressionUUID->"63df2d90-85fd-4cc8-8f97-4a426b12c532"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "3.80630071674101395730007293028109749056`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"0.3686388604\"\>",
+       ShowStringCharacters->False],
+      0.3686388603504497,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.915830396\"\>",
+        ShowStringCharacters->False],
+       1.9158303962983092`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "3", ",", "3", ",", "0", ",", "0", ",", "3", ",", "3", ",", "0", ",", 
+     "0"}], "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", 
+   "\[InvisibleSpace]", "7", "\[InvisibleSpace]", "\<\":\"\>", 
+   "\[InvisibleSpace]", "1"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 3.80630071674101395730007293028109749056`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[0.3686388603504497, -1.9158303962983092`], 10], "\n", 
+   "Carry sequence: ", {3, 3, 0, 0, 3, 3, 0, 0}, "\np:q = ", 7, ":", 1],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659738848675*^9},
+ CellLabel->
+  "During evaluation of \
+In[93]:=",ExpressionUUID->"3e6ce15f-1ba6-44e4-b067-e02043d025a8"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {0, 12, 8, 4}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "8.71`",
+    "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm["tile(s): {0, 12, 8, 4}", "\nruntime = ", 8.71, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9186597475534563`*^9},
+ CellLabel->
+  "During evaluation of \
+In[93]:=",ExpressionUUID->"c14d2397-e828-45e4-86b4-15fc41c62115"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "18"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "6", ",", "1", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".005"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "150"}]}], "]"}]}]], "Input",
+ CellLabel->"In[94]:=",ExpressionUUID->"e436c557-4831-457c-97f2-edf42f8b9238"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "3.84732210186307263951891624655053661096`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-1.629960525\"\>",
+       ShowStringCharacters->False],
+      -1.6299605249474365`,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.091123636\"\>",
+        ShowStringCharacters->False],
+       1.0911236359717214`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"3", ",", "3", ",", "0", ",", "3", ",", "3", ",", "0", ",", "3"}],
+     "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", 
+   "6", "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "1"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 3.84732210186307263951891624655053661096`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-1.6299605249474365`, -1.0911236359717214`], 10], "\n", 
+   "Carry sequence: ", {3, 3, 0, 3, 3, 0, 3}, "\np:q = ", 6, ":", 1],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659748951933*^9},
+ CellLabel->
+  "During evaluation of \
+In[94]:=",ExpressionUUID->"11789f00-3866-44a4-873d-aff3bc0a4928"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {12, 8, 4, 0}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "2.31`",
+    "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm["tile(s): {12, 8, 4, 0}", "\nruntime = ", 2.31, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659751259244*^9},
+ CellLabel->
+  "During evaluation of \
+In[94]:=",ExpressionUUID->"38b93182-1055-42bb-b966-f685ef5597e4"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "19"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "6", ",", "1", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".005"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "100"}]}], "]"}]}]], "Input",
+ CellLabel->"In[95]:=",ExpressionUUID->"1f7421d7-126e-4769-a243-3bd00654403d"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "4.06064702755414245458270824228955058677`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-0.1231330861\"\>",
+       ShowStringCharacters->False],
+      -0.12313308608386138`,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"2.011339173\"\>",
+        ShowStringCharacters->False],
+       2.011339173452754,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"4", ",", "0", ",", "0", ",", "4", ",", "0", ",", "0", ",", "4"}],
+     "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", 
+   "6", "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "1"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 4.06064702755414245458270824228955058677`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-0.12313308608386138`, -2.011339173452754], 10], "\n", 
+   "Carry sequence: ", {4, 0, 0, 4, 0, 0, 4}, "\np:q = ", 6, ":", 1],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659751744041*^9},
+ CellLabel->
+  "During evaluation of \
+In[95]:=",ExpressionUUID->"ce86743c-5a52-4d6c-86cd-9ce2c87b5b1b"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {20, 15, 10, 5, 0}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", 
+   "3.8000000000000003`", "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {20, 15, 10, 5, 0}", "\nruntime = ", 3.8000000000000003`, 
+   " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659755543373*^9},
+ CellLabel->
+  "During evaluation of \
+In[95]:=",ExpressionUUID->"08617527-9416-4785-8bfc-2cbe38910252"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "20"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "6", ",", "1", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".005"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "250"}]}], "]"}]}]], "Input",
+ CellLabel->"In[96]:=",ExpressionUUID->"a2ba8b50-3ba8-41ca-a999-bb8ca0f234ec"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "4.07959562349143878601041775083662603263`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"1.877438833\"\>",
+       ShowStringCharacters->False],
+      1.8774388331233463`,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"0.7448617666\"\>",
+        ShowStringCharacters->False],
+       0.744861766619745,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"4", ",", "0", ",", "1", ",", "1", ",", "1", ",", "1", ",", "1"}],
+     "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", 
+   "6", "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "1"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 4.07959562349143878601041775083662603263`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[1.8774388331233463`, -0.744861766619745], 10], "\n", 
+   "Carry sequence: ", {4, 0, 1, 1, 1, 1, 1}, "\np:q = ", 6, ":", 1],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659756364626*^9},
+ CellLabel->
+  "During evaluation of \
+In[96]:=",ExpressionUUID->"2d67327b-e458-4832-9f91-9289baccdcaf"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {5, 0, 20, 15, 10}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "4.19`",
+    "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {5, 0, 20, 15, 10}", "\nruntime = ", 4.19, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659760549752*^9},
+ CellLabel->
+  "During evaluation of \
+In[96]:=",ExpressionUUID->"186627d4-2dc8-4b0e-9539-c6e1cc6cba3d"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "21"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "6", ",", "1", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".005"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "150"}]}], "]"}]}]], "Input",
+ CellLabel->"In[97]:=",ExpressionUUID->"ff4d9e90-4656-46a0-8527-b7102c6d2d61"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "4.28762526163747486148924045777455303028`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-0.6166146688\"\>",
+       ShowStringCharacters->False],
+      -0.6166146688409626,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.976717383\"\>",
+        ShowStringCharacters->False],
+       1.9767173828869986`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"4", ",", "1", ",", "0", ",", "4", ",", "1", ",", "0", ",", "4"}],
+     "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", 
+   "6", "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "1"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 4.28762526163747486148924045777455303028`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-0.6166146688409626, -1.9767173828869986`], 10], "\n", 
+   "Carry sequence: ", {4, 1, 0, 4, 1, 0, 4}, "\np:q = ", 6, ":", 1],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659761401926*^9},
+ CellLabel->
+  "During evaluation of \
+In[97]:=",ExpressionUUID->"adbe3843-ad03-4ed1-921d-a869c1d27e7f"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {20, 15, 10, 5, 0}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "5.88`",
+    "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {20, 15, 10, 5, 0}", "\nruntime = ", 5.88, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9186597672764883`*^9},
+ CellLabel->
+  "During evaluation of \
+In[97]:=",ExpressionUUID->"92491244-4198-457d-88ba-87d88b7c683d"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "22"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "6", ",", "1", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".003"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "150"}]}], "]"}]}]], "Input",
+ CellLabel->"In[98]:=",ExpressionUUID->"1621a7b0-9ae1-40c8-85c4-22433f9a0c41"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "4.36523001341409684576080682898166607833`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"1.385458499\"\>",
+       ShowStringCharacters->False],
+      1.3854584985296239`,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.563884511\"\>",
+        ShowStringCharacters->False],
+       1.563884510526956,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"4", ",", "1", ",", "2", ",", "2", ",", "2", ",", "2", ",", "2"}],
+     "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", 
+   "6", "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "1"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 4.36523001341409684576080682898166607833`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[1.3854584985296239`, -1.563884510526956], 10], "\n", 
+   "Carry sequence: ", {4, 1, 2, 2, 2, 2, 2}, "\np:q = ", 6, ":", 1],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659768357606*^9},
+ CellLabel->
+  "During evaluation of \
+In[98]:=",ExpressionUUID->"c113cc3f-9cf2-44ba-9e6b-e2fa250353ee"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {10, 5, 0, 20, 15}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "6.17`",
+    "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {10, 5, 0, 20, 15}", "\nruntime = ", 6.17, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659774520945*^9},
+ CellLabel->
+  "During evaluation of \
+In[98]:=",ExpressionUUID->"af9dde46-6ab0-49d5-a15c-82f8ffd695bb"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "23"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "6", ",", "1", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".003"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "150"}]}], "]"}]}]], "Input",
+ CellLabel->"In[99]:=",ExpressionUUID->"1b16202c-50b9-4d89-9c4c-73847ad3f21d"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "4.49449283705541764603557226432324769415`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-1.111247257\"\>",
+       ShowStringCharacters->False],
+      -1.111247257060393,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.805442431\"\>",
+        ShowStringCharacters->False],
+       1.8054424307441017`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"4", ",", "2", ",", "0", ",", "4", ",", "2", ",", "0", ",", "4"}],
+     "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", 
+   "6", "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "1"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 4.49449283705541764603557226432324769415`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-1.111247257060393, -1.8054424307441017`], 10], "\n", 
+   "Carry sequence: ", {4, 2, 0, 4, 2, 0, 4}, "\np:q = ", 6, ":", 1],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659775628014*^9},
+ CellLabel->
+  "During evaluation of \
+In[99]:=",ExpressionUUID->"31b33287-5b77-44d7-a84d-807f6066ef77"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {20, 15, 10, 5, 0}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "7.07`",
+    "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {20, 15, 10, 5, 0}", "\nruntime = ", 7.07, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9186597826910267`*^9},
+ CellLabel->
+  "During evaluation of \
+In[99]:=",ExpressionUUID->"178d2f47-b367-4f51-a9a2-40de4badebc5"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "24"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "6", ",", "1", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".003"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "150"}]}], "]"}]}]], "Input",
+ CellLabel->
+  "In[100]:=",ExpressionUUID->"152506ee-7bfa-4b19-bd63-ba3bafb3b832"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "4.61347026758155538068294619015092647294`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"0.891621714\"\>",
+       ShowStringCharacters->False],
+      0.8916217140243752,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.954093393\"\>",
+        ShowStringCharacters->False],
+       1.9540933925126993`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"4", ",", "2", ",", "3", ",", "3", ",", "3", ",", "3", ",", "3"}],
+     "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", 
+   "6", "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "1"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 4.61347026758155538068294619015092647294`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[0.8916217140243752, -1.9540933925126993`], 10], "\n", 
+   "Carry sequence: ", {4, 2, 3, 3, 3, 3, 3}, "\np:q = ", 6, ":", 1],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659783973198*^9},
+ CellLabel->
+  "During evaluation of \
+In[100]:=",ExpressionUUID->"6542e075-6e47-421c-b333-f256ac1d7521"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {15, 10, 5, 0, 20}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "8.22`",
+    "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {15, 10, 5, 0, 20}", "\nruntime = ", 8.22, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659792191338*^9},
+ CellLabel->
+  "During evaluation of \
+In[100]:=",ExpressionUUID->"89176deb-cb6e-4f42-8309-3f31fba94a44"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "25"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "6", ",", "1", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".003"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "150"}]}], "]"}]}]], "Input",
+ CellLabel->
+  "In[101]:=",ExpressionUUID->"5b3a2705-2808-4ef1-b7ad-2c0b8252c064"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "4.68577952608962853306896831699233721455`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-1.606705831\"\>",
+       ShowStringCharacters->False],
+      -1.606705831381116,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.450612249\"\>",
+        ShowStringCharacters->False],
+       1.4506122491884426`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"4", ",", "3", ",", "0", ",", "4", ",", "3", ",", "0", ",", "4"}],
+     "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", 
+   "6", "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "1"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 4.68577952608962853306896831699233721455`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-1.606705831381116, -1.4506122491884426`], 10], "\n", 
+   "Carry sequence: ", {4, 3, 0, 4, 3, 0, 4}, "\np:q = ", 6, ":", 1],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9186597936165237`*^9},
+ CellLabel->
+  "During evaluation of \
+In[101]:=",ExpressionUUID->"f4185c5b-1f90-48cd-bf9b-cc44f86dee5d"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {20, 15, 10, 5, 0}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", 
+   "9.370000000000001`", "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {20, 15, 10, 5, 0}", "\nruntime = ", 9.370000000000001, 
+   " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659802982136*^9},
+ CellLabel->
+  "During evaluation of \
+In[101]:=",ExpressionUUID->"800d75d2-ee31-40ce-a65e-a0fd6192a7df"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "26"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "6", ",", "1", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".003"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "100"}]}], "]"}]}]], "Input",
+ CellLabel->
+  "In[102]:=",ExpressionUUID->"95ccb0fc-5743-4d7d-8456-f30b02ae2ca2"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "4.83597591908131955125419187226404193772`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"0.3966082527\"\>",
+       ShowStringCharacters->False],
+      0.3966082527360923,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"2.163025153\"\>",
+        ShowStringCharacters->False],
+       2.1630251530999227`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"4", ",", "4", ",", "0", ",", "0", ",", "4", ",", "4", ",", "0"}],
+     "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", 
+   "6", "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "1"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 4.83597591908131955125419187226404193772`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[0.3966082527360923, -2.1630251530999227`], 10], "\n", 
+   "Carry sequence: ", {4, 4, 0, 0, 4, 4, 0}, "\np:q = ", 6, ":", 1],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659804566423*^9},
+ CellLabel->
+  "During evaluation of \
+In[102]:=",ExpressionUUID->"169902e9-d251-4be9-a7e2-e59fed05af9c"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {0, 20, 15, 10, 5}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", 
+   "11.22`", "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {0, 20, 15, 10, 5}", "\nruntime = ", 11.22, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659815782576*^9},
+ CellLabel->
+  "During evaluation of \
+In[102]:=",ExpressionUUID->"a51a442d-f306-4492-aca2-ffcaab5c27f0"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "27"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "6", ",", "1", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".003"}]}], "]"}]}]], "Input",
+ CellLabel->
+  "In[103]:=",ExpressionUUID->"8d5b7764-0bdf-4a23-9609-276054372c6e"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "4.86453651231758439104880377456783904162`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-2.102784715\"\>",
+       ShowStringCharacters->False],
+      -2.102784715200295,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"0.6654569512\"\>",
+        ShowStringCharacters->False],
+       0.6654569511528131,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"4", ",", "4", ",", "0", ",", "4", ",", "4", ",", "0", ",", "4"}],
+     "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", 
+   "6", "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "1"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 4.86453651231758439104880377456783904162`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-2.102784715200295, -0.6654569511528131], 10], "\n", 
+   "Carry sequence: ", {4, 4, 0, 4, 4, 0, 4}, "\np:q = ", 6, ":", 1],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.91865981767909*^9},
+ CellLabel->
+  "During evaluation of \
+In[103]:=",ExpressionUUID->"6c162d01-acde-4d49-a134-03b10392ad6e"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {20, 15, 10, 5, 0}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", 
+   "12.96`", "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {20, 15, 10, 5, 0}", "\nruntime = ", 12.96, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.91865983062995*^9},
+ CellLabel->
+  "During evaluation of \
+In[103]:=",ExpressionUUID->"cb6a9d54-c3cb-4cdf-99f2-cabaffb156bb"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "28"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "6", ",", "1", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".003"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "100"}]}], "]"}]}]], "Input",
+ CellLabel->
+  "In[104]:=",ExpressionUUID->"ccc498f9-233b-4383-ac88-39bc0b49881d"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "5.0393773281138474676256981809537840472`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-0.09921860727\"\>",
+       ShowStringCharacters->False],
+      -0.09921860726931145,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"2.242662033\"\>",
+        ShowStringCharacters->False],
+       2.242662033407037,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"5", ",", "0", ",", "0", ",", "5", ",", "0", ",", "0", ",", "5"}],
+     "}"}], "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", 
+   "6", "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "1"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 5.0393773281138474676256981809537840472`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-0.09921860726931145, -2.242662033407037], 10], "\n", 
+   "Carry sequence: ", {5, 0, 0, 5, 0, 0, 5}, "\np:q = ", 6, ":", 1],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659833018155*^9},
+ CellLabel->
+  "During evaluation of \
+In[104]:=",ExpressionUUID->"fd6ec822-7ca8-4d1e-8747-d69428950c98"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {30, 24, 18, 12, 6, 0}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", 
+   "17.54`", "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {30, 24, 18, 12, 6, 0}", "\nruntime = ", 17.54, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659850556796*^9},
+ CellLabel->
+  "During evaluation of \
+In[104]:=",ExpressionUUID->"398049db-f07c-46bd-a1ce-a3664792d9d2"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "29"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "5", ",", "1", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".003"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "100"}]}], "]"}]}]], "Input",
+ CellLabel->
+  "In[105]:=",ExpressionUUID->"450a686b-8d33-40a7-8407-1fca9c1e152c"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "5.22787141193659053617210508498400473455`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-0.59564122\"\>",
+       ShowStringCharacters->False],
+      -0.5956412200304639,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"2.207506047\"\>",
+        ShowStringCharacters->False],
+       2.207506047316113,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"5", ",", "1", ",", "0", ",", "5", ",", "1", ",", "0"}], "}"}], 
+   "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", "5", 
+   "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "1"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 5.22787141193659053617210508498400473455`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-0.5956412200304639, -2.207506047316113], 10], "\n", 
+   "Carry sequence: ", {5, 1, 0, 5, 1, 0}, "\np:q = ", 5, ":", 1],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9186598532602663`*^9},
+ CellLabel->
+  "During evaluation of \
+In[105]:=",ExpressionUUID->"967cbc9d-3864-443c-9922-bb4b5ea75302"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {0, 30, 24, 18, 12, 6}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "4.01`",
+    "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {0, 30, 24, 18, 12, 6}", "\nruntime = ", 4.01, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659857267682*^9},
+ CellLabel->
+  "During evaluation of \
+In[105]:=",ExpressionUUID->"eaf4dbb8-5bf5-4977-97fa-d99583615a58"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "30"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "5", ",", "1", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".003"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "200"}]}], "]"}]}]], "Input",
+ CellLabel->
+  "In[106]:=",ExpressionUUID->"4e334426-e024-470a-804c-acccc3d6c874"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "5.27803957082265435040313816968445428449`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"1.905267857\"\>",
+       ShowStringCharacters->False],
+      1.9052678568830683`,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.283742172\"\>",
+        ShowStringCharacters->False],
+       1.2837421720699425`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"5", ",", "1", ",", "2", ",", "2", ",", "2", ",", "2"}], "}"}], 
+   "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", "5", 
+   "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "1"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 5.27803957082265435040313816968445428449`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[1.9052678568830683`, -1.2837421720699425`], 10], "\n", 
+   "Carry sequence: ", {5, 1, 2, 2, 2, 2}, "\np:q = ", 5, ":", 1],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659858241098*^9},
+ CellLabel->
+  "During evaluation of \
+In[106]:=",ExpressionUUID->"d38628ed-6f65-4f6c-ade7-a12243a81adf"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {12, 6, 0, 30, 24, 18}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", 
+   "4.2700000000000005`", "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {12, 6, 0, 30, 24, 18}", "\nruntime = ", 4.2700000000000005`, 
+   " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9186598625059023`*^9},
+ CellLabel->
+  "During evaluation of \
+In[106]:=",ExpressionUUID->"2294c47f-bd91-48bc-b326-6c4d2066040f"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "31"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "5", ",", "1", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".003"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "150"}]}], "]"}]}]], "Input",
+ CellLabel->
+  "In[107]:=",ExpressionUUID->"2a015c30-f437-4678-b1cb-f2a71f229ad5"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "5.40431358073618481197132660531472337336`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-1.092518688\"\>",
+       ShowStringCharacters->False],
+      -1.0925186876243198`,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"2.052003045\"\>",
+        ShowStringCharacters->False],
+       2.0520030453017895`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"5", ",", "2", ",", "0", ",", "5", ",", "2", ",", "0"}], "}"}], 
+   "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", "5", 
+   "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "1"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 5.40431358073618481197132660531472337336`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-1.0925186876243198`, -2.0520030453017895`], 10], "\n", 
+   "Carry sequence: ", {5, 2, 0, 5, 2, 0}, "\np:q = ", 5, ":", 1],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659863568357*^9},
+ CellLabel->
+  "During evaluation of \
+In[107]:=",ExpressionUUID->"9a04f7c5-aed4-40d4-b813-07e1cea82ff8"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {0, 30, 24, 18, 12, 6}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "4.7`", 
+   "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {0, 30, 24, 18, 12, 6}", "\nruntime = ", 4.7, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659868265114*^9},
+ CellLabel->
+  "During evaluation of \
+In[107]:=",ExpressionUUID->"ab33338c-ae76-40de-bb05-230c500f2d69"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "32"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "5", ",", "1", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".003"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "150"}]}], "]"}]}]], "Input",
+ CellLabel->
+  "In[108]:=",ExpressionUUID->"54e5c578-1bcd-4260-b06d-18b194c637b0"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "5.48641676436456977446863003235738658009`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"1.408865837\"\>",
+       ShowStringCharacters->False],
+      1.4088658369434115`,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.871233234\"\>",
+        ShowStringCharacters->False],
+       1.8712332344895732`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"5", ",", "2", ",", "3", ",", "3", ",", "3", ",", "3"}], "}"}], 
+   "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", "5", 
+   "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "1"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 5.48641676436456977446863003235738658009`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[1.4088658369434115`, -1.8712332344895732`], 10], "\n", 
+   "Carry sequence: ", {5, 2, 3, 3, 3, 3}, "\np:q = ", 5, ":", 1],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659869399983*^9},
+ CellLabel->
+  "During evaluation of \
+In[108]:=",ExpressionUUID->"3735be4a-d56d-455f-8194-35004d34f520"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {18, 12, 6, 0, 30, 24}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "5.47`",
+    "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {18, 12, 6, 0, 30, 24}", "\nruntime = ", 5.47, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.91865987486063*^9},
+ CellLabel->
+  "During evaluation of \
+In[108]:=",ExpressionUUID->"aa5a58a1-880c-4e53-82a9-c4b40f006878"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"n", "=", "33"}], ";", 
+  RowBox[{"showTiling", "[", 
+   RowBox[{
+    RowBox[{"orderedPipoList", "[", 
+     RowBox[{"[", 
+      RowBox[{"n", ",", "2"}], "]"}], "]"}], ",", "x", ",", "5", ",", "1", 
+    ",", 
+    RowBox[{"\"\<quiet\>\"", "\[Rule]", "False"}], ",", 
+    RowBox[{"\"\<ptSize\>\"", "->", ".003"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "150"}]}], "]"}]}]], "Input",
+ CellLabel->
+  "In[109]:=",ExpressionUUID->"d21a671b-0ee2-4fbe-aa96-92bc6b871039"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Tiling of Pisot number: \"\>", "\[InvisibleSpace]", 
+   "5.57075056372264088339033769442721341014`20.", 
+   "\[InvisibleSpace]", "\<\"..\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Expansion coefficient: \"\>", 
+   "\[InvisibleSpace]", 
+   TagBox[
+    RowBox[{
+     InterpretationBox[
+      StyleBox["\<\"-1.589754512\"\>",
+       ShowStringCharacters->False],
+      -1.5897545123014587`,
+      AutoDelete->True], "-", 
+     RowBox[{
+      InterpretationBox[
+       StyleBox["\<\"1.744543251\"\>",
+        ShowStringCharacters->False],
+       1.7445432509226573`,
+       AutoDelete->True], " ", "\[ImaginaryI]"}]}],
+    NumberForm[#, 10]& ], "\[InvisibleSpace]", "\<\"\\n\"\>", 
+   "\[InvisibleSpace]", "\<\"Carry sequence: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"5", ",", "3", ",", "0", ",", "5", ",", "3", ",", "0"}], "}"}], 
+   "\[InvisibleSpace]", "\<\"\\np:q = \"\>", "\[InvisibleSpace]", "5", 
+   "\[InvisibleSpace]", "\<\":\"\>", "\[InvisibleSpace]", "1"}],
+  SequenceForm[
+  "Tiling of Pisot number: ", 5.57075056372264088339033769442721341014`20., 
+   "..\n", "Expansion coefficient: ", 
+   NumberForm[
+    Complex[-1.5897545123014587`, -1.7445432509226573`], 10], "\n", 
+   "Carry sequence: ", {5, 3, 0, 5, 3, 0}, "\np:q = ", 5, ":", 1],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9186598760792227`*^9},
+ CellLabel->
+  "During evaluation of \
+In[109]:=",ExpressionUUID->"10d2554c-b394-4aa6-bbbe-bd54ae2a399c"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"tile(s): {0, 30, 24, 18, 12, 6}\"\>", 
+   "\[InvisibleSpace]", "\<\"\\nruntime = \"\>", "\[InvisibleSpace]", "5.57`",
+    "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm[
+  "tile(s): {0, 30, 24, 18, 12, 6}", "\nruntime = ", 5.57, " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.918659881645434*^9},
+ CellLabel->
+  "During evaluation of \
+In[109]:=",ExpressionUUID->"d6f00dbc-c8e9-4b99-a507-b058fd45fb9e"]
+}, Open  ]]
+}, Open  ]],
+
+Cell["\<\
+The next tiles up to number 89 are of no special interest for me from my \
+esthetic viewpoint. The tiles become more and more a collection of rectangles \
+or stripes.\
+\>", "Text",ExpressionUUID->"f50cd641-d94c-4356-bfc1-b7f40be70d1c"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["References", "Section",ExpressionUUID->"e0e99eaf-d3a4-4344-ab08-8d922c5433d2"],
+
+Cell[TextData[{
+ StyleBox["[1]",
+  FontWeight->"Bold"],
+ "\tJean-Ren\[EAcute] Geoffroy, \"Programme et Galerie\" (from a magister \
+project 1995-1996)\n\t",
+ ButtonBox["http://www.math.polytechnique.fr/xups/xups01.02b.pdf",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://www.math.polytechnique.fr/xups/xups01.02b.pdf"], None},
+  ButtonNote->"http://www.math.polytechnique.fr/xups/xups01.02b.pdf"],
+ "\n",
+ StyleBox["[2]",
+  FontWeight->"Bold"],
+ "\tTerr, David and Weisstein, Eric W. \"Pisot Number.\" From MathWorld--A \
+Wolfram Web Resource\n\t",
+ ButtonBox["http://mathworld.wolfram.com/PisotNumber.html",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://mathworld.wolfram.com/PisotNumber.html"], None},
+  ButtonNote->"http://mathworld.wolfram.com/PisotNumber.html"],
+ "\n",
+ StyleBox["[3]",
+  FontWeight->"Bold"],
+ "\tShigeki Akiyama, \"Pisot number system and its dual tiling\",\n\tPhysics \
+and Theoretical Computer Science, ed. by J.P. Gazeau et al., IOS Press (2007) \
+\n\tNo longer available in the web. Can still be found by search of \
+\"cargese_note\"\n\t\
+http://mathweb.sc.niigata-u.ac.jp/~akiyama/papers/cargese_note.pdf ** dead \
+link **\n",
+ Cell[GraphicsData["Metafile", "\<\
+CF5dJ6E]HGAYHf4PEfU^I6mgLb15CDHPAVmbKF5d0@0000>`0@0006`00000000000000?oooooooooo
+00000000000E0000d`000215CDH00040/0<001H0000400000000000000000000P0L003P4002U0P00
+O@4000000000000000000=EE2P18d0D0AP000;`0002`0000AdA9@`4008000`00R@DXFP00002H0000
+0@090003C00000<070000000100000<11P05000030;C01D01`000?`20000000000040000;@4000P0
+003j0P000000000000040000;@4101`0003k0P`02@000000T040000000820TeC85=QKW<PDfEbJFH0
+2P0S08X100000?ooooolaY/3100002d10P030000000A0000300000P0000;00004000004000060000
+2@000100000100001P000140000<00001P0000T0000@00005@000=<0000W00006000004000000000
+00000000000U000030000040000V0000700000800000000000000000000000009@0000`000020000
+DP00070100030000300000T000000000000009010000000000820Td0D`0P05<0H@1^07<0801C06D0
+LP1Y06H0000000000000000000000000000000000000000000000000000000000000000024000000
+00000?Al08P0P6m00000000000000000000000000000000000800P00001Ol`0000000?Q/P0P00000
+IF]3@04000000000000000l000000000jWMP20000030iQ800000008000800000000000008/070000
+000000AZ0gL000000000000000000000000H`0000000000000000000003O7VF4[ll00;h=[?h00000
+T;Bk2`00002n3JcnoPL002D000000000/a4Q>@000002000000000:D?<7P000009@000000000EAJon
+I7H02000000U0000300000<0000U0000300000L0080U000030000000080`0000300000l0080U0000
+300000d0081;00004000000000050000:00000`000010000:00000`000020000:00000`000030000
+3P0001@000000000400001@0
+\>"], "Graphics",
+  ImageSize->{6., 0.6},
+  ImageMargins->0,ExpressionUUID->"db8f4398-171e-49fc-ab83-69a4374ba47a"],
+ "\n",
+ Cell[GraphicsData["Metafile", "\<\
+CF5dJ6E]HGAYHf4PEfU^I6mgLb15CDHPAVmbKF5d0@0000>`0@0006`00000000000000?oooooooooo
+00000000000E00005@000215CDH00040/0<001H0000400000000000000000000P0L003P4002U0P00
+O@4000000000000000000=EE2P18d0D0AP000;`0002`0000AdA9@`4008000`001PEDn000002H0000
+0@090003C00000<070000000100000<11P050000308E01D01`000?`20000000000040000;@4000P0
+003j0P000000000000040000;@4101`0003k0P`02@000000T040000000820TeC85=QKW<PDfEbJFH0
+2P0S08X100000?ooooolaY/3100002d10P030000000A0000300000P0000;00004000004000010000
+2@000100000100000@000140000<00001P0000T0000@00005@0001D0000W00006000004000000000
+00000000000U000030000040000V0000700000800000000000000000000000009@0000`000020000
+DP00070100030000300000T000000000000009010000000000820Td0D`0P05<0H@1^07<0801C06D0
+LP1Y06H000000000000000000000000000000000000000000000000000000000]P@10000002=i<Sj
+oPL00?Al08P000000P0000000000iQ8000000041d0<0000000800P00002005X200000;0Sc0T00000
+<0=J0P00002P:5X200000080000000000@000000003SOMef00000080008000000`00000000070000
+000000AZ0gL0000040@00000000005T2000000P10000000020@00000003O7VF4[ll00;h=[?h00000
+T;Bk2`00002n3JcnoPL002D000000000X`lQH`000002000000000:D?<7T000009@000000000EAJon
+I7H02000000U0000300000<0000U0000300000L0080U000030000000080`0000300000l0080U0000
+300000d0081;00004000000000050000:00000`000010000:00000`000020000:00000`000030000
+3P0001@000000000400001@0
+\>"], "Graphics",
+  ImageSize->{0.6, 0.6},
+  ImageMargins->0,
+  FontWeight->"Bold",ExpressionUUID->"835b7fcc-790b-4ee3-a77b-8a4b940bd5b6"],
+ StyleBox["[4]",
+  FontWeight->"Bold"],
+ "\tRoger Bagula, \"Perron Number Tiling Systems\" (2005),\n\t",
+ ButtonBox["http://library.wolfram.com/infocenter/MathSource/5642/",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://library.wolfram.com/infocenter/MathSource/5642/"], None},
+  ButtonNote->"http://library.wolfram.com/infocenter/MathSource/5642/"],
+ "\n",
+ StyleBox["[5]",
+  FontWeight->"Bold"],
+ "\tWikipedia, \"Perron number\",\n\t",
+ ButtonBox["http://en.wikipedia.org/wiki/Perron_number",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://en.wikipedia.org/wiki/Perron_number"], None},
+  ButtonNote->"http://en.wikipedia.org/wiki/Perron_number"],
+ "\n\nWeb resources as retrieved 2012/Nov./30 and checked in July 2014"
+}], "Text",ExpressionUUID->"47bf1e17-5320-4233-b79d-8b219e267734"]
+}, Open  ]]
+}, Open  ]]
+},
+AutoGeneratedPackage->None,
+WindowToolbars->"EditBar",
+WindowSize->{1228, 918},
+WindowMargins->{{30, Automatic}, {-133, Automatic}},
+PrintingCopies->1,
+PrintingPageRange->{12, 13},
+Magnification->1.25,
+FrontEndVersion->"12.2 for Mac OS X x86 (64-bit) (December 12, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"de3f2564-b3bb-43bb-a2f2-93416f2118fa"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[567, 22, 104, 0, 67, "Subtitle",ExpressionUUID->"de984a1c-4ac0-4a2f-b42b-f43d00cd921f"],
+Cell[674, 24, 2119, 49, 504, "Text",ExpressionUUID->"b817c3fb-5ef3-429d-92d9-6b4c8049bab1"],
+Cell[2796, 75, 378, 5, 73, "Text",ExpressionUUID->"e097e984-b946-4489-94b6-9badfa705698"],
+Cell[CellGroupData[{
+Cell[3199, 84, 100, 0, 84, "Section",ExpressionUUID->"964582ee-a27c-4a90-9c6d-127e6feb3feb"],
+Cell[CellGroupData[{
+Cell[3324, 88, 129, 0, 56, "Subsubsection",ExpressionUUID->"1769b4c1-9b8d-4676-bccf-fa6450b5ff14"],
+Cell[3456, 90, 4494, 127, 474, "Input",ExpressionUUID->"b5647fcc-6e8a-49f7-99cd-4298fb727240",
+ InitializationCell->True]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7987, 222, 150, 2, 56, "Subsubsection",ExpressionUUID->"4bb547bf-c689-4a10-a171-c141dc4c69e1"],
+Cell[8140, 226, 350, 9, 73, "Text",ExpressionUUID->"844a7f20-ec4e-4a65-a305-5270c8c90b67"],
+Cell[8493, 237, 2720, 73, 370, "Input",ExpressionUUID->"ae1c34c8-3c5f-41e8-ab8e-4544fffe8557",
+ InitializationCell->True]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11250, 315, 133, 0, 56, "Subsubsection",ExpressionUUID->"d91f9879-f0fd-4db3-88c1-493180e7d3b6"],
+Cell[11386, 317, 3183, 104, 504, "Text",ExpressionUUID->"042b3054-603d-4d3b-b922-244d481e07a7"],
+Cell[14572, 423, 9877, 246, 1202, "Input",ExpressionUUID->"73865a25-9150-4551-a672-ee8f05c6f53c",
+ InitializationCell->True]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[24486, 674, 86, 0, 56, "Subsubsection",ExpressionUUID->"b6f9a196-1105-4c10-902c-991965ea1b62"],
+Cell[24575, 676, 397, 11, 73, "Text",ExpressionUUID->"c3a8a99c-a631-4cbe-9c19-5edd34fe9803"],
+Cell[24975, 689, 3704, 96, 370, "Input",ExpressionUUID->"c7c7a951-048a-45ed-b9c4-f3b8884f2c47",
+ InitializationCell->True]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[28716, 790, 104, 0, 67, "Subsection",ExpressionUUID->"d3cfbe3f-262d-4d4c-87e0-b8e5a5a54287"],
+Cell[28823, 792, 190, 5, 44, "Text",ExpressionUUID->"e9ecf25c-35be-4588-b950-bddf319a87b8"],
+Cell[29016, 799, 1826, 45, 214, "Input",ExpressionUUID->"9328e8b7-df02-486c-b440-aedfa64756c5",
+ InitializationCell->True],
+Cell[30845, 846, 1088, 29, 324, "Input",ExpressionUUID->"c2494172-4c95-4a71-b6f2-a78e71dd31d1"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[31982, 881, 92, 0, 84, "Section",ExpressionUUID->"e4b4b782-4098-444c-af40-26767d82d1a0"],
+Cell[CellGroupData[{
+Cell[32099, 885, 265, 8, 68, "Subsection",ExpressionUUID->"228d286d-f99c-4270-9708-909715a06d97"],
+Cell[CellGroupData[{
+Cell[32389, 897, 85, 0, 40, "Item",ExpressionUUID->"be072b8a-ecc1-49a0-9277-8baf03829d24"],
+Cell[CellGroupData[{
+Cell[32499, 901, 384, 9, 64, "Input",ExpressionUUID->"e3089fdd-4f98-4efd-9b25-fb09fa64ac6b"],
+Cell[CellGroupData[{
+Cell[32908, 914, 1787, 41, 102, "Print",ExpressionUUID->"a820f94c-f1ed-4aea-bc27-4f1486075134"],
+Cell[34698, 957, 449, 10, 54, "Print",ExpressionUUID->"5484cbd8-f17d-4c68-ad5f-93fc32afff68"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[35208, 974, 86, 0, 40, "Item",ExpressionUUID->"721e7b6e-a5f9-413e-8812-8c8ec2b9295f"],
+Cell[35297, 976, 250, 6, 37, "Input",ExpressionUUID->"8678c328-7ee1-4feb-862e-4df67ae3a117"],
+Cell[35550, 984, 551, 14, 64, "Input",ExpressionUUID->"a526c4d7-e9d3-4229-96e8-cc956c58cbce"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[36150, 1004, 330, 9, 68, "Subsection",ExpressionUUID->"5df007f1-3a14-4bd7-9243-3bab8cde3582"],
+Cell[36483, 1015, 291, 8, 37, "Input",ExpressionUUID->"d46fb271-1ef4-48b8-88b5-b071c826faa7"],
+Cell[CellGroupData[{
+Cell[36799, 1027, 99, 0, 40, "Item",ExpressionUUID->"13958116-0c5e-4c7b-b94e-1e46d612ee42"],
+Cell[CellGroupData[{
+Cell[36923, 1031, 242, 4, 37, "Input",ExpressionUUID->"de844b8e-7400-4168-95d9-30c935dd20ec"],
+Cell[CellGroupData[{
+Cell[37190, 1039, 1567, 39, 102, "Print",ExpressionUUID->"5e0c2287-bb85-4ea7-af98-e894e8b1301a"],
+Cell[38760, 1080, 437, 10, 54, "Print",ExpressionUUID->"baec2d7c-b9a5-4631-a82b-d0cb1423007f"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[39258, 1097, 85, 0, 40, "Item",ExpressionUUID->"f2f27f82-33f2-4667-bf27-3a8a815d1c00"],
+Cell[39346, 1099, 186, 3, 37, "Input",ExpressionUUID->"2b5b2566-76a1-4193-9716-765bc34b938f"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[39569, 1107, 85, 0, 40, "Item",ExpressionUUID->"219cebed-be16-4664-b55a-8ecffb2f85b2"],
+Cell[39657, 1109, 242, 4, 37, "Input",ExpressionUUID->"2036b368-1e52-4cdb-84e9-e7a77dcc6d1e"],
+Cell[39902, 1115, 552, 12, 64, "Input",ExpressionUUID->"d9c0dda8-945c-4f36-88b2-f2ead5cc949a"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[40503, 1133, 340, 9, 68, "Subsection",ExpressionUUID->"604457db-542f-46b7-bb33-db0abb15dce6"],
+Cell[CellGroupData[{
+Cell[40868, 1146, 122, 0, 56, "Subsubsection",ExpressionUUID->"9aa44f39-3875-431b-a702-58326767a5e8"],
+Cell[40993, 1148, 400, 10, 64, "Input",ExpressionUUID->"60cd823b-469f-47c8-8328-93561a07d969"],
+Cell[CellGroupData[{
+Cell[41418, 1162, 85, 0, 40, "Item",ExpressionUUID->"bdadaef3-6e44-4af5-a9dc-ca2722a49a70"],
+Cell[41506, 1164, 185, 3, 37, "Input",ExpressionUUID->"1dc22f26-bdcb-47a8-9db1-36f54fa04c4b"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[41728, 1172, 85, 0, 40, "Item",ExpressionUUID->"7529852b-b7e9-44b2-b049-f06fa0e2ba30"],
+Cell[CellGroupData[{
+Cell[41838, 1176, 241, 4, 37, "Input",ExpressionUUID->"61cbfdc7-09da-4528-a390-977068c13cfb"],
+Cell[CellGroupData[{
+Cell[42104, 1184, 1496, 36, 102, "Print",ExpressionUUID->"445b26ea-eb07-48fe-a085-347aaaa8b515"],
+Cell[43603, 1222, 630, 13, 54, "Print",ExpressionUUID->"ef4e8dac-cd35-431a-9058-af76e7bea71c"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[44294, 1242, 106, 0, 40, "Item",ExpressionUUID->"8277f7d8-1a10-4ab2-9fff-b958d1b541c3"],
+Cell[44403, 1244, 1478, 47, 90, "Input",ExpressionUUID->"8cb3c950-ec71-4611-a2db-f03941cdf11d"],
+Cell[45884, 1293, 2427, 75, 142, "Input",ExpressionUUID->"acfba426-6df5-4721-a37a-33e5d2575fd2"],
+Cell[48314, 1370, 1353, 40, 116, "Input",ExpressionUUID->"01e0ebbd-d127-43c4-a5a2-2ce53562d499"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[49728, 1417, 306, 8, 68, "Subsection",ExpressionUUID->"d99f2634-06e3-4898-9559-340cc040c112"],
+Cell[CellGroupData[{
+Cell[50059, 1429, 85, 0, 40, "Item",ExpressionUUID->"064a0fce-10ef-4378-874b-b40fa5db4601"],
+Cell[50147, 1431, 365, 9, 64, "Input",ExpressionUUID->"228f2d84-985c-48ed-bd77-311ee764b276"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[50549, 1445, 85, 0, 40, "Item",ExpressionUUID->"7f9ab29e-5ff5-4228-bdc6-1e6a5673709e"],
+Cell[50637, 1447, 185, 3, 37, "Input",ExpressionUUID->"da361532-f5d2-40c0-8aa5-6c128728a613"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[50871, 1456, 291, 7, 68, "Subsection",ExpressionUUID->"0a051a30-3c7c-4992-8b5b-52cb7966f71b"],
+Cell[51165, 1465, 353, 9, 64, "Input",ExpressionUUID->"3354c420-32b0-468a-9fc7-60bad5167cdc"],
+Cell[51521, 1476, 186, 3, 37, "Input",ExpressionUUID->"ec6aca70-f74e-4e76-aed0-6936e2baf730"],
+Cell[51710, 1481, 186, 3, 37, "Input",ExpressionUUID->"1ab631fb-1bea-4800-99ce-7620e82ed8e0"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[51933, 1489, 316, 8, 68, "Subsection",ExpressionUUID->"82b89a15-f65d-41c9-aade-bd5ae478f778"],
+Cell[52252, 1499, 374, 10, 64, "Input",ExpressionUUID->"7219f572-a1d6-4bee-b29d-184b4bf4ebff"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[52663, 1514, 335, 9, 68, "Subsection",ExpressionUUID->"9ee7620f-d188-41f8-9604-e9275e1763dd"],
+Cell[53001, 1525, 432, 11, 90, "Input",ExpressionUUID->"cefb3ea4-260a-4497-b489-f453f9f41efa"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[53470, 1541, 286, 7, 68, "Subsection",ExpressionUUID->"82fb163e-e885-4236-b23d-4624dad9e119"],
+Cell[53759, 1550, 340, 8, 64, "Input",ExpressionUUID->"e7a4e743-b154-461f-a609-46113155b3e8"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[54136, 1563, 316, 8, 68, "Subsection",ExpressionUUID->"de0b96c6-fe98-4dc9-a036-c7a7970b8a90"],
+Cell[54455, 1573, 304, 8, 37, "Input",ExpressionUUID->"92db0ca7-917c-4368-af35-1e64a4f3d320"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[54808, 1587, 94, 0, 84, "Section",ExpressionUUID->"6740d21a-f778-496f-b134-06e392f1aa68"],
+Cell[CellGroupData[{
+Cell[54927, 1591, 154, 2, 67, "Subsection",ExpressionUUID->"a7fdd42d-5909-4be1-95d4-02270b859890"],
+Cell[CellGroupData[{
+Cell[55106, 1597, 7410, 205, 844, "Input",ExpressionUUID->"22d4902f-8f7d-4452-a928-37293afd0493"],
+Cell[CellGroupData[{
+Cell[62541, 1806, 485, 12, 29, "Print",ExpressionUUID->"009ee027-1c66-4463-84e2-2cb68e05526f"],
+Cell[63029, 1820, 463, 10, 29, "Print",ExpressionUUID->"cb8abcc8-3909-4693-bdf7-f8565ebb170f"],
+Cell[63495, 1832, 533, 13, 29, "Print",ExpressionUUID->"fd340ce0-4648-4bed-b9ed-34a771c673d4"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[64089, 1852, 176, 3, 67, "Subsection",ExpressionUUID->"87b00aea-301e-456b-a4bd-c2bc8cab6c18"],
+Cell[64268, 1857, 248, 4, 73, "Text",ExpressionUUID->"4939e404-ca50-429f-ad6a-ea01b5088718"],
+Cell[CellGroupData[{
+Cell[64541, 1865, 495, 12, 64, "Input",ExpressionUUID->"a4d1342b-5f2a-40dc-9a6e-48900a768ba5"],
+Cell[CellGroupData[{
+Cell[65061, 1881, 1858, 42, 102, "Print",ExpressionUUID->"5e7dcb20-bec6-4fca-a2c9-12096dd564a2"],
+Cell[66922, 1925, 455, 10, 54, "Print",ExpressionUUID->"0c5afcd3-9d7a-4cf9-af3b-25dc80f1832f"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[67426, 1941, 495, 12, 64, "Input",ExpressionUUID->"1dddeaa5-48f3-4bbb-bc70-bbc94c592543"],
+Cell[CellGroupData[{
+Cell[67946, 1957, 1747, 41, 102, "Print",ExpressionUUID->"166dd836-7d74-4c96-b4d6-5d902dea3e65"],
+Cell[69696, 2000, 451, 10, 54, "Print",ExpressionUUID->"b4deefa1-5ba1-4a2c-9d0b-3e2f9b169b8a"]
+}, Open  ]]
+}, Open  ]],
+Cell[70174, 2014, 339, 7, 44, "Text",ExpressionUUID->"9bca8c38-b67b-492a-9831-9ea83d12928e"],
+Cell[CellGroupData[{
+Cell[70538, 2025, 495, 12, 64, "Input",ExpressionUUID->"4e3ad07f-a2da-42c7-a703-2b9109d647a7"],
+Cell[CellGroupData[{
+Cell[71058, 2041, 1642, 40, 102, "Print",ExpressionUUID->"119b2227-6b78-43ec-b43b-027ef34fcfcb"],
+Cell[72703, 2083, 482, 11, 54, "Print",ExpressionUUID->"935116c5-1cc5-46e4-864f-bd41ee828d45"]
+}, Open  ]]
+}, Open  ]],
+Cell[73212, 2098, 826, 21, 90, "Input",ExpressionUUID->"34ea5a0c-cea3-405b-969a-0b3ccc93eba0"],
+Cell[CellGroupData[{
+Cell[74063, 2123, 495, 12, 64, "Input",ExpressionUUID->"b801d2ea-6d9e-404c-b87d-321fdf726405"],
+Cell[CellGroupData[{
+Cell[74583, 2139, 1639, 40, 102, "Print",ExpressionUUID->"6510a3ae-463d-494e-a20d-bdbc646127bb"],
+Cell[76225, 2181, 457, 10, 54, "Print",ExpressionUUID->"0f85a21b-9e0c-4125-819a-c87407c7290c"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[76731, 2197, 444, 11, 37, "Input",ExpressionUUID->"8c5e0d14-e0d6-4781-90dd-313b6c8eeedc"],
+Cell[CellGroupData[{
+Cell[77200, 2212, 1580, 39, 102, "Print",ExpressionUUID->"e5d63db0-b6b2-4635-9af9-ef927e7feda8"],
+Cell[78783, 2253, 480, 11, 54, "Print",ExpressionUUID->"70162786-4d32-47b4-8c04-085f1e0f2a19"]
+}, Open  ]]
+}, Open  ]],
+Cell[79290, 2268, 805, 20, 90, "Input",ExpressionUUID->"b85aaf1d-6307-4ddb-97b3-31b41acf0b27"],
+Cell[CellGroupData[{
+Cell[80120, 2292, 494, 12, 64, "Input",ExpressionUUID->"4001e49e-feab-4632-a59c-98a82a62eea4"],
+Cell[CellGroupData[{
+Cell[80639, 2308, 1572, 39, 102, "Print",ExpressionUUID->"f514b1d6-4318-479c-8b10-bf5e0d26cd27"],
+Cell[82214, 2349, 482, 11, 54, "Print",ExpressionUUID->"ca7262dd-aa2f-4116-b592-787e4f26c51e"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[82745, 2366, 494, 12, 64, "Input",ExpressionUUID->"4ac25fa9-9b6f-414a-90aa-ade52b563dff"],
+Cell[CellGroupData[{
+Cell[83264, 2382, 1563, 39, 102, "Print",ExpressionUUID->"9353e939-67a3-412b-87fe-2706d6981862"],
+Cell[84830, 2423, 515, 12, 54, "Print",ExpressionUUID->"f91f1bf9-e82f-4147-83df-ce9dbca3fa0f"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[85394, 2441, 494, 12, 64, "Input",ExpressionUUID->"88ded2f4-8e4d-4841-8504-e338a88f9fb3"],
+Cell[CellGroupData[{
+Cell[85913, 2457, 1551, 38, 102, "Print",ExpressionUUID->"f3a805ce-4dc0-4a5f-94af-9e93733e8caa"],
+Cell[87467, 2497, 490, 11, 54, "Print",ExpressionUUID->"e854d4e4-f1c1-4ac2-9a44-f8ddeb23af5f"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[88006, 2514, 494, 12, 64, "Input",ExpressionUUID->"00247904-ea21-454b-8fa3-002da6da8f8f"],
+Cell[CellGroupData[{
+Cell[88525, 2530, 1545, 38, 102, "Print",ExpressionUUID->"df4da2c4-ff7b-46fe-b7ed-4b49ee71ef58"],
+Cell[90073, 2570, 504, 12, 54, "Print",ExpressionUUID->"553b0d76-06de-4c9d-93f3-184e5554d450"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[90626, 2588, 495, 12, 64, "Input",ExpressionUUID->"c32e8405-5fa2-4ca4-bf32-57cf3943b3aa"],
+Cell[CellGroupData[{
+Cell[91146, 2604, 1546, 38, 102, "Print",ExpressionUUID->"5cbd090c-65ea-4238-82d6-f4533f037efb"],
+Cell[92695, 2644, 500, 12, 54, "Print",ExpressionUUID->"8d144d19-a691-489c-9623-606680e09a02"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[93244, 2662, 495, 12, 64, "Input",ExpressionUUID->"13a0174b-282e-4e48-adb5-bc9a9ecab2ca"],
+Cell[CellGroupData[{
+Cell[93764, 2678, 1534, 38, 102, "Print",ExpressionUUID->"bef9ea31-3f92-460a-910e-bfb9566857bb"],
+Cell[95301, 2718, 534, 12, 54, "Print",ExpressionUUID->"0e5d84f4-b0ab-4825-bdfa-673042db4cfe"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[95884, 2736, 495, 12, 64, "Input",ExpressionUUID->"d6eb5f59-225e-47fd-9e87-72595293b824"],
+Cell[CellGroupData[{
+Cell[96404, 2752, 1541, 38, 102, "Print",ExpressionUUID->"a45f3f3f-2c02-4fe8-8a78-bbd20522576e"],
+Cell[97948, 2792, 536, 12, 54, "Print",ExpressionUUID->"a958216c-3147-4c56-81f8-20d88f337fd9"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[98533, 2810, 495, 12, 64, "Input",ExpressionUUID->"35d72426-2d95-4370-a15a-8a04631aa1d4"],
+Cell[CellGroupData[{
+Cell[99053, 2826, 1532, 38, 102, "Print",ExpressionUUID->"1c7a76b2-f6d2-444e-8b2e-d923cf9cd80c"],
+Cell[100588, 2866, 534, 12, 54, "Print",ExpressionUUID->"ff4a6988-1038-4466-91a3-3674f8affbf6"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[101171, 2884, 495, 12, 64, "Input",ExpressionUUID->"910373fc-1812-401f-8f7f-c288534505b4"],
+Cell[CellGroupData[{
+Cell[101691, 2900, 1536, 38, 102, "Print",ExpressionUUID->"c994e212-856c-44bd-b5cb-c984fbfdab11"],
+Cell[103230, 2940, 544, 12, 54, "Print",ExpressionUUID->"26f304f5-81b9-45f1-85b2-322d8a0082ee"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[103823, 2958, 495, 12, 64, "Input",ExpressionUUID->"de38872d-539d-4de8-8cef-cc92f9e58203"],
+Cell[CellGroupData[{
+Cell[104343, 2974, 1497, 36, 102, "Print",ExpressionUUID->"2ee3a7d3-3d48-4f67-8b78-e7acb7dc2d88"],
+Cell[105843, 3012, 457, 10, 54, "Print",ExpressionUUID->"391a4d64-7862-4b7e-bb31-8a47c89e6d2c"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[106349, 3028, 495, 12, 64, "Input",ExpressionUUID->"dad7dbdd-e4b2-4cb8-a6ad-822a164ca18d"],
+Cell[CellGroupData[{
+Cell[106869, 3044, 1500, 36, 102, "Print",ExpressionUUID->"7c76e12e-e3fd-4ee4-93e2-ba2ac2dea305"],
+Cell[108372, 3082, 455, 10, 54, "Print",ExpressionUUID->"e3a9e956-4744-44ef-a0c2-830aaf9e8ab0"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[108876, 3098, 495, 12, 64, "Input",ExpressionUUID->"63df2d90-85fd-4cc8-8f97-4a426b12c532"],
+Cell[CellGroupData[{
+Cell[109396, 3114, 1520, 38, 102, "Print",ExpressionUUID->"3e6ce15f-1ba6-44e4-b067-e02043d025a8"],
+Cell[110919, 3154, 459, 10, 54, "Print",ExpressionUUID->"c14d2397-e828-45e4-86b4-15fc41c62115"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[111427, 3170, 495, 12, 64, "Input",ExpressionUUID->"e436c557-4831-457c-97f2-edf42f8b9238"],
+Cell[CellGroupData[{
+Cell[111947, 3186, 1501, 36, 102, "Print",ExpressionUUID->"11789f00-3866-44a4-873d-aff3bc0a4928"],
+Cell[113451, 3224, 457, 10, 54, "Print",ExpressionUUID->"38b93182-1055-42bb-b966-f685ef5597e4"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[113957, 3240, 495, 12, 64, "Input",ExpressionUUID->"1f7421d7-126e-4769-a243-3bd00654403d"],
+Cell[CellGroupData[{
+Cell[114477, 3256, 1500, 36, 102, "Print",ExpressionUUID->"ce86743c-5a52-4d6c-86cd-9ce2c87b5b1b"],
+Cell[115980, 3294, 503, 12, 54, "Print",ExpressionUUID->"08617527-9416-4785-8bfc-2cbe38910252"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[116532, 3312, 495, 12, 64, "Input",ExpressionUUID->"a2ba8b50-3ba8-41ca-a999-bb8ca0f234ec"],
+Cell[CellGroupData[{
+Cell[117052, 3328, 1495, 36, 102, "Print",ExpressionUUID->"2d67327b-e458-4832-9f91-9289baccdcaf"],
+Cell[118550, 3366, 470, 11, 54, "Print",ExpressionUUID->"186627d4-2dc8-4b0e-9539-c6e1cc6cba3d"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[119069, 3383, 495, 12, 64, "Input",ExpressionUUID->"ff4d9e90-4656-46a0-8527-b7102c6d2d61"],
+Cell[CellGroupData[{
+Cell[119589, 3399, 1500, 36, 102, "Print",ExpressionUUID->"adbe3843-ad03-4ed1-921d-a869c1d27e7f"],
+Cell[121092, 3437, 472, 11, 54, "Print",ExpressionUUID->"92491244-4198-457d-88ba-87d88b7c683d"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[121613, 3454, 495, 12, 64, "Input",ExpressionUUID->"1621a7b0-9ae1-40c8-85c4-22433f9a0c41"],
+Cell[CellGroupData[{
+Cell[122133, 3470, 1494, 36, 102, "Print",ExpressionUUID->"c113cc3f-9cf2-44ba-9e6b-e2fa250353ee"],
+Cell[123630, 3508, 470, 11, 54, "Print",ExpressionUUID->"af9dde46-6ab0-49d5-a15c-82f8ffd695bb"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[124149, 3525, 495, 12, 64, "Input",ExpressionUUID->"1b16202c-50b9-4d89-9c4c-73847ad3f21d"],
+Cell[CellGroupData[{
+Cell[124669, 3541, 1497, 36, 102, "Print",ExpressionUUID->"31b33287-5b77-44d7-a84d-807f6066ef77"],
+Cell[126169, 3579, 472, 11, 54, "Print",ExpressionUUID->"178d2f47-b367-4f51-a9a2-40de4badebc5"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[126690, 3596, 499, 13, 64, "Input",ExpressionUUID->"152506ee-7bfa-4b19-bd63-ba3bafb3b832"],
+Cell[CellGroupData[{
+Cell[127214, 3613, 1497, 36, 102, "Print",ExpressionUUID->"6542e075-6e47-421c-b333-f256ac1d7521"],
+Cell[128714, 3651, 471, 11, 54, "Print",ExpressionUUID->"89176deb-cb6e-4f42-8309-3f31fba94a44"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[129234, 3668, 499, 13, 64, "Input",ExpressionUUID->"5b3a2705-2808-4ef1-b7ad-2c0b8252c064"],
+Cell[CellGroupData[{
+Cell[129758, 3685, 1500, 36, 102, "Print",ExpressionUUID->"f4185c5b-1f90-48cd-bf9b-cc44f86dee5d"],
+Cell[131261, 3723, 501, 12, 54, "Print",ExpressionUUID->"800d75d2-ee31-40ce-a65e-a0fd6192a7df"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[131811, 3741, 499, 13, 64, "Input",ExpressionUUID->"95ccb0fc-5743-4d7d-8456-f30b02ae2ca2"],
+Cell[CellGroupData[{
+Cell[132335, 3758, 1498, 36, 102, "Print",ExpressionUUID->"169902e9-d251-4be9-a7e2-e59fed05af9c"],
+Cell[133836, 3796, 473, 11, 54, "Print",ExpressionUUID->"a51a442d-f306-4492-aca2-ffcaab5c27f0"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[134358, 3813, 448, 12, 37, "Input",ExpressionUUID->"8d5b7764-0bdf-4a23-9609-276054372c6e"],
+Cell[CellGroupData[{
+Cell[134831, 3829, 1496, 36, 102, "Print",ExpressionUUID->"6c162d01-acde-4d49-a134-03b10392ad6e"],
+Cell[136330, 3867, 472, 11, 54, "Print",ExpressionUUID->"cb6a9d54-c3cb-4cdf-99f2-cabaffb156bb"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[136851, 3884, 499, 13, 64, "Input",ExpressionUUID->"ccc498f9-233b-4383-ac88-39bc0b49881d"],
+Cell[CellGroupData[{
+Cell[137375, 3901, 1498, 36, 102, "Print",ExpressionUUID->"fd6ec822-7ca8-4d1e-8747-d69428950c98"],
+Cell[138876, 3939, 481, 11, 54, "Print",ExpressionUUID->"398049db-f07c-46bd-a1ce-a3664792d9d2"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[139406, 3956, 499, 13, 64, "Input",ExpressionUUID->"450a686b-8d33-40a7-8407-1fca9c1e152c"],
+Cell[CellGroupData[{
+Cell[139930, 3973, 1483, 36, 102, "Print",ExpressionUUID->"967cbc9d-3864-443c-9922-bb4b5ea75302"],
+Cell[141416, 4011, 479, 11, 54, "Print",ExpressionUUID->"eaf4dbb8-5bf5-4977-97fa-d99583615a58"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[141944, 4028, 499, 13, 64, "Input",ExpressionUUID->"4e334426-e024-470a-804c-acccc3d6c874"],
+Cell[CellGroupData[{
+Cell[142468, 4045, 1485, 36, 102, "Print",ExpressionUUID->"d38628ed-6f65-4f6c-ade7-a12243a81adf"],
+Cell[143956, 4083, 514, 12, 54, "Print",ExpressionUUID->"2294c47f-bd91-48bc-b326-6c4d2066040f"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[144519, 4101, 499, 13, 64, "Input",ExpressionUUID->"2a015c30-f437-4678-b1cb-f2a71f229ad5"],
+Cell[CellGroupData[{
+Cell[145043, 4118, 1488, 36, 102, "Print",ExpressionUUID->"9a04f7c5-aed4-40d4-b813-07e1cea82ff8"],
+Cell[146534, 4156, 477, 11, 54, "Print",ExpressionUUID->"ab33338c-ae76-40de-bb05-230c500f2d69"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[147060, 4173, 499, 13, 64, "Input",ExpressionUUID->"54e5c578-1bcd-4260-b06d-18b194c637b0"],
+Cell[CellGroupData[{
+Cell[147584, 4190, 1485, 36, 102, "Print",ExpressionUUID->"3735be4a-d56d-455f-8194-35004d34f520"],
+Cell[149072, 4228, 478, 11, 54, "Print",ExpressionUUID->"aa5a58a1-880c-4e53-82a9-c4b40f006878"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[149599, 4245, 499, 13, 64, "Input",ExpressionUUID->"d21a671b-0ee2-4fbe-aa96-92bc6b871039"],
+Cell[CellGroupData[{
+Cell[150123, 4262, 1490, 36, 102, "Print",ExpressionUUID->"10d2554c-b394-4aa6-bbbe-bd54ae2a399c"],
+Cell[151616, 4300, 479, 11, 54, "Print",ExpressionUUID->"d6f00dbc-c8e9-4b99-a507-b058fd45fb9e"]
+}, Open  ]]
+}, Open  ]],
+Cell[152122, 4315, 245, 4, 73, "Text",ExpressionUUID->"f50cd641-d94c-4356-bfc1-b7f40be70d1c"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[152416, 4325, 84, 0, 84, "Section",ExpressionUUID->"e0e99eaf-d3a4-4344-ab08-8d922c5433d2"],
+Cell[152503, 4327, 4966, 91, 428, "Text",ExpressionUUID->"47bf1e17-5320-4233-b79d-8b219e267734"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
