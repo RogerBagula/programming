@@ -1,0 +1,317 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      9530,        309]
+NotebookOptionsPosition[      8560,        285]
+NotebookOutlinePosition[      9035,        302]
+CellTagsIndexPosition[      8992,        299]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{"(*", "Mathematica", "*)"}]], "Input",
+ CellChangeTimes->{{3.9246048779689827`*^9, 3.9246048850252447`*^9}},
+ CellLabel->
+  "In[314]:=",ExpressionUUID->"6a0df46e-92d2-49a8-aeb3-a3426db7d8d4"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", 
+   RowBox[{
+   "a", ",", "f", ",", "dlst", ",", "pt", ",", "cr", ",", "ptlst", ",", "g"}],
+    "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"g", "[", "n_", "]"}], "=", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"Mod", "[", 
+         RowBox[{
+          RowBox[{"Prime", "[", "n", "]"}], ",", "10"}], "]"}], "-", "1"}], 
+       "\[Equal]", "0"}], ",", "0", ",", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"Mod", "[", 
+           RowBox[{
+            RowBox[{"Prime", "[", "n", "]"}], ",", "10"}], "]"}], "-", "3"}], 
+         "\[Equal]", "0"}], ",", "1", ",", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"Mod", "[", 
+             RowBox[{
+              RowBox[{"Prime", "[", "n", "]"}], ",", "10"}], "]"}], "-", 
+            "7"}], "\[Equal]", "0"}], ",", "2", ",", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"Mod", "[", 
+               RowBox[{
+                RowBox[{"Prime", "[", "n", "]"}], ",", "10"}], "]"}], "-", 
+              "9"}], "\[Equal]", "0"}], ",", "3", ",", "0"}], "]"}]}], 
+         "]"}]}], "]"}]}], "]"}]}], ";"}], "\n", 
+  RowBox[{"(*", 
+   RowBox[{
+   "rule", " ", "driven", " ", "array", " ", "based", " ", "on", " ", "the", 
+    " ", "BBP", " ", "Pi", " ", "digits", " ", "modulo", " ", "4", "array"}], 
+   "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"dlst", " ", "=", 
+   RowBox[{"ParallelTable", "[", 
+    RowBox[{
+     RowBox[{"g", "[", "n", "]"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"n", ",", "1000000"}], "}"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{"Length", "[", "dlst", "]"}], "\n", 
+ RowBox[{
+  RowBox[{
+   StyleBox[
+    RowBox[{"f", "[", 
+     RowBox[{"j_", ",", 
+      RowBox[{"{", 
+       RowBox[{"x_", ",", "y_"}], "}"}]}], "]"}],
+    FontFamily->"Lucida Grande",
+    FontSize->13], 
+   StyleBox[" ",
+    FontFamily->"Lucida Grande",
+    FontSize->13], 
+   StyleBox[":=",
+    FontFamily->"Lucida Grande",
+    FontSize->13], 
+   StyleBox[" ",
+    FontFamily->"Lucida Grande",
+    FontSize->13], 
+   RowBox[{
+    StyleBox[
+     RowBox[{"0.5", "*", 
+      RowBox[{"{", 
+       RowBox[{"x", ",", "y"}], "}"}]}],
+     FontFamily->"Lucida Grande",
+     FontSize->13], 
+    StyleBox[" ",
+     FontFamily->"Lucida Grande",
+     FontSize->13], 
+    StyleBox["+",
+     FontFamily->"Lucida Grande",
+     FontSize->13], 
+    RowBox[{
+     StyleBox["N",
+      FontFamily->"Lucida Grande",
+      FontSize->13], 
+     StyleBox["[",
+      FontFamily->"Lucida Grande",
+      FontSize->13], 
+     RowBox[{
+      StyleBox["{",
+       FontFamily->"Lucida Grande",
+       FontSize->13], 
+      RowBox[{
+       RowBox[{"Cos", "[", 
+        RowBox[{
+         RowBox[{"2", "*", "Pi", "*", 
+          RowBox[{"j", "/", "4"}]}], "+", 
+         RowBox[{"Pi", "/", "4"}]}], "]"}], ",", 
+       RowBox[{"Sin", "[", 
+        RowBox[{
+         RowBox[{"2", "*", "Pi", "*", 
+          RowBox[{"j", "/", "4"}]}], "+", 
+         RowBox[{"Pi", "/", "4"}]}], "]"}]}], "}"}], "]"}]}]}], "\n"}], "\n", 
+
+ RowBox[{
+  StyleBox[
+   RowBox[{
+    RowBox[{"pt", " ", "=", " ", 
+     RowBox[{"{", 
+      RowBox[{"0.5", ",", " ", "0.5"}], "}"}]}], ";"}],
+   FontFamily->"Lucida Grande",
+   FontSize->13], "\n"}], "\n", 
+ StyleBox[
+  RowBox[{
+   RowBox[{
+    RowBox[{"cr", "[", "n_", "]"}], "=", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"n", "-", "1"}], "\[Equal]", "0"}], ",", 
+      RowBox[{"RGBColor", "[", 
+       RowBox[{"0", ",", "0", ",", "1"}], "]"}], ",", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"n", "-", "2"}], "\[Equal]", "0"}], ",", 
+        RowBox[{"RGBColor", "[", 
+         RowBox[{"0", ",", "1", ",", "0"}], "]"}], ",", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"n", "-", "3"}], "\[Equal]", "0"}], ",", 
+          RowBox[{"RGBColor", "[", 
+           RowBox[{"1", ",", "0", ",", "0"}], "]"}], ",", 
+          RowBox[{"RGBColor", "[", 
+           RowBox[{"0", ",", "0", ",", "0"}], "]"}]}], "]"}]}], "]"}]}], 
+     "]"}]}], ";"}],
+  FontFamily->"Lucida Grande",
+  FontSize->13], "\n", 
+ RowBox[{
+  StyleBox[
+   RowBox[{
+    RowBox[{"ptlst", " ", "=", 
+     RowBox[{"ParallelTable", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"cr", "[", 
+          RowBox[{"dlst", "[", 
+           RowBox[{"[", "j", "]"}], "]"}], "]"}], ",", 
+         RowBox[{"Point", "[", 
+          RowBox[{"pt", "=", 
+           RowBox[{"f", "[", 
+            RowBox[{
+             RowBox[{"dlst", "[", 
+              RowBox[{"[", "j", "]"}], "]"}], ",", 
+             RowBox[{"Sequence", "[", "pt", "]"}]}], "]"}]}], "]"}]}], "}"}], 
+       ",", "\n", "   ", 
+       RowBox[{"{", 
+        RowBox[{"j", ",", 
+         RowBox[{"Length", "[", "dlst", "]"}]}], "}"}]}], "]"}]}], ";"}],
+   FontFamily->"Lucida Grande",
+   FontSize->13], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"g0", "=", 
+   RowBox[{
+    StyleBox["Show",
+     FontFamily->"Lucida Grande",
+     FontSize->13], 
+    StyleBox["[",
+     FontFamily->"Lucida Grande",
+     FontSize->13], 
+    RowBox[{
+     StyleBox[
+      RowBox[{"Graphics", "[", 
+       RowBox[{"Join", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"PointSize", "[", ".001", "]"}], "}"}], ",", "ptlst"}], 
+        "]"}], "]"}],
+      FontFamily->"Lucida Grande",
+      FontSize->13], 
+     StyleBox[",",
+      FontFamily->"Lucida Grande",
+      FontSize->13], 
+     StyleBox[" ",
+      FontFamily->"Lucida Grande",
+      FontSize->13], 
+     StyleBox[
+      RowBox[{"AspectRatio", " ", "->", " ", "Automatic"}],
+      FontFamily->"Lucida Grande",
+      FontSize->13], 
+     StyleBox[",",
+      FontFamily->"Lucida Grande",
+      FontSize->13], 
+     StyleBox[" ",
+      FontFamily->"Lucida Grande",
+      FontSize->13], 
+     StyleBox[
+      RowBox[{"PlotRange", " ", "->", " ", "All"}],
+      FontFamily->"Lucida Grande",
+      FontSize->13], 
+     StyleBox[",",
+      FontFamily->"Lucida Grande",
+      FontSize->13], 
+     RowBox[{
+      StyleBox["ImageSize",
+       FontFamily->"Lucida Grande",
+       FontSize->13], 
+      StyleBox["\[Rule]",
+       FontFamily->"Lucida Grande",
+       FontSize->13], 
+      RowBox[{"{", 
+       RowBox[{"2000", ",", "2000"}], "}"}]}]}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9246027567425203`*^9, 3.9246028519154053`*^9}, {
+   3.924602888851171*^9, 3.92460291934072*^9}, {3.924602957659775*^9, 
+   3.92460297202108*^9}, 3.924603044843779*^9, {3.924604842204028*^9, 
+   3.9246048680917263`*^9}},
+ CellLabel->
+  "In[315]:=",ExpressionUUID->"90e3985d-91b5-43c6-9590-374c2e72ba0f"],
+
+Cell[BoxData["1000000"], "Output",
+ CellChangeTimes->{3.9246050877182207`*^9, 3.924606777857212*^9},
+ CellLabel->
+  "Out[318]=",ExpressionUUID->"405d6e04-dbdf-431a-b26f-f0f8f0089f59"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Export", "[", 
+  RowBox[{
+  "\"\<IFS_4part_square_driven_by_Primes_mod10_1000000.jpg\>\"", ",", "g0"}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.924604890229939*^9, 3.924604996752199*^9}},
+ CellLabel->
+  "In[324]:=",ExpressionUUID->"40c8255b-9df8-4bed-8061-9eccffb78399"],
+
+Cell[BoxData["\<\"IFS_4part_square_driven_by_Primes_mod10_1000000.jpg\"\>"], \
+"Output",
+ CellChangeTimes->{3.924605119419345*^9, 3.9246068342512407`*^9},
+ CellLabel->
+  "Out[324]=",ExpressionUUID->"3de7e520-5153-4382-bef3-7d03e276bbf7"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"(*", "end", "*)"}]], "Input",
+ CellChangeTimes->{{3.924605001935606*^9, 3.924605011592729*^9}},
+ CellLabel->
+  "In[325]:=",ExpressionUUID->"143ded7e-c87f-498d-a5f6-9f8ec172e2ec"]
+},
+WindowSize->{806, 823},
+WindowMargins->{{48, Automatic}, {Automatic, 44}},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+FrontEndVersion->"12.2 for Mac OS X x86 (64-bit) (December 12, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"959458bf-865c-4b97-bae7-791f3a6cbd9d"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 214, 4, 30, "Input",ExpressionUUID->"6a0df46e-92d2-49a8-aeb3-a3426db7d8d4"],
+Cell[CellGroupData[{
+Cell[797, 28, 6783, 225, 409, "Input",ExpressionUUID->"90e3985d-91b5-43c6-9590-374c2e72ba0f"],
+Cell[7583, 255, 183, 3, 34, "Output",ExpressionUUID->"405d6e04-dbdf-431a-b26f-f0f8f0089f59"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7803, 263, 296, 7, 30, InheritFromParent,ExpressionUUID->"40c8255b-9df8-4bed-8061-9eccffb78399"],
+Cell[8102, 272, 237, 4, 34, "Output",ExpressionUUID->"3de7e520-5153-4382-bef3-7d03e276bbf7"]
+}, Open  ]],
+Cell[8354, 279, 202, 4, 60, "Input",ExpressionUUID->"143ded7e-c87f-498d-a5f6-9f8ec172e2ec"]
+}
+]
+*)
+
