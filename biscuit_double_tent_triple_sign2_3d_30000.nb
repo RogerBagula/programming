@@ -1,0 +1,431 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     17672,        423]
+NotebookOptionsPosition[     16917,        403]
+NotebookOutlinePosition[     17398,        420]
+CellTagsIndexPosition[     17355,        417]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", "Mathematica", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"Clear", "[", 
+    RowBox[{
+    "f", ",", "g", ",", "h", ",", "k", ",", "ff", ",", "kk", ",", "ll"}], 
+    "]"}], "\n", 
+   RowBox[{
+    RowBox[{"allColors", "=", 
+     RowBox[{
+      RowBox[{"ColorData", "[", "\"\<Legacy\>\"", "]"}], "[", 
+      RowBox[{"[", 
+       RowBox[{"3", ",", "1"}], "]"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"firstCols", "=", 
+     RowBox[{"Join", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "\"\<White\>\"", ",", "\"\<AliceBlue\>\"", ",", "\"\<LightBlue\>\"", 
+         ",", "\"\<Cyan\>\"", ",", "\"\<ManganeseBlue\>\"", ",", 
+         "\"\<DodgerBlue\>\"", ",", "\"\<Blue\>\"", ",", "\"\<Magenta\>\"", 
+         ",", "\"\<Purple\>\"", ",", "\"\<Pink\>\"", ",", "\"\<Tomato\>\"", 
+         ",", "\"\<Red\>\"", ",", "\"\<DarkOrange\>\"", ",", "\"\<Orange\>\"",
+          ",", "\"\<DeepNaplesYellow\>\"", ",", "\"\<Gold\>\"", ",", 
+         "\"\<Banana\>\"", ",", "\"\<Yellow\>\"", ",", "\"\<LightYellow\>\"", 
+         ",", "\"\<Orange\>\"", ",", "\"\<Pink\>\"", ",", "\"\<LightPink\>\"",
+          ",", "\"\<Yellow\>\"", ",", "\"\<LightYellow\>\"", ",", 
+         "\"\<LightPink\>\"", ",", "\"\<White\>\"", ",", 
+         "\"\<DeepNaplesYellow\>\"", ",", "\"\<Orange\>\"", ",", 
+         "\"\<DarkOrange\>\"", ",", "\"\<Tomato\>\"", ",", "\"\<Red\>\"", 
+         ",", "\"\<Tomato\>\"", ",", "\"\<Pink\>\"", ",", "\"\<LightPink\>\"",
+          ",", "\"\<DeepNaplesYellow\>\"", ",", "\"\<Orange\>\"", ",", 
+         "\"\<DarkOrange\>\"", ",", "\"\<Tomato\>\"", ",", "\"\<White\>\"", 
+         ",", "\"\<Pink\>\"", ",", "\"\<Banana\>\"", ",", "\"\<LightBlue\>\"",
+          ",", "\"\<DodgerBlue\>\"", ",", "\"\<Cyan\>\"", ",", 
+         "\"\<White\>\"", ",", "\"\<Purple\>\"", ",", "\"\<DarkOrchid\>\"", 
+         ",", "\"\<Magenta\>\"", ",", "\"\<ManganeseBlue\>\"", ",", 
+         "\"\<DeepNaplesYellow\>\"", ",", "\"\<Orange\>\"", ",", 
+         "\"\<DarkOrange\>\"", ",", "\"\<Tomato\>\"", ",", 
+         "\"\<GoldOchre\>\"", ",", "\"\<LightPink\>\"", ",", 
+         "\"\<Magenta\>\"", ",", "\"\<Green\>\"", ",", "\"\<DarkOrchid\>\"", 
+         ",", "\"\<LightSalmon\>\"", ",", "\"\<LightPink\>\"", ",", 
+         "\"\<Sienna\>\"", ",", "\"\<Green\>\"", ",", "\"\<Mint\>\"", ",", 
+         "\"\<DarkSlateGray\>\"", ",", "\"\<ManganeseBlue\>\"", ",", 
+         "\"\<SlateGray\>\"", ",", "\"\<DarkOrange\>\"", ",", 
+         "\"\<MistyRose\>\"", ",", "\"\<DeepNaplesYellow\>\"", ",", 
+         "\"\<GoldOchre\>\"", ",", "\"\<SapGreen\>\"", ",", "\"\<Yellow\>\"", 
+         ",", "\"\<Yellow\>\"", ",", "\"\<Tomato\>\"", ",", 
+         "\"\<DeepNaplesYellow\>\"", ",", "\"\<DodgerBlue\>\"", ",", 
+         "\"\<Cyan\>\"", ",", "\"\<Red\>\"", ",", "\"\<Blue\>\"", ",", 
+         "\"\<DeepNaplesYellow\>\"", ",", "\"\<Green\>\"", ",", 
+         "\"\<Magenta\>\"", ",", "\"\<DarkOrchid\>\"", ",", 
+         "\"\<LightSalmon\>\"", ",", "\"\<LightPink\>\"", ",", 
+         "\"\<Sienna\>\"", ",", "\"\<Green\>\"", ",", "\"\<Mint\>\"", ",", 
+         "\"\<DarkSlateGray\>\"", ",", "\"\<ManganeseBlue\>\"", ",", 
+         "\"\<SlateGray\>\"", ",", "\"\<DarkOrange\>\"", ",", 
+         "\"\<MistyRose\>\"", ",", "\"\<DeepNaplesYellow\>\"", ",", 
+         "\"\<GoldOchre\>\"", ",", "\"\<SapGreen\>\"", ",", "\"\<Yellow\>\"", 
+         ",", "\"\<LimeGreen\>\""}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+        "\"\<White\>\"", ",", "\"\<AliceBlue\>\"", ",", "\"\<LightBlue\>\"", 
+         ",", "\"\<Cyan\>\"", ",", "\"\<ManganeseBlue\>\"", ",", 
+         "\"\<DodgerBlue\>\"", ",", "\"\<Blue\>\"", ",", "\"\<Magenta\>\"", 
+         ",", "\"\<Purple\>\"", ",", "\"\<Pink\>\"", ",", "\"\<Tomato\>\"", 
+         ",", "\"\<Red\>\"", ",", "\"\<DarkOrange\>\"", ",", "\"\<Orange\>\"",
+          ",", "\"\<DeepNaplesYellow\>\"", ",", "\"\<Gold\>\"", ",", 
+         "\"\<Banana\>\"", ",", "\"\<Yellow\>\"", ",", "\"\<LightYellow\>\"", 
+         ",", "\"\<Orange\>\"", ",", "\"\<Pink\>\"", ",", "\"\<LightPink\>\"",
+          ",", "\"\<Yellow\>\"", ",", "\"\<LightYellow\>\"", ",", 
+         "\"\<LightPink\>\"", ",", "\"\<White\>\"", ",", 
+         "\"\<DeepNaplesYellow\>\"", ",", "\"\<Orange\>\"", ",", 
+         "\"\<DarkOrange\>\"", ",", "\"\<Tomato\>\"", ",", "\"\<Red\>\"", 
+         ",", "\"\<Tomato\>\"", ",", "\"\<Pink\>\"", ",", "\"\<LightPink\>\"",
+          ",", "\"\<DeepNaplesYellow\>\"", ",", "\"\<Orange\>\"", ",", 
+         "\"\<DarkOrange\>\"", ",", "\"\<Tomato\>\"", ",", "\"\<White\>\"", 
+         ",", "\"\<Pink\>\"", ",", "\"\<Banana\>\"", ",", "\"\<LightBlue\>\"",
+          ",", "\"\<DodgerBlue\>\"", ",", "\"\<Cyan\>\"", ",", 
+         "\"\<White\>\"", ",", "\"\<Purple\>\"", ",", "\"\<DarkOrchid\>\"", 
+         ",", "\"\<Magenta\>\"", ",", "\"\<ManganeseBlue\>\"", ",", 
+         "\"\<DeepNaplesYellow\>\"", ",", "\"\<Orange\>\"", ",", 
+         "\"\<DarkOrange\>\"", ",", "\"\<Tomato\>\"", ",", 
+         "\"\<GoldOchre\>\"", ",", "\"\<LightPink\>\"", ",", 
+         "\"\<Magenta\>\"", ",", "\"\<Green\>\"", ",", "\"\<DarkOrchid\>\"", 
+         ",", "\"\<LightSalmon\>\"", ",", "\"\<LightPink\>\"", ",", 
+         "\"\<Sienna\>\"", ",", "\"\<Green\>\"", ",", "\"\<Mint\>\"", ",", 
+         "\"\<DarkSlateGray\>\"", ",", "\"\<ManganeseBlue\>\"", ",", 
+         "\"\<SlateGray\>\"", ",", "\"\<DarkOrange\>\"", ",", 
+         "\"\<MistyRose\>\"", ",", "\"\<DeepNaplesYellow\>\"", ",", 
+         "\"\<GoldOchre\>\"", ",", "\"\<SapGreen\>\"", ",", "\"\<Yellow\>\"", 
+         ",", "\"\<Yellow\>\"", ",", "\"\<Tomato\>\"", ",", 
+         "\"\<DeepNaplesYellow\>\"", ",", "\"\<DodgerBlue\>\"", ",", 
+         "\"\<Cyan\>\"", ",", "\"\<Red\>\"", ",", "\"\<Blue\>\"", ",", 
+         "\"\<DeepNaplesYellow\>\"", ",", "\"\<Green\>\"", ",", 
+         "\"\<Magenta\>\"", ",", "\"\<DarkOrchid\>\"", ",", 
+         "\"\<LightSalmon\>\"", ",", "\"\<LightPink\>\"", ",", 
+         "\"\<Sienna\>\"", ",", "\"\<Green\>\"", ",", "\"\<Mint\>\"", ",", 
+         "\"\<DarkSlateGray\>\"", ",", "\"\<ManganeseBlue\>\"", ",", 
+         "\"\<SlateGray\>\"", ",", "\"\<DarkOrange\>\"", ",", 
+         "\"\<MistyRose\>\"", ",", "\"\<DeepNaplesYellow\>\"", ",", 
+         "\"\<GoldOchre\>\"", ",", "\"\<SapGreen\>\"", ",", "\"\<Yellow\>\"", 
+         ",", "\"\<LimeGreen\>\""}], "}"}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"cols", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"ColorData", "[", 
+        RowBox[{"\"\<Legacy\>\"", ",", "#"}], "]"}], "&"}], "/@", 
+      RowBox[{"Join", "[", 
+       RowBox[{"firstCols", ",", 
+        RowBox[{"Complement", "[", 
+         RowBox[{"allColors", ",", "firstCols"}], "]"}]}], "]"}]}]}], ";"}], 
+   "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"rotate", "[", "theta_", "]"}], ":=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Cos", "[", "theta", "]"}], ",", 
+         RowBox[{"-", 
+          RowBox[{"Sin", "[", "theta", "]"}]}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Sin", "[", "theta", "]"}], ",", 
+         RowBox[{"Cos", "[", "theta", "]"}]}], "}"}]}], "}"}]}], ";"}], "\n", 
+   
+   RowBox[{
+    RowBox[{
+     RowBox[{"cr", "[", "n_", "]"}], ":=", 
+     RowBox[{
+      RowBox[{"cr", "[", "n", "]"}], "=", 
+      RowBox[{"cols", "[", 
+       RowBox[{"[", "n", "]"}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"double", " ", "Tent", " ", "function"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"f", "[", "x_", "]"}], ":=", 
+    RowBox[{
+     RowBox[{"3", "*", "x"}], "/;", 
+     RowBox[{"0", "<=", "x", "<=", 
+      RowBox[{"1", "/", "3"}]}]}]}], "\n", 
+   RowBox[{
+    RowBox[{"f", "[", "x_", "]"}], ":=", 
+    RowBox[{
+     RowBox[{"3.", "-", 
+      RowBox[{"6", "*", "x"}]}], "/;", 
+     RowBox[{
+      RowBox[{"1", "/", "3"}], "<=", "x", "<=", 
+      RowBox[{"1", "/", "2"}]}]}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"f", "[", "x_", "]"}], ":=", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"-", "3"}], "+", 
+      RowBox[{"6", "*", "x"}]}], "/;", 
+     RowBox[{
+      RowBox[{"1", "/", "2"}], "<=", "x", "\[LessEqual]", 
+      RowBox[{"2", "/", "3"}]}]}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"f", "[", "x_", "]"}], ":=", 
+    RowBox[{
+     RowBox[{"3", "-", 
+      RowBox[{"3", "*", "x"}]}], "/;", 
+     RowBox[{
+      RowBox[{"2", "/", "3"}], "<", "x", "\[LessEqual]", "1"}]}]}], "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ff", "[", "x_", "]"}], "=", 
+     RowBox[{"f", "[", 
+      RowBox[{"Mod", "[", 
+       RowBox[{
+        RowBox[{"Abs", "[", "x", "]"}], ",", "1"}], "]"}], "]"}]}], ";"}], 
+   "\n", 
+   RowBox[{
+    RowBox[{"s0", "=", 
+     RowBox[{"N", "[", 
+      RowBox[{
+       RowBox[{"Log", "[", "2", "]"}], "/", 
+       RowBox[{"Log", "[", "3", "]"}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"kk", "[", "x_", "]"}], "=", 
+     RowBox[{"Sum", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"ff", "[", 
+         RowBox[{
+          RowBox[{"3", "^", "k"}], "*", "x"}], "]"}], "/", 
+        RowBox[{"3", "^", 
+         RowBox[{"(", 
+          RowBox[{"s0", "*", "k"}], ")"}]}]}], ",", 
+       RowBox[{"{", 
+        RowBox[{"k", ",", "0", ",", "20"}], "}"}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ll", "[", "x_", "]"}], "=", 
+     RowBox[{"Sum", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"ff", "[", 
+         RowBox[{
+          RowBox[{"3", "^", "k"}], "*", 
+          RowBox[{"(", 
+           RowBox[{"x", "+", 
+            RowBox[{"1", "/", "10"}]}], ")"}]}], "]"}], "/", 
+        RowBox[{"3", "^", 
+         RowBox[{"(", 
+          RowBox[{"s0", "*", "k"}], ")"}]}]}], ",", 
+       RowBox[{"{", 
+        RowBox[{"k", ",", "0", ",", "20"}], "}"}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"jj", "[", "x_", "]"}], "=", 
+     RowBox[{"Sum", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"ff", "[", 
+         RowBox[{
+          RowBox[{"3", "^", "k"}], "*", 
+          RowBox[{"(", 
+           RowBox[{"x", "-", 
+            RowBox[{"1", "/", "10"}]}], ")"}]}], "]"}], "/", 
+        RowBox[{"3", "^", 
+         RowBox[{"(", 
+          RowBox[{"s0", "*", "k"}], ")"}]}]}], ",", 
+       RowBox[{"{", 
+        RowBox[{"k", ",", "0", ",", "20"}], "}"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{"aa", "=", 
+     RowBox[{"Flatten", "[", 
+      RowBox[{
+       RowBox[{"ParallelTable", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"i", "*", 
+            RowBox[{"kk", "[", 
+             RowBox[{"n", "/", "30000"}], "]"}]}], ",", 
+           RowBox[{"j", "*", 
+            RowBox[{"jj", "[", 
+             RowBox[{"n", "/", "30000"}], "]"}]}], ",", 
+           RowBox[{"k", "*", 
+            RowBox[{"ll", "[", 
+             RowBox[{"n", "/", "30000"}], "]"}]}]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", 
+           RowBox[{"-", "1"}], ",", "1", ",", "2"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"j", ",", 
+           RowBox[{"-", "1"}], ",", "1", ",", "2"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"k", ",", 
+           RowBox[{"-", "1"}], ",", "1", ",", "2"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"n", ",", "0", ",", "30000"}], "}"}]}], "]"}], ",", "3"}], 
+      "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"g0", "=", 
+     RowBox[{"ListPointPlot3D", "[", 
+      RowBox[{"aa", ",", 
+       RowBox[{"AspectRatio", "\[Rule]", "1"}], ",", 
+       RowBox[{"ColorFunction", "\[Rule]", "\"\<Rainbow\>\""}], ",", 
+       RowBox[{"ImageSize", "\[Rule]", 
+        RowBox[{"{", 
+         RowBox[{"2000", ",", "2000"}], "}"}]}], ",", 
+       RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+       RowBox[{"PlotStyle", "\[Rule]", 
+        RowBox[{"PointSize", "[", "0.001", "]"}]}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{"dlst", "=", 
+     RowBox[{"ParallelTable", "[", 
+      RowBox[{
+       RowBox[{"1", "+", 
+        RowBox[{"Mod", "[", 
+         RowBox[{
+          RowBox[{"Floor", "[", 
+           RowBox[{"1", "+", 
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{"1", "+", 
+               RowBox[{"Floor", "[", 
+                RowBox[{"24", "*", 
+                 RowBox[{"Norm", "[", 
+                  RowBox[{"aa", "[", 
+                   RowBox[{"[", "i", "]"}], "]"}], "]"}]}], "]"}]}], ")"}], 
+             "/", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"Abs", "[", 
+                RowBox[{"Cos", "[", 
+                 RowBox[{"Arg", "[", 
+                  RowBox[{
+                   RowBox[{"aa", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "1"}], "]"}], "]"}], "+", 
+                   RowBox[{"I", "*", 
+                    RowBox[{"aa", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "2"}], "]"}], "]"}]}]}], "]"}], "]"}], 
+                "]"}], "+", 
+               RowBox[{"Abs", "[", 
+                RowBox[{"Sin", "[", 
+                 RowBox[{"Arg", "[", 
+                  RowBox[{
+                   RowBox[{"aa", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "1"}], "]"}], "]"}], "+", 
+                   RowBox[{"I", "*", 
+                    RowBox[{"aa", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "2"}], "]"}], "]"}]}]}], "]"}], "]"}], 
+                "]"}]}], ")"}]}]}], "]"}], ",", 
+          RowBox[{"Length", "[", "cols", "]"}]}], "]"}]}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", 
+         RowBox[{"Length", "[", "aa", "]"}]}], "}"}]}], "]"}]}], ";"}], "\n", 
+   
+   RowBox[{"Min", "[", "dlst", "]"}], "\n", 
+   RowBox[{"Max", "[", "dlst", "]"}], "\n", "\n", 
+   RowBox[{
+    RowBox[{"ptlst", "=", 
+     RowBox[{"Point", "[", 
+      RowBox[{
+       RowBox[{"Developer`ToPackedArray", "[", "aa", "]"}], ",", 
+       RowBox[{"VertexColors", "\[Rule]", 
+        RowBox[{"Developer`ToPackedArray", "[", 
+         RowBox[{"cr", "/@", "dlst"}], "]"}]}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"g2", "=", 
+     RowBox[{"Graphics3D", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"PointSize", "[", ".001", "]"}], ",", "ptlst"}], "}"}], ",", 
+       
+       RowBox[{"AspectRatio", "\[Rule]", "1"}], ",", 
+       RowBox[{"ImageSize", "\[Rule]", 
+        RowBox[{"{", 
+         RowBox[{"2000", ",", "2000"}], "}"}]}], ",", 
+       RowBox[{"Axes", "\[Rule]", "False"}], ",", 
+       RowBox[{"Background", "\[Rule]", "Black"}], ",", 
+       RowBox[{"PlotRange", "\[Rule]", "All"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"Export", "[", 
+    RowBox[{"\"\<biscuit_Double_Tent_triple_sign_color2.jpg\>\"", ",", 
+     RowBox[{"{", 
+      RowBox[{"g0", ",", "g2"}], "}"}]}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", "end", "*)"}]}]}]], "Input",
+ CellChangeTimes->{{3.8075239018845997`*^9, 3.807523906179562*^9}, {
+   3.8075240063306932`*^9, 3.807524092377612*^9}, 3.807524177418371*^9, {
+   3.807524212500833*^9, 3.807524216662533*^9}, {3.807524559183601*^9, 
+   3.807524712959139*^9}, {3.92515059455307*^9, 3.925150729005786*^9}, {
+   3.925152759621323*^9, 3.925152770906601*^9}, {3.925152825581909*^9, 
+   3.925152828594843*^9}, {3.925199344832204*^9, 3.925199383201337*^9}, {
+   3.92519952054467*^9, 3.925199543152379*^9}, {3.925315374324164*^9, 
+   3.9253154044826508`*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"db24c678-f14c-4942-812d-17527cb0dc97"],
+
+Cell[BoxData["21"], "Output",
+ CellChangeTimes->{3.925151232925974*^9, 3.92515279623379*^9, 
+  3.925153287363126*^9, 3.925317686789777*^9},
+ CellLabel->"Out[19]=",ExpressionUUID->"f94125bd-565c-4950-9298-007c65fbc7ac"],
+
+Cell[BoxData["47"], "Output",
+ CellChangeTimes->{3.925151232925974*^9, 3.92515279623379*^9, 
+  3.925153287363126*^9, 3.925317686803418*^9},
+ CellLabel->"Out[20]=",ExpressionUUID->"13bc318a-33ee-4185-b3b2-562e0aa18a8e"],
+
+Cell[BoxData["\<\"biscuit_Double_Tent_triple_sign_color2.jpg\"\>"], "Output",
+ CellChangeTimes->{3.925151232925974*^9, 3.92515279623379*^9, 
+  3.925153287363126*^9, 3.925317780586426*^9},
+ CellLabel->"Out[23]=",ExpressionUUID->"eedec36b-105f-4a67-a3ba-f45b5174ea1f"]
+}, Open  ]]
+},
+WindowSize->{1859, 1033},
+WindowMargins->{{Automatic, -331}, {-226, Automatic}},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+FrontEndVersion->"12.2 for Mac OS X x86 (64-bit) (December 12, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"a0a12dfc-a302-4f74-9c85-ae56d6e2fdf0"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 15611, 363, 871, "Input",ExpressionUUID->"db24c678-f14c-4942-812d-17527cb0dc97"],
+Cell[16193, 387, 218, 3, 34, "Output",ExpressionUUID->"f94125bd-565c-4950-9298-007c65fbc7ac"],
+Cell[16414, 392, 218, 3, 34, "Output",ExpressionUUID->"13bc318a-33ee-4185-b3b2-562e0aa18a8e"],
+Cell[16635, 397, 266, 3, 82, "Output",ExpressionUUID->"eedec36b-105f-4a67-a3ba-f45b5174ea1f"]
+}, Open  ]]
+}
+]
+*)
+
