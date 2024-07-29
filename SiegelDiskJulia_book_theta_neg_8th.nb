@@ -1,0 +1,340 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     11834,        332]
+NotebookOptionsPosition[     10524,        303]
+NotebookOutlinePosition[     10924,        319]
+CellTagsIndexPosition[     10881,        316]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", "mathematica", "*)"}], "\n", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"http", ":"}], "//", 
+    RowBox[{
+     RowBox[{"sci", ".", "tech"}], "-", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"archive", ".", "net"}], "/", "Archive"}], "/", 
+       RowBox[{"sci", ".", "nonlinear"}]}], "/", "2004"}], "-", 
+     RowBox[{
+      RowBox[{"12", "/", "0005."}], "html"}]}]}], "*)"}], "\n", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"http", ":"}], "//", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"en", ".", "wikibooks", ".", "org"}], "/", "wiki"}], "/", 
+        "Fractals"}], "/", "Iterations_in"}], "_the", "_complex", 
+      RowBox[{"_plane", "/", "siegel"}], "#", "cite_note"}], "-", "20"}]}], 
+   "*)"}], "\n", "\n", 
+  RowBox[{
+   RowBox[{"Clear", "[", 
+    RowBox[{
+    "x", ",", "y", ",", "a", ",", "b", ",", "s", ",", "g", ",", "a0", ",", 
+     "t"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Siegel", " ", "Disk", " ", "Julia", " ", "map"}], "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"w", "=", 
+     RowBox[{"Join", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", "1", ",", "20", ",", "1", ",", "1"}], "}"}], ",", 
+       RowBox[{"Table", "[", 
+        RowBox[{"1", ",", 
+         RowBox[{"{", 
+          RowBox[{"n", ",", "200"}], "}"}]}], "]"}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"bb", "=", 
+     RowBox[{"FromContinuedFraction", "[", "w", "]"}]}], ";"}], "\n", " ", 
+   RowBox[{
+    RowBox[{"gm", "=", 
+     RowBox[{"bb", "^", "12"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"a", "=", 
+     RowBox[{"Cos", "[", 
+      RowBox[{"2", "*", "Pi", "*", "gm"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"b", "=", 
+     RowBox[{"Sin", "[", 
+      RowBox[{"2", "*", "Pi", "*", "gm"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"digits", "=", "500"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"x", "[", 
+     RowBox[{"n_", ",", "t_"}], "]"}], ":=", 
+    RowBox[{
+     RowBox[{"x", "[", 
+      RowBox[{"n", ",", "t"}], "]"}], "=", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"-", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"x", "[", 
+            RowBox[{
+             RowBox[{"n", "-", "1"}], ",", "t"}], "]"}], "*", "a"}], "-", 
+          RowBox[{
+           RowBox[{"y", "[", 
+            RowBox[{
+             RowBox[{"n", "-", "1"}], ",", "t"}], "]"}], "*", "b"}]}], 
+         ")"}]}], "+", 
+       RowBox[{
+        RowBox[{"x", "[", 
+         RowBox[{
+          RowBox[{"n", "-", "1"}], ",", "t"}], "]"}], "^", "2"}], "-", 
+       RowBox[{
+        RowBox[{"y", "[", 
+         RowBox[{
+          RowBox[{"n", "-", "1"}], ",", "t"}], "]"}], "^", "2"}]}], ")"}]}]}],
+    "\n", 
+   RowBox[{
+    RowBox[{"y", "[", 
+     RowBox[{"n_", ",", "t_"}], "]"}], ":=", 
+    RowBox[{
+     RowBox[{"y", "[", 
+      RowBox[{"n", ",", "t"}], "]"}], "=", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"-", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"x", "[", 
+            RowBox[{
+             RowBox[{"n", "-", "1"}], ",", "t"}], "]"}], "*", "b"}], "+", 
+          RowBox[{
+           RowBox[{"y", "[", 
+            RowBox[{
+             RowBox[{"n", "-", "1"}], ",", "t"}], "]"}], "*", "a"}]}], 
+         ")"}]}], "+", 
+       RowBox[{"2", "*", 
+        RowBox[{"x", "[", 
+         RowBox[{
+          RowBox[{"n", "-", "1"}], ",", "t"}], "]"}], "*", 
+        RowBox[{"y", "[", 
+         RowBox[{
+          RowBox[{"n", "-", "1"}], ",", "t"}], "]"}]}]}], ")"}]}]}], "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"x", "[", 
+      RowBox[{"0", ",", "t_"}], "]"}], ":=", 
+     RowBox[{"0.71", "/", 
+      RowBox[{"(", 
+       RowBox[{"1", "+", 
+        RowBox[{"t", "/", "2"}]}], ")"}]}]}], ";", 
+    RowBox[{
+     RowBox[{"y", "[", 
+      RowBox[{"0", ",", "t_"}], "]"}], "=", 
+     RowBox[{"0.01", "/", 
+      RowBox[{"(", 
+       RowBox[{"1", "+", 
+        RowBox[{"t", "/", "2"}]}], ")"}]}]}], ";"}]}]}]], "Input",
+ CellChangeTimes->{{3.617999404496504*^9, 3.6179994121057377`*^9}, 
+   3.617999453353182*^9, {3.93117410868025*^9, 3.931174189258997*^9}, {
+   3.9311742699795027`*^9, 3.931174273450534*^9}, {3.931174341144271*^9, 
+   3.9311743501064672`*^9}, 3.9311744537830143`*^9},
+ CellLabel->"In[43]:=",ExpressionUUID->"990c25b4-1a53-40b0-a9eb-77b341929ede"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"a", "=", 
+   RowBox[{"Flatten", "[", 
+    RowBox[{
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"Norm", "[", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"x", "[", 
+                 RowBox[{"n", ",", "t"}], "]"}], ",", 
+                RowBox[{"y", "[", 
+                 RowBox[{"n", ",", "t"}], "]"}]}], "}"}], "]"}], ">", "0"}], "&&", 
+            RowBox[{
+             RowBox[{"Norm", "[", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"x", "[", 
+                 RowBox[{"n", ",", "t"}], "]"}], ",", 
+                RowBox[{"y", "[", 
+                 RowBox[{"n", ",", "t"}], "]"}]}], "}"}], "]"}], "<", 
+             RowBox[{"10", "^", "10"}]}]}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"x", "[", 
+              RowBox[{"n", ",", "t"}], "]"}], ",", 
+             RowBox[{"y", "[", 
+              RowBox[{"n", ",", "t"}], "]"}]}], "}"}], ",", "Nothing"}], 
+          "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"n", ",", "0", ",", "digits"}], "}"}]}], "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"t", ",", "3.5", ",", "11", ",", "0.125"}], "}"}]}], "]"}], 
+     ",", "1"}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.617999404496504*^9, 3.6179994121057377`*^9}, 
+   3.617999453353182*^9, {3.93117410868025*^9, 3.931174189258997*^9}, {
+   3.9311742699795027`*^9, 3.931174273450534*^9}, {3.931174341144271*^9, 
+   3.9311743501064672`*^9}, {3.9311744537830143`*^9, 3.93117452914424*^9}, {
+   3.931174565167989*^9, 3.931174706198944*^9}, {3.931177017214098*^9, 
+   3.9311770411600657`*^9}, 3.9311773025575*^9, 3.931177363688393*^9},
+ CellLabel->"In[53]:=",ExpressionUUID->"04259441-68ad-42c0-afb3-5bc60c22781a"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "ovfl", "\"Overflow occurred in computation.\"", 2, 53, 6, 
+   17939657108162515492, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.931175130317782*^9, 3.931177074645104*^9, 
+  3.9311773075129843`*^9, 3.9311773800010366`*^9},
+ CellLabel->
+  "During evaluation of \
+In[53]:=",ExpressionUUID->"ba573a52-7872-43bd-a674-796ccacc20fe"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "ovfl", "\"Overflow occurred in computation.\"", 2, 53, 7, 
+   17939657108162515492, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.931175130317782*^9, 3.931177074645104*^9, 
+  3.9311773075129843`*^9, 3.931177380010358*^9},
+ CellLabel->
+  "During evaluation of \
+In[53]:=",ExpressionUUID->"fccf40d1-a151-455e-ad5a-b546304dd7db"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "ovfl", "\"Overflow occurred in computation.\"", 2, 53, 8, 
+   17939657108162515492, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.931175130317782*^9, 3.931177074645104*^9, 
+  3.9311773075129843`*^9, 3.9311773800482492`*^9},
+ CellLabel->
+  "During evaluation of \
+In[53]:=",ExpressionUUID->"85fe2418-15a1-43ac-9701-8f9514bb2007"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"General\\\", \
+\\\"::\\\", \\\"ovfl\\\"}], \\\"MessageName\\\"]\\) will be suppressed during \
+this calculation.\"", 2, 53, 9, 17939657108162515492, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.931175130317782*^9, 3.931177074645104*^9, 
+  3.9311773075129843`*^9, 3.9311773800541897`*^9},
+ CellLabel->
+  "During evaluation of \
+In[53]:=",ExpressionUUID->"a1d3aaf4-353e-479c-aa30-322009de9b2f"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Length", "[", "a", "]"}]], "Input",
+ CellChangeTimes->{{3.9311747182797194`*^9, 3.93117472235056*^9}},
+ CellLabel->"In[54]:=",ExpressionUUID->"dbc51660-3db8-4a33-9ea5-2a57cad37174"],
+
+Cell[BoxData["27720"], "Output",
+ CellChangeTimes->{3.931175131849407*^9, 3.931177075237377*^9, 
+  3.9311773089791183`*^9, 3.931177381694841*^9},
+ CellLabel->"Out[54]=",ExpressionUUID->"b9c66de8-8b53-4e48-8733-fce733716378"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"g", "=", 
+   RowBox[{"ListPlot", "[", 
+    RowBox[{"a", ",", 
+     RowBox[{"ColorFunction", "\[Rule]", "Hue"}], ",", 
+     RowBox[{"ImageSize", "\[Rule]", "2000"}], ",", 
+     RowBox[{"PlotStyle", "\[Rule]", 
+      RowBox[{"PointSize", "[", "0.001", "]"}]}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Export", "[", 
+  RowBox[{"\"\<SiegelDisk8.jpg\>\"", ",", "g"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"end", " ", "of", " ", "code"}], "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.617999404496504*^9, 3.6179994121057377`*^9}, 
+   3.617999453353182*^9, {3.93117410868025*^9, 3.931174189258997*^9}, {
+   3.9311742699795027`*^9, 3.931174273450534*^9}, {3.931174341144271*^9, 
+   3.9311743501064672`*^9}, 3.9311744537830143`*^9, {3.931174681950938*^9, 
+   3.93117469187088*^9}, {3.931174725718568*^9, 3.931174887402876*^9}, 
+   3.9311772953460407`*^9, 3.93117737167801*^9},
+ CellLabel->"In[55]:=",ExpressionUUID->"a5dcd20f-f6e1-499b-bb12-1f9f6ebd2c39"],
+
+Cell[BoxData["\<\"SiegelDisk8.jpg\"\>"], "Output",
+ CellChangeTimes->{3.931175140490286*^9, 3.931177079383679*^9, 
+  3.9311773112836742`*^9, 3.931177384708014*^9},
+ CellLabel->"Out[56]=",ExpressionUUID->"71cae1c4-b865-4859-b716-c614772f124f"]
+}, Open  ]]
+},
+WindowSize->{1479, 970},
+WindowMargins->{{-17, Automatic}, {-27, Automatic}},
+FrontEndVersion->"12.2 for Mac OS X x86 (64-bit) (December 12, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"3c6fcb97-2cbc-4c9e-9940-261fe0ccc32a"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 4409, 135, 346, "Input",ExpressionUUID->"990c25b4-1a53-40b0-a9eb-77b341929ede"],
+Cell[CellGroupData[{
+Cell[4991, 159, 1922, 47, 30, "Input",ExpressionUUID->"04259441-68ad-42c0-afb3-5bc60c22781a"],
+Cell[6916, 208, 419, 10, 35, "Message",ExpressionUUID->"ba573a52-7872-43bd-a674-796ccacc20fe"],
+Cell[7338, 220, 417, 10, 35, "Message",ExpressionUUID->"fccf40d1-a151-455e-ad5a-b546304dd7db"],
+Cell[7758, 232, 419, 10, 35, "Message",ExpressionUUID->"85fe2418-15a1-43ac-9701-8f9514bb2007"],
+Cell[8180, 244, 546, 12, 35, "Message",ExpressionUUID->"a1d3aaf4-353e-479c-aa30-322009de9b2f"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8763, 261, 205, 3, 30, "Input",ExpressionUUID->"dbc51660-3db8-4a33-9ea5-2a57cad37174"],
+Cell[8971, 266, 224, 3, 34, "Output",ExpressionUUID->"b9c66de8-8b53-4e48-8733-fce733716378"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9232, 274, 1031, 21, 73, "Input",ExpressionUUID->"a5dcd20f-f6e1-499b-bb12-1f9f6ebd2c39"],
+Cell[10266, 297, 242, 3, 34, "Output",ExpressionUUID->"71cae1c4-b865-4859-b716-c614772f124f"]
+}, Open  ]]
+}
+]
+*)
+
