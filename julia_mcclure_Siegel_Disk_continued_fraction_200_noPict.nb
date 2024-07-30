@@ -1,0 +1,419 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     15827,        411]
+NotebookOptionsPosition[     14392,        382]
+NotebookOutlinePosition[     14868,        399]
+CellTagsIndexPosition[     14825,        396]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{"(*", "Mathematica", "*)"}]], "Input",
+ CellChangeTimes->{{3.931335627183179*^9, 
+  3.931335634124259*^9}},ExpressionUUID->"14d52b11-f0c1-4d1a-b28d-\
+b24c11b64f6d"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Needs", "[", "\"\<JuliaSet`\>\"", "]"}], ";"}]], "Input",
+ CellLabel->
+  "In[154]:=",ExpressionUUID->"43caaec8-24a4-4e30-bd4d-a2c301e8df5f"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "JuliaSet"}]], "Input",
+ CellLabel->
+  "In[155]:=",ExpressionUUID->"03784f5f-c7e7-48af-8c79-6baae9aa2593"],
+
+Cell[BoxData[
+ InterpretationBox[
+  StyleBox[
+   FrameBox[
+    DynamicModuleBox[{System`InformationDump`open$$ = False, 
+     System`InformationDump`mouseOver$$ = False}, 
+     PaneSelectorBox[{True->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False,
+             BaseStyle -> None],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            
+            StyleBox["\<\"JuliaSet is a package containing \
+several\\nimplementations of inverse iteration algorithms for \
+the\\ngeneration of Julia sets.\"\>", "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          PaneBox[GridBox[{
+             {
+              
+              DynamicModuleBox[{System`InformationDump`open$$ = {
+               False, False, False, False, False, False}}, 
+               StyleBox[GridBox[{
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Attributes\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"Attributes\"",
+                    TooltipStyle->"TextStyling"],
+                    Annotation[#, "Attributes", "Tooltip"]& ], 
+                   RowBox[{"{", "Protected", "}"}]},
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Full Name\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"FullName\"",
+                    TooltipStyle->"TextStyling"],
+                    
+                    Annotation[#, "FullName", 
+                    "Tooltip"]& ], "\<\"JuliaSet`JuliaSet\"\>"}
+                 },
+                 AutoDelete->False,
+                 GridBoxAlignment->{"Columns" -> {Right, Left}},
+                 GridBoxDividers->None,
+                 GridBoxItemSize->{"Columns" -> {Automatic, Automatic}},
+                 GridBoxSpacings->{"Columns" -> {
+                    Offset[0.27999999999999997`], {
+                    Offset[0.5599999999999999]}, 
+                    Offset[0.27999999999999997`]}, "Rows" -> {
+                    Offset[0.2], {
+                    Offset[0.8]}, 
+                    Offset[0.2]}}], "DialogStyle",
+                StripOnInput->False],
+               DynamicModuleValues:>{}]}
+            },
+            DefaultBaseStyle->"Column",
+            GridBoxAlignment->{"Columns" -> {{Left}}},
+            GridBoxDividers->{"Columns" -> {{False}}, "Rows" -> {{False}}},
+            
+            GridBoxItemSize->{
+             "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+            GridBoxSpacings->{"Columns" -> {
+                Offset[0.27999999999999997`], {
+                 Offset[0.5599999999999999]}, 
+                Offset[0.27999999999999997`]}, "Rows" -> {
+                Offset[0.2], {
+                 Offset[3.6]}, 
+                Offset[0.2]}}],
+           FrameMargins->{{6, 6}, {6, 3}}], ""},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpener"]], True->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpenerHot"]]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, False],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"], False->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            
+            StyleBox["\<\"JuliaSet is a package containing \
+several\\nimplementations of inverse iteration algorithms for \
+the\\ngeneration of Julia sets.\"\>", "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpener"],
+               ImageSizeCache->{10., {2., 8.}}], True->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpenerHot"],
+               ImageSizeCache->{10., {2., 8.}}]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, True],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"]}, Dynamic[System`InformationDump`open$$],
+      BaselinePosition->Baseline,
+      FrameMargins->0,
+      ImageSize->Automatic],
+     DynamicModuleValues:>{}],
+    BaseStyle->"InformationGridFrame",
+    StripOnInput->False], "InformationGridPlain",
+   StripOnInput->False],
+  InformationData[
+   Association[
+   "ObjectType" -> "Symbol", "Usage" -> 
+    "JuliaSet is a package containing several\nimplementations of inverse \
+iteration algorithms for the\ngeneration of Julia sets.", "Documentation" -> 
+    None, "OwnValues" -> None, "UpValues" -> None, "DownValues" -> None, 
+    "SubValues" -> None, "DefaultValues" -> None, "NValues" -> None, 
+    "FormatValues" -> None, "Options" -> None, "Attributes" -> {Protected}, 
+    "FullName" -> "JuliaSet`JuliaSet"], False]]], "Output",
+ CellChangeTimes->{3.931334394456319*^9, 3.931334708256937*^9, 
+  3.9313353151248903`*^9, 3.9313355000072403`*^9},
+ CellLabel->
+  "Out[155]=",ExpressionUUID->"8027e1c1-58f8-4325-a8e6-4b9c17004534"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Siegel", " ", "Disk", " ", "Julia", " ", "map"}], "*)"}], "\n", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"w", "=", 
+     RowBox[{"Join", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", "1", ",", "20", ",", "1", ",", "1"}], "}"}], ",", 
+       RowBox[{"Table", "[", 
+        RowBox[{"1", ",", 
+         RowBox[{"{", 
+          RowBox[{"n", ",", "200"}], "}"}]}], "]"}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"bb", "=", 
+     RowBox[{"FromContinuedFraction", "[", "w", "]"}]}], ";"}], "\n", " ", 
+   RowBox[{
+    RowBox[{"gm", "=", 
+     RowBox[{"bb", "^", "12"}]}], ";"}]}]}]], "Input",
+ CellLabel->
+  "In[156]:=",ExpressionUUID->"3a38d2d6-7a75-4a1f-bdaf-1d02ca4cb0b7"],
+
+Cell[BoxData[
+ RowBox[{"Clear", "[", "g", "]"}]], "Input",
+ CellChangeTimes->{{3.931333709209725*^9, 3.9313337146166143`*^9}},
+ CellLabel->
+  "In[159]:=",ExpressionUUID->"f4be7d67-28b6-46f8-9baf-45ce964f0ef9"],
+
+Cell[BoxData[
+ RowBox[{"JuliaSetPlot", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"z", "^", "2"}], " ", "+", 
+    RowBox[{"s", "*", "z"}]}], ",", "z", ",", " ", 
+   RowBox[{"Method", " ", "\[Rule]", " ", "\"\<OrbitDetection\>\""}], ",", 
+   RowBox[{"ColorFunction", "\[Rule]", "Hue"}], ",", 
+   RowBox[{"ImageSize", "\[Rule]", "2000"}], ",", 
+   RowBox[{"PlotStyle", "->", 
+    RowBox[{"PointSize", "[", "0.0005", "]"}]}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.931334816192809*^9, 3.93133484471064*^9}, {
+   3.931334895488385*^9, 3.931335015262549*^9}, 3.9313352162676277`*^9, {
+   3.9313352947832327`*^9, 3.931335380725238*^9}, {3.93133541364685*^9, 
+   3.931335419949093*^9}, 3.9313354943751383`*^9},
+ CellLabel->
+  "In[160]:=",ExpressionUUID->"1714fc1a-db52-44f6-877f-2331f87ddbde"],
+
+Cell[BoxData[
+ RowBox[{"g", "=", 
+  RowBox[{"Show", "[", 
+   RowBox[{
+    RowBox[{"GraphicsGrid", "[", 
+     RowBox[{"Partition", "[", "\n", "        ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"Julia", "[", 
+          RowBox[{"#", ",", " ", "z", ",", " ", 
+           RowBox[{"Bound", " ", "->", " ", "12"}], ",", " ", 
+           RowBox[{"DisplayFunction", " ", "->", " ", "Identity"}], ",", 
+           RowBox[{"ColorFunction", "\[Rule]", "Hue"}]}], "]"}], "&"}], " ", "/@",
+         " ", "\n", "        ", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"z", "^", "2"}], " ", "+", 
+           RowBox[{"s", "*", "z"}]}], ",", " ", 
+          RowBox[{
+           RowBox[{"z", "^", "3"}], " ", "+", 
+           RowBox[{"s", "*", "z"}]}], ",", " ", "\n", "        ", 
+          RowBox[{
+           RowBox[{"z", "^", "4"}], "+", 
+           RowBox[{"s", "*", "z"}]}], ",", " ", 
+          RowBox[{
+           RowBox[{"z", "^", "5"}], " ", "+", " ", 
+           RowBox[{"s", "*", "z"}]}], ",", " ", "\n", "        ", 
+          RowBox[{
+           RowBox[{"z", "^", "6"}], "+", 
+           RowBox[{"s", "*", "z"}]}], ",", " ", 
+          RowBox[{
+           RowBox[{"z", "^", "7"}], "+", 
+           RowBox[{"s", "*", "z"}]}]}], "}"}]}], ",", " ", "2"}], "\n", "]"}],
+      "]"}], ",", 
+    RowBox[{"ImageSize", "->", "Large"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.857393935105301*^9, 3.8573939535975513`*^9}, {
+   3.8573940245825*^9, 3.8573941583016233`*^9}, {3.857394247696821*^9, 
+   3.857394249596396*^9}, {3.93133351039018*^9, 3.931333530214643*^9}, {
+   3.931333574545249*^9, 3.931333582200747*^9}, 3.9313343834382277`*^9},
+ CellLabel->
+  "In[161]:=",ExpressionUUID->"34bfb84b-b234-4786-8c7d-9624e8597351"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Export", "[", 
+  RowBox[{"\"\<Siegel_Disks_continued_fraction_200.jpg\>\"", ",", "g"}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.931333601657353*^9, 3.93133361336829*^9}, 
+   3.93133464525706*^9},
+ CellLabel->
+  "In[162]:=",ExpressionUUID->"a44e9533-e8ce-46c6-bd14-e70f8a56c2f7"],
+
+Cell[BoxData["\<\"Siegel_Disks_continued_fraction_200.jpg\"\>"], "Output",
+ CellChangeTimes->{3.9313344786896133`*^9, 3.931334781896942*^9, 
+  3.931335392708798*^9, 3.931335576157936*^9},
+ CellLabel->
+  "Out[162]=",ExpressionUUID->"19a4440a-bc27-4b04-9fbd-8caec59fd483"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"(*", "end", "*)"}]], "Input",
+ CellChangeTimes->{{3.931335638173729*^9, 
+  3.931335641860236*^9}},ExpressionUUID->"853205ec-1ec1-4fe3-9cfe-\
+2ae65fa66bb0"]
+},
+WindowSize->{1535, 1018},
+WindowMargins->{{72, Automatic}, {Automatic, 7}},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+FrontEndVersion->"12.2 for Mac OS X x86 (64-bit) (December 12, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"c430e07e-8874-4f10-99c1-cdb4aa6fd365"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 187, 4, 30, "Input",ExpressionUUID->"14d52b11-f0c1-4d1a-b28d-b24c11b64f6d"],
+Cell[748, 26, 175, 4, 30, "Input",ExpressionUUID->"43caaec8-24a4-4e30-bd4d-a2c301e8df5f"],
+Cell[CellGroupData[{
+Cell[948, 34, 134, 3, 30, "Input",ExpressionUUID->"03784f5f-c7e7-48af-8c79-6baae9aa2593"],
+Cell[1085, 39, 8968, 224, 143, "Output",ExpressionUUID->"8027e1c1-58f8-4325-a8e6-4b9c17004534"]
+}, Open  ]],
+Cell[10068, 266, 747, 22, 94, "Input",ExpressionUUID->"3a38d2d6-7a75-4a1f-bdaf-1d02ca4cb0b7"],
+Cell[10818, 290, 209, 4, 30, "Input",ExpressionUUID->"f4be7d67-28b6-46f8-9baf-45ce964f0ef9"],
+Cell[11030, 296, 786, 16, 30, "Input",ExpressionUUID->"1714fc1a-db52-44f6-877f-2331f87ddbde"],
+Cell[11819, 314, 1773, 42, 136, "Input",ExpressionUUID->"34bfb84b-b234-4786-8c7d-9624e8597351"],
+Cell[CellGroupData[{
+Cell[13617, 360, 304, 7, 30, "Input",ExpressionUUID->"a44e9533-e8ce-46c6-bd14-e70f8a56c2f7"],
+Cell[13924, 369, 270, 4, 34, "Output",ExpressionUUID->"19a4440a-bc27-4b04-9fbd-8caec59fd483"]
+}, Open  ]],
+Cell[14209, 376, 179, 4, 30, "Input",ExpressionUUID->"853205ec-1ec1-4fe3-9cfe-2ae65fa66bb0"]
+}
+]
+*)
+
